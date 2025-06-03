@@ -880,7 +880,7 @@ The content type is independent of attributes; all of these content types allow 
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration
-				value="Datenkompetenzen in DaF/DaZ: Exploration sprachtechnologischer Ansätze zur Analyse von L2-Erwerbsstufen in Lernerkorpora des Deutschen"/>
+				value="Datenkompetenzen in DaF/DaZ: Exploration sprachtechnologischer Ansätze zur Analyse von L2-Erwerbsstufen in Lernerkorpora des Deutschen"/>
 
 		</xs:restriction>
 	</xs:simpleType>
@@ -1080,9 +1080,10 @@ The content type is independent of attributes; all of these content types allow 
 	<xs:simpleType name="PROFICIENCY_ASSIGNMENT_METHOD">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="learner-centered"/>
-			<xs:enumeration value="texttext-centered"/>
+			<xs:enumeration value="text-centered"/>
 			<xs:enumeration value="automatic"/>
 			<xs:enumeration value="none"/>
+			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -9073,7 +9074,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="corpus_researchPaper" type="xs:string" minOccurs="0"
+			<xs:element name="corpus_admin_researchPaper" type="xs:string" minOccurs="0"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Specification of a publicationrelated to the original version
@@ -9085,7 +9086,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="corpus_URL_download" type="xs:anyURI" minOccurs="0"
+			<xs:element name="corpus_admin_URL_download" type="xs:anyURI" minOccurs="0"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Link to corpus download for original version of
@@ -9763,7 +9764,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="sociodemographic" type="Sociodemographics"/>
 
-			<xs:element name="language" type="Language_Of_Speaker"/>
+			<xs:element name="language" type="Language_Of_Speaker" minOccurs="1" maxOccurs="unbounded"/>
 
 		</xs:sequence>
 	</xs:complexType>
@@ -10235,7 +10236,7 @@ The content type is independent of attributes; all of these content types allow 
 	<xs:complexType name="Annotator">
 		<xs:sequence>
 			
-			<xs:element name="annnotator_id" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="annotator_id" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Unique identifier for manual annotator A related field in
 						CMSLC is `annotator_id`. </xs:documentation>
