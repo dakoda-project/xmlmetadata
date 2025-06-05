@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	xmlns:xsi="http://xml.org">
+	xmlns:xsi="http://xml.org"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.1">
 	<xs:import namespace="http://xml.org"/>
 
 
@@ -131,6 +132,8 @@ The content type is independent of attributes; all of these content types allow 
 		<xs:annotation>
 			<xs:documentation> A list of coarse CEFR LEVELS . The A1 and A2 are merged. The same
 				goes for the B and C levels.</xs:documentation>
+				<!-- AP: Ich habe nun alle Wertebereiche bezogen auf CEFR-Levels vereinheitlicht. Es sind immer A1,A2,B1 usw. Alle Variablen, die ggf. nicht mit genauen Werten befüllt werden können haben eine Min- und eine Max-Variante bekommen. Hier alle CEFR-bezogenen Variablen: corpus_proficiency_levelMin, corpus_proficiency_levelMax, learner_language_proficiency_cefr, learner_language_proficiency_cTestCefr, learner_language_proficiency_estimateMax, learner_language_proficiency_estimateMin, task_levelMin, text_proficiency_cefr, task_levelMax, text_proficiency_cefrAutomMin, text_proficiency_cefrAutomMax. 
+JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="A"/>
@@ -149,11 +152,14 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="SOV"/>
 			<xs:enumeration value="SVO"/>
 			<xs:enumeration value="VSO"/>
-			<xs:enumeration value="SVO or VSO"/>
-			<xs:enumeration value="SOV or SVO"/>
+			<xs:enumeration value="SVO ; VSO"/>
+			<!--<xs:enumeration value="SVO or VSO"/>-->
+<!--			<xs:enumeration value="SOV or SVO"/>-->
+			<xs:enumeration value="SOV; SVO"/>
 			<xs:enumeration value="no dominant order"/>
 			<xs:enumeration value="unclear"/>
-			<!-- Q: do we need a value "notAvailable" ? -->
+			<!-- Q: do we need a value "notAvailable" ? - AP: Nein. Ich habe die Werte aktualisiert: kein "notAvaible"; außerdem: "SVO or VSO" wird zu zwei Werten: "SVO"; "VSO"; 
+			JR: Ich kann dann aber keine Reihenfolge SOV VSO oder VSO SVO garantieren ! -->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -167,7 +173,7 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="advertisement"/>
 			<xs:enumeration value="article"/>
 			<xs:enumeration value="articles"/>
-			<!--Q: why list plural separately?cf.below picture(s)-->
+			<!--JR: why list plural separately?cf.below picture(s)- which way to standardize : simple singular or sing. + plural in parens? i'd prefer the former-->
 			<xs:enumeration value="book"/>
 			<xs:enumeration value="comic"/>
 			<xs:enumeration value="description of a situation"/>
@@ -176,7 +182,8 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="extract from a doctoral dissertation"/>
 			<xs:enumeration value="extract from a doctoral articles"/>
 			<xs:enumeration value="figure"/>
-			<!--Q: is figure really different from diagram?-->
+			<!--Q: is figure really different from diagram?  AP: (Vielleicht hast du eine gute Idee zur Benennung? Bisher: diagram: Diagramm i.e.S. mit Daten (z.B. Kuchen-, Balkendiagramme); 
+			figure: alle möglichen Darstellungen: Skizze vom Unfall, Grundriss einer Wohnung, Fotos eines Handlungsablaufs JR: Okay, solange es eine motivierte Differenzierung gibt, können wir es lassen. -->
 			<xs:enumeration value="text edited for teaching"/>
 			<xs:enumeration value="form"/>
 			<xs:enumeration value="interview"/>
@@ -224,8 +231,9 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="mainly without controlled teaching processes"/>
 			<xs:enumeration value="mainly in controlled teaching contexts"/>
 			<xs:enumeration value="hybrid"/>
-			<xs:enumeration value="unclear/other contexts"/>
-			<!-- Q: do we need a value "notAvailable "? -->
+			<xs:enumeration value="notAvailable"/>
+			<!--xs:enumeration value="unclear/other contexts"/-->
+			<!-- Q: do we need a value "notAvailable "? AP: Ich habe "unclear/other contexts" rausgenommen, "notAvailable" würde ich drin lassen-->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -274,6 +282,7 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="independent instrument"/>
 			<xs:enumeration value="total test score"/>
 			<xs:enumeration value="other"/>
+			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -308,7 +317,7 @@ The content type is independent of attributes; all of these content types allow 
 
 
 	<xs:simpleType name="SINGLE_OR_MULTI">
-		<!-- TODO: maybe delete, currently this is not currently used by any element -->
+		<!-- TODO: maybe delete, currently this is not currently used by any element  AP: Bei einer lila CMLC-Variable gibt es die Werte "single author" und "multiple authors". Frage, die zu besprechen wäre: Wollen wir die 6 CMLC-Variablen vermerken, die nicht dieselbe Definition haben wie DAKODA-Variabllen, aber daraus ableitbar sind? Spalte "CMLC-Werte ableiten?" -->
 		<xs:annotation>
 			<xs:documentation>For written texts, specification whether they were written by a single
 				author?</xs:documentation>
@@ -324,6 +333,7 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:documentation> Three-letter country codes defined in ISO 3166-1. </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
+			<xs:enumeration value="notAvailable"/>
 			<xs:enumeration value="AFG"/>
 			<xs:enumeration value="ALA"/>
 			<xs:enumeration value="ALB"/>
@@ -643,6 +653,7 @@ The content type is independent of attributes; all of these content types allow 
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="notAvailable"/>
+			<xs:enumeration value="notApplicable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -757,6 +768,12 @@ The content type is independent of attributes; all of these content types allow 
 					<xs:documentation>open; all CC-licenses</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="notAvailable">
+				<xs:annotation>
+					<xs:documentation>information is not available</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -943,7 +960,7 @@ The content type is independent of attributes; all of these content types allow 
 	<xs:simpleType name="YEAR_SPAN">
 		<xs:annotation>
 			<xs:documentation> A span of years such as 1989-1992 </xs:documentation>
-			<!-- this could be further restricted to 20th and 21st century dates -->
+			<!-- TODO this should be further restricted to 20th and 21st century dates -->
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:pattern value="\d{4}-\d{4}"/>
@@ -972,7 +989,9 @@ The content type is independent of attributes; all of these content types allow 
 
 
 	<xs:simpleType name="TEST_SCORE">
-		<!-- Q: Are there other specific types that can occur ? -->
+		<!-- Q: Are there other specific types that can occur ? 
+ AP: Können wir das noch später spezifizieren?
+JR: solage wir nur erweitern ok-->
 		<xs:union memberTypes="xs:integer AMERICAN_GRADE GERMAN_GRADE INTEGER_PERCENT"/>
 	</xs:simpleType>
 
@@ -980,7 +999,8 @@ The content type is independent of attributes; all of these content types allow 
 		<xs:annotation>
 			<xs:documentation> A span of integers such as 4-6. Used for the union type
 				NUMBER_PARTICIPANTS </xs:documentation>
-			<!-- NB: We allow at most 99 speakers.-->
+			<!-- NB: We allow at most 99 speakers.  AP: Bisher haben wir die Werte: "1", "2", "3", "n" 
+JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:pattern value="\d{1,2}-\d{1,2}"/>
@@ -1005,6 +1025,7 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="FD-Lex"/>
 			<xs:enumeration value="HaMaTaC"/>
 			<xs:enumeration value="HaMoTiC"/>
+			<xs:enumeration value="notApplicable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1073,6 +1094,7 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="female"/>
 			<xs:enumeration value="male"/>
 			<xs:enumeration value="non-binary"/>
+			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1084,6 +1106,7 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="automatic"/>
 			<xs:enumeration value="none"/>
 			<xs:enumeration value="notAvailable"/>
+			<xs:enumeration value="notApplicable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1136,8 +1159,131 @@ The content type is independent of attributes; all of these content types allow 
 
 
 	<xs:simpleType name="DKD_TRG_LANG">
+	<!--	it's strange that eng would be  among the dkd target languages?!	-->
 		<xs:restriction base="xs:string">
+			<xs:enumeration value="arc"/>
+			<xs:enumeration value="kur"/>
+			<xs:enumeration value="pes"/>
+			<xs:enumeration value="aze"/>
+			<xs:enumeration value="ben"/>
+			<xs:enumeration value="eus"/>
+			<xs:enumeration value="hin"/>
+			<xs:enumeration value="jpn"/>
+			<xs:enumeration value="kat"/>
+			<xs:enumeration value="kor"/>
+			<xs:enumeration value="nep"/>
+			<xs:enumeration value="tam"/>
+			<xs:enumeration value="tat"/>
+			<xs:enumeration value="tgk"/>
+			<xs:enumeration value="tur"/>
+			<xs:enumeration value="urd"/>
+			<xs:enumeration value="uzb"/>
+			<xs:enumeration value="pan"/>
+			<xs:enumeration value="fas"/>
 			<xs:enumeration value="deu"/>
+			<xs:enumeration value="hun"/>
+			<xs:enumeration value="nld"/>
+			<xs:enumeration value="bos"/>
+			<xs:enumeration value="scc"/>
+			<xs:enumeration value="hrv"/>
+			<xs:enumeration value="heb"/>
+			<xs:enumeration value="zho"/>
+			<xs:enumeration value="bul"/>
+			<xs:enumeration value="cat"/>
+			<xs:enumeration value="ces"/>
+			<xs:enumeration value="dan"/>
+			<xs:enumeration value="eng"/>
+			<xs:enumeration value="ewe"/>
+			<xs:enumeration value="fin"/>
+			<xs:enumeration value="fra"/>
+			<xs:enumeration value="gaa"/>
+			<xs:enumeration value="ind"/>
+			<xs:enumeration value="isl"/>
+			<xs:enumeration value="ita"/>
+			<xs:enumeration value="kik"/>
+			<xs:enumeration value="lav"/>
+			<xs:enumeration value="lit"/>
+			<xs:enumeration value="lub"/>
+			<xs:enumeration value="nor"/>
+			<xs:enumeration value="pol"/>
+			<xs:enumeration value="por"/>
+			<xs:enumeration value="ron"/>
+			<xs:enumeration value="rus"/>
+			<xs:enumeration value="slv"/>
+			<xs:enumeration value="sme"/>
+			<xs:enumeration value="sna"/>
+			<xs:enumeration value="spa"/>
+			<xs:enumeration value="sqi"/>
+			<xs:enumeration value="alb"/>
+			<xs:enumeration value="swa"/>
+			<xs:enumeration value="swe"/>
+			<xs:enumeration value="tha"/>
+			<xs:enumeration value="ukr"/>
+			<xs:enumeration value="vie"/>
+			<xs:enumeration value="xho"/>
+			<xs:enumeration value="yor"/>
+			<xs:enumeration value="yue"/>
+			<xs:enumeration value="mkd"/>
+			<xs:enumeration value="hbs"/>
+			<xs:enumeration value="cmn"/>
+			<xs:enumeration value="ell"/>
+			<xs:enumeration value="gre"/>
+			<xs:enumeration value="afr"/>
+			<xs:enumeration value="alq"/>
+			<xs:enumeration value="ang"/>
+			<xs:enumeration value="bak"/>
+			<xs:enumeration value="bew"/>
+			<xs:enumeration value="bfi"/>
+			<xs:enumeration value="cma"/>
+			<xs:enumeration value="ebu"/>
+			<xs:enumeration value="glg"/>
+			<xs:enumeration value="grc"/>
+			<xs:enumeration value="hbo"/>
+			<xs:enumeration value="iii"/>
+			<xs:enumeration value="kaz"/>
+			<xs:enumeration value="kir"/>
+			<xs:enumeration value="kua"/>
+			<xs:enumeration value="lat"/>
+			<xs:enumeration value="luy"/>
+			<xs:enumeration value="mai"/>
+			<xs:enumeration value="mon"/>
+			<xs:enumeration value="bai"/>
+			<xs:enumeration value="nap"/>
+			<xs:enumeration value="non"/>
+			<xs:enumeration value="nyf"/>
+			<xs:enumeration value="roh"/>
+			<xs:enumeration value="slk"/>
+			<xs:enumeration value="sve"/>
+			<xs:enumeration value="twi"/>
+			<xs:enumeration value="tzm"/>
+			<xs:enumeration value="yid"/>
+			<xs:enumeration value="epo"/>
+			<xs:enumeration value="kye"/>
+			<xs:enumeration value="ltz"/>
+			<xs:enumeration value="ger"/>
+			<xs:enumeration value="ang"/>
+			<xs:enumeration value="jbe"/>
+			<xs:enumeration value="ara"/>
+			<xs:enumeration value="hye"/>
+			<xs:enumeration value="mly"/>
+			<xs:enumeration value="kal"/>
+			<xs:enumeration value="nde"/>
+			<xs:enumeration value="pst"/>
+			<xs:enumeration value="prs"/>
+			<xs:enumeration value="bel"/>
+			<xs:enumeration value="cym"/>
+			<xs:enumeration value="gle"/>
+			<xs:enumeration value="cym"/>
+			<xs:enumeration value="arb"/>
+			<xs:enumeration value="prd"/>
+			<xs:enumeration value="prs"/>
+			<xs:enumeration value="nan"/>
+<!--			dummies-->
+			<xs:enumeration value="pat"/>
+			<xs:enumeration value="ewa"/>
+			<xs:enumeration value="rou"/>
+	
+
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1149,19 +1295,265 @@ The content type is independent of attributes; all of these content types allow 
 		</xs:restriction>
 	</xs:simpleType>
 
-	<!-- TODO: complete the list-->
+	
 	<xs:simpleType name="LANGUAGE_NAME_EN">
 		<xs:restriction base="xs:string">
+
+			<xs:enumeration value="Aramaic"/>
+			<xs:enumeration value="Kurdish"/>
+			<xs:enumeration value="Western Farsi"/>
+			<xs:enumeration value="Azerbaijani"/>
+			<xs:enumeration value="Bengali"/>
+			<xs:enumeration value="Basque"/>
+			<xs:enumeration value="Hindi"/>
+			<xs:enumeration value="Japanese"/>
+			<xs:enumeration value="Georgian"/>
+			<xs:enumeration value="Korean"/>
+			<xs:enumeration value="Nepali"/>
+			<xs:enumeration value="Tamil"/>
+			<xs:enumeration value="Tatar"/>
+			<xs:enumeration value="Tajik"/>
+			<xs:enumeration value="Turkish"/>
+			<xs:enumeration value="Urdu"/>
+			<xs:enumeration value="Uzbek"/>
+			<xs:enumeration value="Panjabi; Punjabi"/>
+			<xs:enumeration value="Persian"/>
 			<xs:enumeration value="German"/>
+			<xs:enumeration value="Hungarian"/>
+			<xs:enumeration value="Dutch"/>
+			<xs:enumeration value="Bosnian"/>
+			<xs:enumeration value="Serbian"/>
+			<xs:enumeration value="Croatian"/>
+			<xs:enumeration value="Hebrew"/>
+			<xs:enumeration value="Chinese"/>
+			<xs:enumeration value="Bulgarian"/>
+			<xs:enumeration value="Catalan"/>
+			<xs:enumeration value="Czech"/>
+			<xs:enumeration value="Danish"/>
 			<xs:enumeration value="English"/>
+			<xs:enumeration value="Ewe"/>
+			<xs:enumeration value="Finnish"/>
+			<xs:enumeration value="French"/>
+			<xs:enumeration value="Ga"/>
+			<xs:enumeration value="Indonesian"/>
+			<xs:enumeration value="Icelandic"/>
+			<xs:enumeration value="Italian"/>
+			<xs:enumeration value="Kikuyu"/>
+			<xs:enumeration value="Latvian"/>
+			<xs:enumeration value="Lithuanian"/>
+			<xs:enumeration value="Luba-Katanga"/>
+			<xs:enumeration value="Norwegian"/>
+			<xs:enumeration value="Polish"/>
+			<xs:enumeration value="Portuguese"/>
+			<xs:enumeration value="Romanian"/>
+			<xs:enumeration value="Russian"/>
+			<xs:enumeration value="Slovenian"/>
+			<xs:enumeration value="Northern Sami"/>
+			<xs:enumeration value="Shona"/>
+			<xs:enumeration value="Spanish (Castilian)"/>
+			<xs:enumeration value="Albanian"/>
+			<xs:enumeration value="Albanian"/>
+			<xs:enumeration value="Swahili (generic)"/>
+			<xs:enumeration value="Swedish"/>
+			<xs:enumeration value="Thai"/>
+			<xs:enumeration value="Ukrainian"/>
+			<xs:enumeration value="Vietnamese"/>
+			<xs:enumeration value="Xhosa"/>
+			<xs:enumeration value="Yoruba"/>
+			<xs:enumeration value="Yue Chinese (Cantonese)"/>
+			<xs:enumeration value="Macedonian"/>
+			<xs:enumeration value="Serbo-Croatian"/>
+			<xs:enumeration value="Mandarin Chinese"/>
+			<xs:enumeration value="Greek"/>
+			<xs:enumeration value="Greek"/>
+			<xs:enumeration value="Afrikaans"/>
+			<xs:enumeration value="Algonquin"/>
+			<xs:enumeration value="Old English"/>
+			<xs:enumeration value="Bashkir"/>
+			<xs:enumeration value="Betawi"/>
+			<xs:enumeration value="British Sign Language"/>
+			<xs:enumeration value="Maa"/>
+			<xs:enumeration value="Embu"/>
+			<xs:enumeration value="Galician"/>
+			<xs:enumeration value="Greek, Ancient (to 1453)"/>
+			<xs:enumeration value="Hebrew, Ancient"/>
+			<xs:enumeration value="Yi, Sichuan"/>
+			<xs:enumeration value="Kazakh"/>
+			<xs:enumeration value="Kyrgyz"/>
+			<xs:enumeration value="Kuanyama"/>
+			<xs:enumeration value="Latin"/>
+			<xs:enumeration value="Luyia"/>
+			<xs:enumeration value="Maithili"/>
+			<xs:enumeration value="Mongolian"/>
+			<xs:enumeration value="Bamileke"/>
+			<xs:enumeration value="Neapolitan"/>
+			<xs:enumeration value="Norse, Old"/>
+			<xs:enumeration value="Giryama"/>
+			<xs:enumeration value="Raeto-Romance"/>
+			<xs:enumeration value="Slovak"/>
+			<xs:enumeration value="Serili"/>
+			<xs:enumeration value="Twi"/>
+			<xs:enumeration value="Tamazight, Central Atlas"/>
+			<xs:enumeration value="Yiddish"/>
+			<xs:enumeration value="Esperanto"/>
+			<xs:enumeration value="Krache"/>
+			<xs:enumeration value="Luxembourgish; Letzeburgesch"/>
+			<xs:enumeration value="Old English"/>
+			<xs:enumeration value="Judeo-Berber"/>
+			<xs:enumeration value="Arabic"/>
+			<xs:enumeration value="Armenian"/>
+			<xs:enumeration value="Malay (individual language)"/>
+			<xs:enumeration value="Kalaallisut"/>
+			<xs:enumeration value="Ndebele, North"/>
+			<xs:enumeration value="Pashto, Central"/>
+			<xs:enumeration value="Persian (Dari)"/>
+			<xs:enumeration value="Belarusian"/>
+			<xs:enumeration value="Welsh"/>
+			<xs:enumeration value="Irish"/>
+			<xs:enumeration value="Welsh"/>
+			<xs:enumeration value="Arabic (standard)"/>
+			<xs:enumeration value="Dari (Persian)"/>
+			<xs:enumeration value="Persian (Dari)"/>
+			<xs:enumeration value="Min Nan Chinese"/>
+			<xs:enumeration value="PAT_dummy"/>
+			<xs:enumeration value="EWA_dummy"/>
+			<xs:enumeration value="ROU_dummy"/>
+			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
 	<!-- TODO: complete the list-->
 	<xs:simpleType name="LANGUAGE_NAME_DE">
 		<xs:restriction base="xs:string">
+<!--			<xs:enumeration value="Albanisch"/>
 			<xs:enumeration value="Deutsch"/>
 			<xs:enumeration value="Englisch"/>
+			<xs:enumeration value="Französisch"/>
+-->
+			<xs:enumeration value="Portugiesisch"/>
+			<xs:enumeration value="Aramäisch"/>
+			<xs:enumeration value="Kurdisch"/>
+			<xs:enumeration value="Westpersisch, Iranisches  Persisch, Farsi"/>
+			<xs:enumeration value="Aserbaidschanisch"/>
+			<xs:enumeration value="Bengalisch"/>
+			<xs:enumeration value="Baskisch"/>
+			<xs:enumeration value="Hindi"/>
+			<xs:enumeration value="Japanisch"/>
+			<xs:enumeration value="Georgisch"/>
+			<xs:enumeration value="Koreanisch"/>
+			<xs:enumeration value="Nepali"/>
+			<xs:enumeration value="Tamil"/>
+			<xs:enumeration value="Tatarisch"/>
+			<xs:enumeration value="Tadschikisch"/>
+			<xs:enumeration value="Türkisch"/>
+			<xs:enumeration value="Urdu"/>
+			<xs:enumeration value="Usbekisch"/>
+			<xs:enumeration value="Panjabi, Pandschabisch"/>
+			<xs:enumeration value="Persisch"/>
+			<xs:enumeration value="Deutsch"/>
+			<xs:enumeration value="Ungarisch"/>
+			<xs:enumeration value="Niederländisch,  Belgisches Niederländisch"/>
+			<xs:enumeration value="Bosnisch"/>
+			<xs:enumeration value="Serbisch"/>
+			<xs:enumeration value="Kroatisch"/>
+			<xs:enumeration value="Hebräisch"/>
+			<xs:enumeration value="Chinesisch"/>
+			<xs:enumeration value="Bulgarisch"/>
+			<xs:enumeration value="Katalanisch, Valencianisch"/>
+			<xs:enumeration value="Tschechisch"/>
+			<xs:enumeration value="Dänisch"/>
+			<xs:enumeration value="Englisch"/>
+			<xs:enumeration value="Ewe"/>
+			<xs:enumeration value="Finnisch"/>
+			<xs:enumeration value="Französisch"/>
+			<xs:enumeration value="Ga"/>
+			<xs:enumeration value="Indonesisch"/>
+			<xs:enumeration value="Isländisch"/>
+			<xs:enumeration value="Italienisch"/>
+			<xs:enumeration value="Kikuyu"/>
+			<xs:enumeration value="Lettisch"/>
+			<xs:enumeration value="Litauisch"/>
+			<xs:enumeration value="Kiluba"/>
+			<xs:enumeration value="Norwegisch,  Riksmål"/>
+			<xs:enumeration value="Polnisch"/>
+			<xs:enumeration value="Portugiesisch"/>
+			<xs:enumeration value="Rumänisch"/>
+			<xs:enumeration value="Russisch"/>
+			<xs:enumeration value="Slowenisch"/>
+			<xs:enumeration value="Nordsamisch"/>
+			<xs:enumeration value="Shona"/>
+			<xs:enumeration value="Spanisch, Kastilisch"/>
+			<xs:enumeration value="Albanisch"/>
+			<xs:enumeration value="Swahili"/>
+			<xs:enumeration value="Schwedisch"/>
+			<xs:enumeration value="Thailändisch, Thai"/>
+			<xs:enumeration value="Ukrainisch"/>
+			<xs:enumeration value="Vietnamesisch"/>
+			<xs:enumeration value="isiXhosa"/>
+			<xs:enumeration value="Yoruba"/>
+			<xs:enumeration value="Kantonesisch"/>
+			<xs:enumeration value="Mazedonisch"/>
+			<xs:enumeration value="Serbokroatisch"/>
+			<xs:enumeration value="Mandarin,  Hochchinesisch"/>
+			<xs:enumeration value="Griechisch"/>
+			<xs:enumeration value="Griechisch"/>
+			<xs:enumeration value="Afrikaans, Kapholländisch, Kolonial-Niederländisch"/>
+			<xs:enumeration value="Algonkin"/>
+			<xs:enumeration value="Altenglisch"/>
+			<xs:enumeration value="Baschkirisch"/>
+			<xs:enumeration value="Betawi"/>
+			<xs:enumeration value="British Sign Language"/>
+			<xs:enumeration value="Maa"/>
+			<xs:enumeration value="Embu"/>
+			<xs:enumeration value="Altfranzösisch"/>
+			<xs:enumeration value="Galicisch, Galegisch"/>
+			<xs:enumeration value="Mittelhochdeutsch"/>
+			<xs:enumeration value="Altgriechisch"/>
+			<xs:enumeration value="Althebräisch"/>
+			<xs:enumeration value="Sichuan-Yi"/>
+			<xs:enumeration value="Kasachisch"/>
+			<xs:enumeration value="Kirgisisch"/>
+			<xs:enumeration value="oshiKwanyama"/>
+			<xs:enumeration value="Latein(isch)"/>
+			<xs:enumeration value="Luhya"/>
+			<xs:enumeration value="Maithili"/>
+			<xs:enumeration value="Mongolisch"/>
+			<xs:enumeration value="Bamileke"/>
+			<xs:enumeration value="Neapolitanisch"/>
+			<xs:enumeration value="Altnordisch"/>
+			<xs:enumeration value="Giryama"/>
+			<xs:enumeration value="Bündnerromanisch, Rätoromanisch"/>
+			<xs:enumeration value="Slowakisch"/>
+			<xs:enumeration value="Serili"/>
+			<xs:enumeration value="Twi"/>
+			<xs:enumeration value="Zentralatlas-Tamazight"/>
+			<xs:enumeration value="Jiddisch"/>
+			<xs:enumeration value="Esperanto"/>
+			<xs:enumeration value="Kratsche"/>
+			<xs:enumeration value="Luxemburgisch, Lëtzebuergesch"/>
+			<xs:enumeration value="Altenglisch"/>
+			<xs:enumeration value="Judäo-Berber"/>
+			<xs:enumeration value="Arabisch"/>
+			<xs:enumeration value="Armenisch"/>
+			<xs:enumeration value="Malaiisch"/>
+			<xs:enumeration value="Grönländisch, Kalaallisut"/>
+			<xs:enumeration value="Nord-Ndebele"/>
+			<xs:enumeration value="Zentral-Paschtu"/>
+			<xs:enumeration value="Dari, afghanisches Persisch"/>
+			<xs:enumeration value="Belarussisch"/>
+			<xs:enumeration value="Walisisch"/>
+			<xs:enumeration value="Irisch"/>
+			<xs:enumeration value="Walisisch"/>
+			<xs:enumeration value="Arabisch (Standard)"/>
+			<xs:enumeration value="Dari (Persian)"/>
+			<xs:enumeration value="Dari, afghanisches Persisch"/>
+			<xs:enumeration value="Min Nan"/>
+			<xs:enumeration value="PAT_dummy"/>
+			<xs:enumeration value="EWA_dummy"/>
+			<xs:enumeration value="ROU_dummy"/>
+			
+			
+			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1185,10 +1577,12 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="aaq"/>
 			<xs:enumeration value="aar"/>
 			<xs:enumeration value="aas"/>
+			<xs:enumeration value="alb"/>
 			<xs:enumeration value="aat"/>
 			<xs:enumeration value="aau"/>
 			<xs:enumeration value="aaw"/>
 			<xs:enumeration value="aax"/>
+			<xs:enumeration value="ger"/> <!-- not really -->
 			<xs:enumeration value="aaz"/>
 			<xs:enumeration value="aba"/>
 			<xs:enumeration value="abb"/>
@@ -8785,6 +9179,12 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:enumeration value="zyn"/>
 			<xs:enumeration value="zyp"/>
 			<xs:enumeration value="zzj"/>
+			
+			<!--dummies-->
+			<xs:enumeration value="pat"/>
+			<xs:enumeration value="rou"/>
+			<xs:enumeration value="ewa"/>
+			
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -8803,7 +9203,7 @@ The content type is independent of attributes; all of these content types allow 
 
 	<xs:simpleType name="DATA_PRODUCTION_SETTING">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="educational"/>
+			<xs:enumeration value="educational setting"/>
 			<xs:enumeration value="naturalistic"/>
 			<xs:enumeration value="officialLanguageTest">
 				<xs:annotation>
@@ -8915,7 +9315,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_admin_contributor_dkd" type="DKD_CONTRIBUTOR" minOccurs="11"
 				maxOccurs="11">
-				<!-- NB: we repeat this element rather than put all names into one element-->
+				<!-- NB: we repeat this element rather than put all names into one element AP: OK-->
 				<xs:annotation>
 					<xs:documentation> One person of the set of contributors to the Dakoda project.
 						CMSLC has the comparable field `corpus_contributor`. </xs:documentation>
@@ -8953,7 +9353,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_admin_documentation" type="xs:anyURI" minOccurs="1"
 				maxOccurs="unbounded">
-				<!-- Could this be missing ? We don't allow that as is. Alternatively, what value do we put when we have no info?-->
+				<!-- Could this be missing ? We don't allow that as is. Alternatively, what value do we put when we have no info? AP: "notAvailable" -->
 				<xs:annotation>
 					<xs:documentation> Link to more extensive corpus documentation. Usually a corpus
 						manual including , for instance, the trancription and/or annotation
@@ -9076,6 +9476,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_admin_researchPaper" type="xs:string" minOccurs="0"
 				maxOccurs="unbounded">
+<!-- JR  note that i added the admin part -->
 				<xs:annotation>
 					<xs:documentation>Specification of a publicationrelated to the original version
 						of the corpus . CMSLC has related metadata field `corpus_ref_article`. </xs:documentation>
@@ -9088,6 +9489,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_admin_URL_download" type="xs:anyURI" minOccurs="0"
 				maxOccurs="unbounded">
+<!-- JR  note that i added the admin part -->
 				<xs:annotation>
 					<xs:documentation>Link to corpus download for original version of
 						corpus.</xs:documentation>
@@ -9192,7 +9594,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_design_l1Type" type="L1_CONSTELLATION" minOccurs="1"
 				maxOccurs="unbounded">
-				<!--TODO: check description below-->
+				<!--TODO: check description below  AP: OK-->
 				<xs:annotation>
 					<xs:documentation> L1 constellation among the participants. If all participants
 						share one L1: mono; if there are multiple L1s: multi . There is no eqivalent
@@ -9209,7 +9611,7 @@ The content type is independent of attributes; all of these content types allow 
 				<xs:annotation>
 					<xs:documentation> Storage requirement in KB, MB, GB, TB or PB
 						.</xs:documentation>
-					<!-- Q: is that equivalent to corpus_size in CMSLC? -->
+					<!-- Q: is that equivalent to corpus_size in CMSLC? AP: Ja-->
 					<xs:appinfo> Speicherplatz/Größe </xs:appinfo>
 				</xs:annotation>
 				<xs:complexType>
@@ -9222,7 +9624,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="corpus_design_targetLanguage" type="DKD_TRG_LANG" fixed="deu"
+			<xs:element name="corpus_design_targetLanguage" type="DKD_TRG_LANG" default="deu"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation> Specification of the target language in the corpus as a value
@@ -9296,7 +9698,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_taskType" type="LEARNER_TASK_TYPE" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
-				<!-- Q: a corpus can have several task types, right? I think this should repeat-->
+				<!-- Q: a corpus can have several task types, right? I think this should repeat  AP: ja, bzw. habe ich aktuell die Variablen nur noch auf task-Ebene JR: check if the complex type that this is a part of is still used in the schema-->
 				<xs:annotation>
 					<xs:documentation> Specification of the task type used in the corpus. A related
 						field in CMSLC is `situation_register`. </xs:documentation>
@@ -9395,7 +9797,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_project_contact_orig" type="EMAIL_ADDRESS" minOccurs="1"
 				maxOccurs="unbounded">
-				<!-- Q: is the optionality info correct ? could this be missing completely?-->
+				<!-- Q: is the optionality info correct ? could this be missing completely? AP: ja, dann "notAvailable"-->
 				<xs:annotation>
 					<xs:documentation> Contact e-mail address of the source project (original
 						version). CMSLC has a matching field
@@ -9477,7 +9879,7 @@ The content type is independent of attributes; all of these content types allow 
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="corpus_project_name_orig" type="xs:string" minOccurs="0" maxOccurs="1">
+			<xs:element name="corpus_project_name_orig" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Name of related research project.</xs:documentation>
 					<xs:appinfo>
@@ -9509,7 +9911,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="corpus_project_URL_dkd" type="xs:anyURI" minOccurs="0" maxOccurs="1">
 				<!-- Q : wouldn't it make more sense to link to the original project? 
-				the  dkd repo has pages about the corpora but we don't have pages about the projects that created the corpora-->
+				the  dkd repo has pages about the corpora but we don't have pages about the projects that created the corpora  AP: prinzipiell hast du recht. Wir haben jedoch andere Links und Projektlinks vor der Entscheidung zusammengefasst in corpus_admin_referencesOther, Die Arbeit das aufzudröseln sparen wir uns  JR? -->
 				<xs:annotation>
 					<xs:documentation>Link to related research project. A related variable in CMSLC
 						is `corpus_related_research_project_URL`</xs:documentation>
@@ -9528,7 +9930,7 @@ The content type is independent of attributes; all of these content types allow 
 
 
 			<xs:element name="corpus_subcorpus_signet" type="xs:string" minOccurs="1" maxOccurs="1">
-				<!-- Q: should we mention also the orig abbreviation/signet? -->
+				<!-- Q: should we mention also the orig abbreviation/signet? AP: meist dasselbe wie Acronym, ansonsten hat nur die dgd einheitliche signets. Ich würde mir hier die Arbeit einer weiteren Variablen sparen -->
 				<xs:annotation>
 					<xs:documentation> Identifier of the (sub)corpus in the DAKODA repository. </xs:documentation>
 					<xs:appinfo>
@@ -9570,9 +9972,9 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="corpus_subcorpus_target_language" type="DKD_TRG_LANG" fixed="deu"
+			<xs:element name="corpus_subcorpus_targetLanguage" type="DKD_TRG_LANG" fixed="deu"
 				minOccurs="1" maxOccurs="unbounded">
-				<!-- Q: should we write the last part as one word with camelcase, i.e. targetLanguage?-->
+				<!-- Q: should we write the last part as one word with camelcase, i.e. targetLanguage? AP: Ja! Aktualisiere ich. -->
 				<xs:annotation>
 					<xs:documentation> Specification of the target language in a subcorpus as a
 						value followig ISO 639-3. A related field in CMSLC is
@@ -9609,7 +10011,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 			<xs:element name="productionSetting_educationalStage" type="EDUCATIONAL_STAGE"
-				minOccurs="0" maxOccurs="1">
+				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Level of education the learners are currently in and have not
 						yet completed There is a related field in CMSLC called
@@ -9634,8 +10036,8 @@ The content type is independent of attributes; all of these content types allow 
 
 
 
-			<xs:element name="productionSetting_languageCourseLevel" minOccurs="1" maxOccurs="1">
-				<!-- Q: is this optional? Alternatively, what value do we put when the corpus provides no info?-->
+			<xs:element name="productionSetting_languageCourseLevel" minOccurs="1" maxOccurs="1" default="notApplicable">
+				<!-- Q: is this optional? Alternatively, what value do we put when the corpus provides no info?  AP: "notApplicable"; Wir haben nur für zwei Korpora Werte, und zwar: "B1.1; B2/C1" und "B2/C1" -->
 				<xs:annotation>
 					<xs:documentation> Level of the language course currently attended. CMSLC has no
 						related field . </xs:documentation>
@@ -9661,9 +10063,8 @@ The content type is independent of attributes; all of these content types allow 
 
 
 
-			<xs:element name="productionSetting_inResearchProjectCollected" type="xs:boolean"
-				minOccurs="1" maxOccurs="1">
-				<!-- Q: rename to collectedInResearchProject ? -->
+			<xs:element name="productionSetting_collectedInResearchProject" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<!-- Q: rename to collectedInResearchProject AP: ja, aktualisiere ich -->
 				<xs:annotation>
 					<xs:documentation>Specification of whether the data was collected as part of a
 						research project.</xs:documentation>
@@ -9728,8 +10129,8 @@ The content type is independent of attributes; all of these content types allow 
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_multiple_l1" type="BOOL_OR_NA" default="notAvailable">
-				<!-- Q: should we write learner_multipleL1 -->
+			<xs:element name="learner_multipleL1" type="BOOL_OR_NA" default="notAvailable">
+				<!-- Q: should we write learner_multipleL1  AP: Ja, aktualisiere ich-->
 				<xs:annotation>
 					<xs:documentation> Does the learner have more than one L1? A related field in
 						CMSCL is `learner_L1`. </xs:documentation>
@@ -9887,8 +10288,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="learner_language_isSpokenHome" maxOccurs="unbounded" minOccurs="0"
-				type="xs:boolean">
+			<xs:element name="learner_language_isSpokenHome" type="BOOL_OR_NA">
 				<xs:annotation>
 					<xs:documentation>Is the language(s) spoken at home </xs:documentation>
 					<xs:appinfo>
@@ -9899,7 +10299,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 			<xs:element name="learner_language_isSpokenSchool" maxOccurs="unbounded" minOccurs="0"
-				type="xs:boolean">
+				type="BOOL_OR_NA">
 				<xs:annotation>
 					<xs:documentation>Is the language(s) spoken in school</xs:documentation>
 					<xs:appinfo>
@@ -9912,7 +10312,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="learner_language_parentL1" maxOccurs="1" minOccurs="0"
 				type="Language">
-				<!-- Q: I added L1 to name since this seems to only be about L1s of the parents. Is that ok? -->
+				<!-- Q: I added L1 to name since this seems to only be about L1s of the parents. Is that ok? AP: Supi, aktualisiere ich -->
 				<xs:annotation>
 					<xs:documentation> Parent L1(s) </xs:documentation>
 					<xs:appinfo>
@@ -9923,10 +10323,15 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="exposure" type="Language_Exposure"/>
+			<xs:element name="exposure" type="Language_Exposure" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="proficiency" type="Learner_Language_Proficiency" minOccurs="0" maxOccurs="1"/>
+			<!--<xs:assertion test="count($exposure) > 0 and $learner_language_status[1][. eq 'Target language']" />		-->
+		
+				</xs:sequence>
+		<!--<xs:assert test="(some learner_language_status[. = LANG_STATUS.Target language] and exposure) or (not(some learner_language_status[. = LANG_STATUS.Target language]))"/>-->
+		<xs:assert test="(learner_language_status[. = 'Target language'] and exposure ) or not(exposure)"/>
 
-			<xs:element name="proficiency" type="Learner_Language_Proficiency"/>
-		</xs:sequence>
+		
 	</xs:complexType>
 
 
@@ -10020,11 +10425,10 @@ The content type is independent of attributes; all of these content types allow 
 			<xs:element name="learner_language_exposure_learningContext" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
-						<!-- TODO: need definition !-->
-						???
-						A related field in CMSLC is XXX.
+						Learning context of target language from onset to current age.
+						There is no related field in CMSLC. <!--JR: is that okay?-->
 					</xs:documentation>
-					<xs:appinfo><displayname>YYY</displayname></xs:appinfo>
+					<xs:appinfo><displayname>Lernkontexte</displayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
@@ -10277,7 +10681,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="annotator_targetLanguageCompetence" type="xs:string" minOccurs="1"
 				maxOccurs="1">
-				<!--Q: check type: is this just a string ?-->
+				<!--Q: check type: is this just a string ? AP: Hm, mir egal. Vielleicht GER-Niveaus? Bei uns wären ja Christine, Iulia, Matthias und ich gemeint. Wir könnten bei uns allen C2 angeben. JR: wir müssten uns aber  unterhalten, was wir als unssere Annotationen ansehen. Wir haben ja keine Schülertexte transkribiert, nicht von Hand lemmatisiert etc. -->
 				<xs:annotation>
 					<xs:documentation> A related field in CMSLC is
 						annotator_target_language_competence. </xs:documentation>
@@ -10290,7 +10694,7 @@ The content type is independent of attributes; all of these content types allow 
 
 
 			<xs:element name="annotator_type" type="xs:string" minOccurs="1" maxOccurs="1">
-				<!--Q: I think the name is misleading . Also, should this be an enumeration? Is there a pre-defined scale? -->
+				<!--Q: I think the name is misleading . Also, should this be an enumeration? Is there a pre-defined scale?  AP: Bei CMLC steht "e.g. expert, trained, student, teacher, crowdsourcing…". Wir können bei uns allen "expert" reinschreiben. JR: does CMLC have a defined set? we could take theirs as options in an enumeration -->
 				<xs:annotation>
 					<xs:documentation> A related field in CMSLC is `annotator_type`. </xs:documentation>
 					<xs:appinfo>
@@ -10339,7 +10743,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 
 
-			<xs:element name="annotation_evaluation" type="xs:boolean" minOccurs="1" maxOccurs="1">
+			<xs:element name="annotation_evaluation" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Was the annotation evaluated? A related field in CMSLC is
 						`annotation_evaluation`. </xs:documentation>
@@ -10619,7 +11023,7 @@ The content type is independent of attributes; all of these content types allow 
 
 			<xs:element name="task_interaction_participantsL1L2-interaction"
 				type="INTERACTION_TYPES" minOccurs="0" maxOccurs="1">
-				<!--Q: on the mindmap it says "L2L2" interaction. is that an error? -->
+				<!--Q: on the mindmap it says "L2L2" interaction. is that an error?  AP: eigentlich nicht :) die Werte sind: only L1 speakers; only L2 speakers; L1 and L2 speakers mixed; notApplicable JR: als meine Frage bezog sich auf das L2L2 in der mindmap. Aber die Wertdefinition , die du hier im Kommentar gibst, ist auch anders als die, die ich mal unter INTERACTION_TYPES definiert hatte. Da steht immer z.B. German-L1, German-L2. Soll das  nun geändert werden? -->
 				<xs:annotation>
 					<xs:documentation>Type of interaction. There is no related field in CMSLC. </xs:documentation>
 					<xs:appinfo>
@@ -10660,7 +11064,7 @@ The content type is independent of attributes; all of these content types allow 
 	<xs:complexType name="Task_Interaction_Mode">
 		<xs:sequence>
 
-			<!-- Q: was ist die Definition von corpus mode -->
+			<!-- Q: was ist die Definition von corpus mode  AP: ich würde vorschlagen corpus_mode und situation mode aus den CMLC-Variablen beide mit dieser Variable zu matchen. siehe Schema-Exceltabelle. JR: dann ist die Mindmaap irreführend. Da sieht es so aus, als ob task_ineraction_mode eine Zwischenebene ist unter task/interaction-->
 			<xs:element name="corpus_mode" type="DATA_PRODUCTION_SETTING_MODE" minOccurs="1"
 				maxOccurs="unbounded" default="notAvailable">
 				<xs:annotation>
@@ -10731,7 +11135,7 @@ The content type is independent of attributes; all of these content types allow 
 			</xs:element>
 			
 			<xs:element name="text_language" type="Language">
-				<!-- Q: check definition  -->
+				<!-- Q: check definition  AP: OK. Hier könnten auch die Definitionen aus "description" aus der Schema-Esceltabelle stehen JR: in  der excel Dakoda schema 25-06-03 steht aber kein Eintrag zu text_language-->
 				<xs:annotation>
 					<xs:documentation> The target language of the text. An eqivalent field in CMSLC
 						is `text_language`. </xs:documentation>
