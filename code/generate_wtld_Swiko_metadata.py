@@ -12,7 +12,7 @@ from lxml import etree
 import toml
 import nltk
 from cassis import *
-from dkd_meta import dakoda_metadata_scheme as meta
+from dkd_meta import dakoda_metadata_scheme_2025_06_04 as meta
 
 # import xsdata.formats.dataclass.serializer.XmlSerializer as XmlSerializer
 from xsdata.formats.dataclass.serializers import XmlSerializer
@@ -141,8 +141,8 @@ def get_lan_info_for_iso_code(
     return (lan_name_en, lan_name_de)
 
 
-#  in_DAKODA	L1_DKD	L2_DKD	Orig_Wert_deutscheBezeichnung	Orig_Wert_englischeBezeichnung
-#  Orig_code_ISO	Orig_code_anderer	iso639-3_de	iso639-3_en 	iso639-3_code 	dominantWordOrder
+#  in_DAKODA    L1_DKD  L2_DKD  Orig_Wert_deutscheBezeichnung   Orig_Wert_englischeBezeichnung
+#  Orig_code_ISO    Orig_code_anderer   iso639-3_de iso639-3_en     iso639-3_code   dominantWordOrder
 
 
 def lookup_word_order(df: pd.DataFrame, code: str) -> str:
@@ -163,86 +163,6 @@ def look_up_swiko_task_description(task_id, df):
     logger.info(f"Looking up swiko task description for task id {task_id}")
     return df[df["taskid"] == task_id]["description"].iloc[0]
 
-
-""" 
-HEADER OF CORPUS METADATA TABLE
-
-corpus_name	
-corpus_signet_dkd	
-corpus_acronym	
-corpus_author	
-corpus_availability	
-corpus_cite_as	
-corpus_comparable_data_included	
-corpus_contact_mail	
-corpus_contributors_dkd	
-corpus_contributors_orig	
-corpus_date_of_publication_orig	
-corpus_description	
-corpus_design_type	
-corpus_documentation	
-corpus_file_format	
-corpus_group	
-corpus_L1_language	
-corpus_L1_type	
-corpus_learner_proficiency_assignment_instrument	
-corpus_licence	
-corpus_licence_url	
-corpus_licenceFulltext	
-corpus_longitudinal	
-corpus_mode	
-corpus_other_versions	
-corpus_pid_dkd	
-corpus_pid_orig	
-corpus_production_setting	
-corpus_production_setting_conceptualmode	
-corpus_production_setting_educational_schoolGrade	
-corpus_production_setting_educationalStage	
-corpus_production_setting_language_testing	
-corpus_production_setting_languageCourseLevel	
-corpus_production_setting_mode	
-corpus_production_setting_naturalistic_specific	
-corpus_production_setting_participants	
-corpus_production_setting_participants_L1-L2-interaction	
-corpus_production_setting_researchProject	
-corpus_proficiency_assignment_available	
-corpus_proficiency_assignment_method	
-corpus_proficiency_level	
-corpus_proficiency_textAutomatic_instrument	
-corpus_project_contact_orig	
-corpus_project_duration_dkd	corpus_project_duration_orig	
-corpus_project_head_dkd	
-corpus_project_head_orig	
-corpus_project_institution_dkd	
-corpus_project_institution_orig	
-corpus_project_type_dkd	
-corpus_project_type_orig	
-corpus_ref_article	
-corpus_referencesOther	
-corpus_related_research_project_dkd	
-corpus_related_research_project_orig	
-corpus_related_research_project_URL	corpus_researchPapers	
-corpus_signet_dkd	
-corpus_single_or_multi_author	
-corpus_subcorpus	
-corpus_subcorpus_sizeLearners_dkd	
-corpus_subcorpus_sizeTexts_dkd	
-corpus_subcorpus_sizeTokens_dkd	
-corpus_subcorpus_target_language	
-corpus_target_language	
-corpus_target_language_type	
-corpus_taskLevel	
-corpus_taskType	
-corpus_text_proficiency_assignment_instrument	
-corpus_time_of_data_collection	
-corpus_URL_download	corpus_URL_query	
-corpus_version_orig
-
-
-
-
-
-"""
 
 
 DKD_CORPUS_CONTRIBS = [
@@ -341,9 +261,8 @@ def count_l1s(row, collist):
 
 
 def main():
-
-    # CSECTION: load info files into dataframes 
-	# docids, task ids, corpus metadata, language info, learner info, transciber info
+    # CSECTION: load info files into dataframes
+    # docids, task ids, corpus metadata, language info, learner info, transciber info
     docidfile = config["corpus"]["docid_file"]
     with open(docidfile, "r", encoding="utf-8") as inc:
         docid_lines = inc.readlines()
@@ -353,7 +272,7 @@ def main():
     print(f"{len(docid_lines)} docids")
 
     # header: taskid, description
-	# the description comes from a pdf in the corpus folder
+    # the description comes from a pdf in the corpus folder
     task_df = pd.read_csv(
         config["corpus"]["task_description_table"], sep="\t", quoting=3
     )
@@ -364,20 +283,20 @@ def main():
     )
     print(corp_meta_df.head())
 
-	# this df  has info on names and word order, among others
+    # this df  has info on names and word order, among others
     lang_info_df = pd.read_csv(
         config["corpus"]["lang_info_lookup"], sep="\t", quoting=3
     )
     print(f"{len(lang_info_df)} languages")
     print(lang_info_df.head())
 
-	# info on the students/learners
+    # info on the students/learners
     learner_metadata_table = config["corpus"]["learner_metadata_table"]
     # PID   schoolyear  age text_learner_ageProduction  gender  learner_gender  l1a l1b l1c subcorpus   learner_school_language yearcollected   canton  class   learner_durationOfInstruction   learner_ageofOnset
     learner_df = pd.read_csv(learner_metadata_table, sep="\t", quoting=3)
     logger.debug(learner_df.head())
 
-	# info on transcibers of original corpus, potentially for use as annotators ?!
+    # info on transcibers of original corpus, potentially for use as annotators ?!
     transcriber_df = pd.read_csv(
         config["corpus"]["transcriber_table"],
         sep="\t",
@@ -590,7 +509,7 @@ def main():
         curr_corp_design_subcorpus_target_language_string
     )
 
-    # corpus_proficiency_assignment_available	: boolean
+    # corpus_proficiency_assignment_available   : boolean
     curr_corp_proficiency_assignment_available = map_to_boolean(
         corp_meta_df[corp_meta_df["corpus_acronym"] == corpus_name].iloc[0][
             "corpus_proficiency_assignment_available"
@@ -742,7 +661,7 @@ def main():
         ]
     )
 
-    # corpus_taskLevel	: string
+    # corpus_taskLevel  : string
     curr_corp_taskLevel_val = corp_meta_df[
         corp_meta_df["corpus_acronym"] == corpus_name
     ].iloc[0]["corpus_taskLevel"]
@@ -813,7 +732,7 @@ def main():
     good_learner_ids = []  # ["Mo115"]
 
     # CSECTION document loop
-	# here: docids without file extension, e.g.  SWI01_fD_Es165_c
+    # here: docids without file extension, e.g.  SWI01_fD_Es165_c
     for ix, docid in enumerate(sorted(docid_lines)):
         if ix >= MAX_DOCS_TO_PROC:
             break
@@ -874,7 +793,7 @@ def main():
         ca.corpus_admin_availability = curr_corp_availability
 
         # Q: can we not give any info?
-		ca.corpus_admin_citation_document = "notAvailable"
+        ca.corpus_admin_citation_document = "notAvailable"
         ca.corpus_admin_cite_as = curr_corp_cite_as
 
         ca.corpus_admin_contact_mail = []
@@ -896,6 +815,8 @@ def main():
         ca.corpus_admin_file_format = ["CAS"]
 
         # Q: really no info for SWIKO/WTLD? tabelle werteübersetzung has "#"
+        # Q: also, is thisthe licence of the source corpus? if yes, then it seems we're not saying anything about 
+        # our own licence?
         ca.corpus_admin_licence = curr_corp_licence
         ca.corpus_admin_licence_fulltext = curr_corp_licenceFulltext
         ca.corpus_admin_licence_url = curr_corp_licence_url
@@ -911,7 +832,6 @@ def main():
         ca.corpus_admin_pid_orig = curr_corp_pid_orig
 
         ca.corpus_admin_ref_article = curr_corp_ref_article
-        # TODO:  I picked an article from the SWIKO manual, sec 1.3 "Publications"
 
         # TODO: i picked a ref that's mentioned in the SWIKO manual. In the corpora table, there's actually no entry for SWIKO.
         # Should we really have no reference here?
@@ -931,9 +851,9 @@ def main():
         corpus_block.design = cd
 
         cd.corpus_design_description = "notAvailable"
-        # CHECK:  in der Tabelle für SWIKO war eine Spalte longitudinal , die nur ja/nein als Werte hat.
+        # Q:  in der Tabelle für SWIKO war eine Spalte longitudinal , die nur ja/nein als Werte hat.
         # Aber theoretisch hatten wir mal "pseudo-longitudinal" als dritte Option.
-        # Ist diese Option nun eliminiert worden bzw. ist pseudo-l. mit longitudinal gemergt?
+        # Ist diese Option nun eliminiert worden bzw. ist pseudo-longitudinal mit longitudinal gemergt worden?
         if curr_corp_designType == True:
             cd.corpus_design_design_type = meta.StudyDesign.LONGITUDINAL
         else:
@@ -956,13 +876,12 @@ def main():
             curr_corp_design_target_language_type_list
         )
 
-        # TODO is that the right thing to use? it derives from the learner df not the corpus df
-        # variable corpus_time_of_data_collection
+
         curr_corp_design_time_coll = corp_meta_df[
             corp_meta_df["corpus_acronym"] == corpus_name
         ].iloc[0]["corpus_time_of_data_collection"]
         cd.corpus_design_time_of_data_collection = curr_corp_design_time_coll
-        # lrn_meta_data_match_df["yearcollected"].iloc[0]
+
 
         # CSUBSECTION: proficiency
         cp = meta.CorpusProficiency()
@@ -1008,8 +927,6 @@ def main():
             meta.DkdProjectName.DATENKOMPETENZEN_IN_DA_F_DA_Z_EXPLORATION_SPRACHTECHNOLOGISCHER_ANS_TZE_ZUR_ANALYSE_VON_L2_ERWERBSSTUFEN_IN_LERNERKORPORA_DES_DEUTSCHEN
         )
 
-        # Q: I believe that some of the files we use are from 2022, when the project was no longer SWIKO but WTLD!
-
         cj.corpus_project_name_orig = corpus_proj_name_orig_list
         cj.corpus_project_type_dkd = (
             "Bundesministerium für Bildung und Forschung (BMBF)"
@@ -1024,6 +941,7 @@ def main():
         corpus_block.subcorpus = csub
 
         # TODO: fill quantitative fields later
+        # NB: we use 1234567890 as our default placeholder value for ints for now
         csub.corpus_subcorpus_signet = curr_corpus_signet_val
         csub.corpus_subcorpus_size_learners = 1234567890
         csub.corpus_subcorpus_size_texts = 1234567890
@@ -1067,7 +985,7 @@ def main():
         task_block.task_title = meta.NaString.NOT_AVAILABLE
         task_block.task_comparison = meta.NaString.NOT_AVAILABLE
 
-        # TODO: is there info on task descriptions?
+        # TODO: is there info on task descriptions? the mindmap seems to point to the cmslc var task_instructions
         task_block.task_description = meta.NaString.NOT_AVAILABLE
         task_block.task_description_detailed = meta.NaString.NOT_AVAILABLE
 
@@ -1081,7 +999,9 @@ def main():
         task_block.task_is_duration_limited = meta.NaString.NOT_AVAILABLE
         task_block.task_level = curr_corp_taskLevel_val
 
-        # TODO: check this next: is this specifiable for wtld? couldn't find a good column in the Corpora table.
+
+        # TODO: check this next: is this specifiable for wtld? should be yes or no.
+        # couldn't find a good column in the Corpora table.
         task_block.task_official_language_test = meta.NaString.NOT_AVAILABLE
         task_block.task_official_language_test_specific = meta.NaString.NOT_AVAILABLE
 
@@ -1107,7 +1027,8 @@ def main():
         tim = meta.TaskInteractionMode()
         ti_block.task_interaction_mode = tim
         tim.corpus_mode = curr_corp_mode_list
-        # TODO: check this next: is this the right kind of info to put in this field? it's not in the corpora table!
+        # TODO: check this next: is this the right kind of info to put in this field? 
+        # It's not in the corpora table!
         tim.situation_mode = meta.DataProductionSettingMode.WRITTEN
 
         ti_block.task_interaction_participants_l1_l2_interaction = (
@@ -1119,7 +1040,7 @@ def main():
         )
 
         # TODO: hat monologisches L2 einen "Interaktionstyp?"
-        # interacton _type scheint CMSLC situation_register  und damit den SWIKO-Tasks zu entsprechen?
+        # aber interacton _type scheint CMSLC situation_register  und damit den SWIKO-Tasks zu entsprechen?
         ti_block.task_interaction_type = meta.NaString.NOT_AVAILABLE
 
         # CSECTION: LEARNER info
@@ -1152,7 +1073,7 @@ def main():
         learner_socio.learner_socio_country = "CHE"
 
         # TODO: don't we know anything about this next?
-		# it's not in the corpora table and the wereübersetzungstabelle has no info on it either
+        # it's not in the corpora table and the wereübersetzungstabelle has no info on it either
         learner_socio.learner_socio_educational_background = meta.NaString.NOT_AVAILABLE
 
         gdrval = str(lrn_meta_data_match_df.iloc[0]["gender"])
@@ -1160,7 +1081,6 @@ def main():
             mapped_gdr_val = meta.NaString.NOT_AVAILABLE
         else:
             mapped_gdr_val = GENDER_MAP[gdrval]
-
 
         learner_socio.learner_socio_gender = mapped_gdr_val
 
@@ -1174,13 +1094,13 @@ def main():
 
         # CSUBSECTION: learner language
 
-        # Q: what is the relationship to text_lg and school_lg in the file name? Is it completely independent?
-        # text language => target language
-        # if text lang is deu and deu is not in ["l1a", "l1b", "l1c"], then we have deu as L2 and targt languagae?
+        # Q: what is the relationship to text_lg and school_lg in the **file name**? 
+        # Is it completely independent?
+        # I think text language == target language
+        # if text lang is deu and deu is not in ["l1a", "l1b", "l1c"], then we have deu as L2 and targt language, innit?
 
         learner_block.language = []
         canton = lrn_meta_data_match_df.iloc[0]["canton"].lower()
-
 
         # CSUBSUBSECTION: L1(s)
         lgs_map = {"deu": "Target language, L2"}
@@ -1225,7 +1145,7 @@ def main():
             else:
                 learner_language.learner_language_is_spoken_school = False
 
-            # Q: are we making any assumpotions about the home lanuage?
+            # Q: are we making any assumptions about the home lanuage?
             # werteübsetzung provides no default; student metadata has no info , AFAIK
             learner_language.learner_language_is_spoken_home = (
                 meta.NaString.NOT_AVAILABLE
@@ -1237,7 +1157,6 @@ def main():
                 lle = meta.LanguageExposure()
                 learner_language.exposure = lle
 
-                # IF los="f" -> age - durationOfInstruction; IF los = "d" OR "d_e" -> notApplicable
                 try:
                     curr_age = float(
                         lrn_meta_data_match_df.iloc[0]["text_learner_ageProduction"]
@@ -1256,7 +1175,8 @@ def main():
                 logger.info(f"Duration of Instruction: {curr_doi} {raw_doi}")
                 logger.info(f"type check {str(type(curr_age))} {str(type(curr_doi))}")
 
-                # TODO the learner metadata has learner_language_exposure_ageOfOnset:  should we use that or do the calculation below?
+                # TODO the learner metadata has learner_language_exposure_ageOfOnset:  
+	            # should we use that or do the calculation below?
                 logger.info(f"school language: {school_lg}")
                 if (
                     "str" not in str(type(curr_age))
@@ -1434,7 +1354,7 @@ def main():
         text_block.text_language = text_lang
 
         # Q: we get the int part of the task id ? or do we only consider the tasks that the speaker has actually completed?
-		# the task int is taken out of the filename
+        # the task int is taken out of the filename
         text_block.text_longitudinal_order = task_int
 
         # TODO: check if we do have this info after all:  Werteübersetzung says the students metadata should have info
