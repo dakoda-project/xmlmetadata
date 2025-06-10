@@ -130,7 +130,8 @@ The content type is independent of attributes; all of these content types allow 
 		<xs:annotation>
 			<xs:documentation>A list of coarse CEFR LEVELS . The A1 and A2 are merged. The same
 				goes for the B and C levels.</xs:documentation>
-				<!-- AP: Ich habe nun alle Wertebereiche bezogen auf CEFR-Levels vereinheitlicht. Es sind immer A1,A2,B1 usw. Alle Variablen, die ggf. nicht mit genauen Werten befüllt werden können haben eine Min- und eine Max-Variante bekommen. Hier alle CEFR-bezogenen Variablen: corpus_proficiency_levelMin, corpus_proficiency_levelMax, learner_language_proficiency_cefr, learner_language_proficiency_cTestCefr, learner_language_proficiency_estimateMax, learner_language_proficiency_estimateMin, task_levelMin, text_proficiency_cefr, task_levelMax, text_proficiency_cefrAutomMin, text_proficiency_cefrAutomMax. 
+				<!-- AP: Ich habe nun alle Wertebereiche bezogen auf CEFR-Levels vereinheitlicht. Es sind immer A1,A2,B1 usw. Alle Variablen, die ggf. nicht mit genauen Werten befüllt werden können haben eine Min- und eine Max-Variante bekommen. 
+					Hier alle CEFR-bezogenen Variablen: corpus_proficiency_levelMin, corpus_proficiency_levelMax, learner_language_proficiency_cefr, learner_language_proficiency_cTestCefr, learner_language_proficiency_estimateMax, learner_language_proficiency_estimateMin, task_levelMin, text_proficiency_cefr, task_levelMax, text_proficiency_cefrAutomMin, text_proficiency_cefrAutomMax. 
 JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -1263,8 +1264,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation><!-- Ich würde hier eigentlich nur ungern von equivalent sprechen, weil wir ja zwischen
 				DKD und source/orignial corpus unterscheiden -->
 					<xs:documentation>Persistent identifier (DAKODA version). An equivalent field in LC-meta is  
-						`corpus_pid`. <xs:appinfo><displayname>PID
-								(DAKODA-Version)</displayname></xs:appinfo>
+						`corpus_pid`. <xs:appinfo><displayname>PID (DAKODA-Version)</displayname></xs:appinfo>
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -1426,7 +1426,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="corpus_design_size">
 				<xs:annotation>
 					<xs:documentation>Storage requirement in KB, MB, GB, TB or PB. An equivalent field in LC-meta is  `corpus_size`.</xs:documentation>
-					<xs:appinfo> Speicherplatz/Größe </xs:appinfo>
+					<xs:appinfo><displayname>Speicherplatz/Größe</displayname></xs:appinfo>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:simpleContent>
@@ -1449,8 +1449,6 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-<!--CURSOR-->
-
 			<xs:element name="corpus_design_targetLanguageType" type="L1_CONSTELLATION">
 				<xs:annotation>
 					<xs:documentation>Target languages of the complete corpus. If only German is
@@ -1469,6 +1467,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					<xs:documentation>The year or span of years during which the corpus was
 						created. An equivalent field in LC-meta is `corpus_time_of_data_collection`.
 					</xs:documentation>
+					<xs:appinfo>
+						<displayname>Erhebungszeitraum</displayname>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
@@ -1488,6 +1489,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					<xs:documentation>The method of proficiency level assignment used for the
 						corpus . An equivalent field in LC-meta is
 						`corpus_proficiency_assignment_method`. </xs:documentation>
+					<xs:appinfo><displayname>Typ der Kompetenzmessung</displayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
@@ -1515,16 +1517,28 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="corpus_proficiency_level" type="PROFICIENCY_LEVEL" minOccurs="1"
-				maxOccurs="1">
+			<xs:element name="corpus_proficiency_levelMax" type="PROFICIENCY_LEVEL" minOccurs="1"
+				maxOccurs="1"><!-- Q: for max, you don't say that LC-meta's `corpus_proficiency_level` is equivalent? -->
 				<xs:annotation>
-					<xs:documentation>Specification of coarse proficiency levels. A related field
-						in LC-meta is `corpus_proficiency_level`. </xs:documentation>
+					<xs:documentation>proficiency levels; if only approximately known, enter the maximum value here. 
+						A related field in LC-meta is `corpus_proficiency_level`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Kompetenzniveau</displayname>
+						<displayname>Kompetenzniveau (max)</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+			<xs:element name="corpus_proficiency_levelMin" type="PROFICIENCY_LEVEL" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>proficiency levels; if only approximately known, enter the minimum value here. 
+						An equivalent field in LC-meta is `corpus_proficiency_level`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>Kompetenzniveau (min)</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
 
 			<xs:element name="corpus_proficiency_textAssignmentInstrument" type="xs:string"
 				minOccurs="1" maxOccurs="1">
@@ -1609,8 +1623,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>Head(s) of the creation project (original version). </xs:documentation>
 					<xs:appinfo>
-						<displayname>Leiter/-in(nen) des Erstellungsprojekts
-							(Original-Version)</displayname>
+						<displayname>Leiter/-innen des Erstellungsprojekts (Original-Version)</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1620,6 +1633,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>One of the institutions responsible for creating the DAKODA version of
 						the corpus. A comparable field in LC-meta is `corpus_publisher`.
+						<xs:appinfo><displayname>Einrichtungen von DAKODA</displayname></xs:appinfo>
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -1631,6 +1645,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						the corpus. If corpus resulted from Phd or other thesis, the relevant
 						institution is the degree-conferring one. A comparable field in LC-meta is
 						`corpus_publisher`. </xs:documentation>
+					<xs:appinfo><dispayname>Einrichtung des Projekts (Original-Version)</dispayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
@@ -1656,7 +1671,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="corpus_project_type_dkd" type="DKD_PROJECT_TYPE" minOccurs="1"
 				maxOccurs="1" fixed="Bundesministerium für Bildung und Forschung (BMBF)">
 				<xs:annotation>
-					<xs:documentation>Type of project that DAKODA</xs:documentation>
+					<xs:documentation>Type of project (DAKODA)</xs:documentation>
 					<xs:appinfo>
 						<displayname>Art des Projekts der DAKODA-Version</displayname>
 					</xs:appinfo>
@@ -1756,7 +1771,6 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 		</xs:sequence>
 
-
 	</xs:complexType>
 
 
@@ -1770,8 +1784,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="production_setting_schoolGrade" type="xs:integer" minOccurs="0"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>School year, if any, in which the productions were collected.
-						There is no related field in LC-meta. </xs:documentation>
+					<xs:documentation>School year in which the productions were collected. There is no related field in LC-meta. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Schuljahr</displayname>
 					</xs:appinfo>
@@ -1782,10 +1795,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Level of education the learners are currently in and have not
-						yet completed There is a related field in LC-meta called
-						`learner_educational_background`. </xs:documentation>
+						yet completed. An equivalent field in LC-meta is `learner_educational_background`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Ausbildungsniveau </displayname>
+						<displayname>Ausbildungsniveau</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1797,7 +1809,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						test, this represents the full name of the language test taken. LC-meta has a
 						related field `corpus_language_testing_setting`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Spezifizierung des Sprachtestkontext</displayname>
+						<displayname>Spezifizierung des Sprachtestkontexts</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1807,10 +1819,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="productionSetting_languageCourseLevel" minOccurs="1" maxOccurs="1" default="notApplicable" type="xs:string">
 				<!-- AP: Wir haben nur für zwei Korpora Werte, und zwar: "B1.1; B2/C1" und "B2/C1" -->
 				<xs:annotation>
-					<xs:documentation>Level of the language course currently attended. LC-meta has no
-						related field . </xs:documentation>
+					<xs:documentation>Level of the language course currently attended. LC-meta has no equivalent field.</xs:documentation>
 					<xs:appinfo>
-						<displayname>Sprachkursniveau </displayname>
+						<displayname>Sprachkursniveau</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1819,12 +1830,10 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="productionSetting_naturalistic" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Specification of setting for data collection , if outside of
-						an institutional context. Possible values include e.g. work, family,
+					<xs:documentation>Specification of the elicitation context if outside institutional contexts. Possible values include e.g. work, family,
 						friends, leisure. A related field in LC-meta is `situation_setting`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Spezifizierung, wenn außerhalb eines institutionellen
-							Kontexts</displayname>
+						<displayname>Spezifizierung, wenn außerhalb eines institutionellen Kontexts</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1834,11 +1843,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="productionSetting_collectedInResearchProject" type="xs:boolean" minOccurs="1" maxOccurs="1">
 
 				<xs:annotation>
-					<xs:documentation>Specification of whether the data was collected as part of a
-						research project.</xs:documentation>
+					<xs:documentation>Was the data collected as part of a research project?</xs:documentation>
 					<xs:appinfo>
-						<displayname>Wurden die Daten für ein Forschungsvorhaben
-							erhoben?</displayname>
+						<displayname>Wurden die Daten für ein Forschungsvorhaben erhoben?</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1847,8 +1854,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="productionSetting_setting" type="DATA_PRODUCTION_SETTING"
 				minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The context of the data collection effort. A comparable field
-						in LC-meta is `corpus_production_setting`. </xs:documentation>
+					<xs:documentation>Language production setting. An equivalent field in LC-meta is `corpus_production_setting`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Kontext der Datenerhebung</displayname>
 					</xs:appinfo>
@@ -1907,7 +1913,6 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-
 			<xs:element name="learner_textCount" type="xs:positiveInteger">
 				<xs:annotation>
 					<xs:documentation>Number of existing texts from this person. There is no
@@ -1922,8 +1927,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_note" type="xs:string">
 
 				<xs:annotation>
-					<xs:documentation>Comments regarding this learner/L1 speaker. A related field
-						in CMSCL is `learner_note`. </xs:documentation>
+					<xs:documentation>Any comments regarding this learner/L1 speaker. An equivalent field in LC-meta is `learner_note`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Kommentar zum/zur Sprecher/-in</displayname>
 					</xs:appinfo>
@@ -1943,7 +1947,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="learner_socio_birthplace" type="COUNTRY_TYPE">
 				<xs:annotation>
-					<xs:documentation>Place of birth of the speaker coded as country or territory.
+					<xs:documentation>Place of birth of the speaker. This is coded as country or territory.
 						There is no related field in CMSCL. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Geburtsort</displayname>
@@ -1967,14 +1971,14 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					<xs:documentation>Highest level of education attained by the learner. There is a
 						related field in LC-meta called `learner_educational_background`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Höchster erreichter Bildungsabschluss </displayname>
+						<displayname>Höchster Bildungsabschluss </displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
 			<xs:element name="learner_socio_gender" maxOccurs="1" minOccurs="1" type="GENDER">
 				<xs:annotation>
-					<xs:documentation>learner/L1 speaker gender</xs:documentation>
+					<xs:documentation>Learner/L1 speaker gender. An equivalent field in LC-meta is `learner_gender`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Geschlecht</displayname>
 					</xs:appinfo>
@@ -1984,7 +1988,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_socio_majorSubject" type="xs:string" minOccurs="1"
 				maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>(Major) subject at university There is no related field in
+					<xs:documentation>(Major) subject at university. There is no related field in
 						LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Studienfach</displayname>
@@ -1995,8 +1999,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_socio_profession" type="xs:string" minOccurs="1"
 				maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Occupation A related field in LC-meta is
-						`learner_socioeconomic_status`. </xs:documentation>
+					<xs:documentation>Occupation. An equivalent field in LC-meta is `learner_socioeconomic_status`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Beruf</displayname>
 					</xs:appinfo>
@@ -2007,7 +2010,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_socio_schoolGrade" type="xs:positiveInteger" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>School year in which the text was collected There is no
+					<xs:documentation>School year in which the text was collected. There is no
 						related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Schuljahr</displayname>
@@ -2027,7 +2030,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>Depending on the context, this represents information about
 						the Learner's L1, their L2 and/or the target language. </xs:documentation>
-					<xs:appinfo> TODO </xs:appinfo>
+					<xs:appinfo><displayname>Language names and code according to ISO 639-3</displayname></xs:appinfo>
 
 				</xs:annotation>
 			</xs:element>
@@ -2036,12 +2039,20 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_status" type="LANG_STATUS" minOccurs="1"
 				maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>There is no related field in LC-meta . </xs:documentation>
+					<xs:documentation>What status does the language have for the learner? There is no single equivalent field in LC-meta. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Sprachstatus</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+			<xs:element name="learner_language_IsTarget" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Is there a text for the language in the corpus?</xs:documentation>
+					<xs:appinfo><displayname>Ist die Sprache im Korpus vertreten?</displayname></xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 
 			<xs:element name="learner_language_dominantWordOrder" maxOccurs="2" minOccurs="1"
 				type="WORD_ORDER_TYPE">
@@ -2054,12 +2065,21 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
+			<xs:element name="learner_language_group" maxOccurs="1" minOccurs="1" type="LANGUAGE_GROUP">
+				<xs:annotation>
+					<xs:documentation>language genus according to WALS</xs:documentation>
+					<xs:appinfo>
+						<displayname>Sprachfamilie</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 
 			<xs:element name="learner_language_isSpokenHome" type="BOOL_OR_NA">
 				<xs:annotation>
 					<xs:documentation>Is the language(s) spoken at home </xs:documentation>
 					<xs:appinfo>
-						<displayname>War/Ist die Sprache eine Familiensprache? </displayname>
+						<displayname>Wurde/wird die Sprache zu Hause/mit der Familie gesprochen?</displayname>
 					</xs:appinfo>
 
 				</xs:annotation>
@@ -2070,7 +2090,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>Is the language(s) spoken in school</xs:documentation>
 					<xs:appinfo>
-						<displayname>War/Ist Sprache eine Unterrichtssprache? </displayname>
+						<displayname>War/Ist Sprache auch Unterrichtssprache an der Schule?</displayname>
 					</xs:appinfo>
 
 				</xs:annotation>
@@ -2112,7 +2132,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					<xs:documentation>Age of Onset. Related field in CMSCL are
 						`learner_target_language_onset` and `learner_L"_language_onset`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Age of Onset </displayname>
+						<displayname>Age of Onset</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2135,7 +2155,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						language. Not applicable to L1-instruction. A related field in CMSCL is
 						`learner_target_language_learning_context` . </xs:documentation>
 					<xs:appinfo>
-						<displayname>Dauer des Besuchs von Sprachuntericht </displayname>
+						<displayname>Dauer des Sprachunterichts</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2147,7 +2167,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						this value can be equated to the person's age at the time of text producton. A related field in CMSCL is
 						`learner_target_language_learning_context` . </xs:documentation>
 					<xs:appinfo>
-						<displayname>Nutzungsdauer der Sprache</displayname>
+						<displayname>Nutzungsdauer</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2171,8 +2191,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						. There is a related field `months_spent_target_language_environment` in
 						CMSCL. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Typ der Institution, in der die Sprache erlernt
-							wurde</displayname>
+						<displayname>Typ der Institution des Unterrichts</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2185,8 +2204,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						L2 is spoken. A related field in CMSCL are
 						`learner_L2_months_spent_L2_environment` and `months_spent_target_language_environment` . </xs:documentation>
 					<xs:appinfo>
-						<displayname>Aufenthaltsdauer in Ländern, in denen L2 gesprochen wird
-						</displayname>
+						<displayname>Aufenthaltsdauer in Ländern, in denen Sprache gesprochen wird</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2207,7 +2225,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						country or territory according to ISO 3166-ALPHA-3). A related field in
 						CMSCL is `learner_target_language_learning_context`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Ort des Deutscherwerbs</displayname>
+						<displayname>Spracherwerbsort</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2219,8 +2237,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						target language is spoken at the time of data collection? A related field in
 						CMSCL is `learner_target_language_environment`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>War der/die Lerner/-in zum Erhebungszeitpunkt im
-							deutschsprachigen Raum? </displayname>
+						<displayname>War der/die Lerner/-in zum Erhebungszeitpunkt in einem Land, in dem die Sprache gesprochen wird?</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2231,8 +2248,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 						at the time of data collection? A related field in CMSCL is
 						`learner_target_language_instructed`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Besuchte die/der Lerner/-in zum Erhebungszeitpunkt
-							Sprachunterricht?</displayname>
+						<displayname>Besuchte die/der Lerner/-in zum Erhebungszeitpunkt Sprachunterricht?</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2250,7 +2266,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					<xs:documentation>learner/L1 speaker proficiency (not harmonised across DAKODA
 						corpora) A related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Bewertung einer Deutschprüfung</displayname>
+						<displayname>Prüfungsbewertung</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2258,11 +2274,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_cefr" type="PROFICIENCY_LEVEL" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Learner/L1 speaker proficiency measured or converted as CEFR
-						level. A related field in LC-meta is
-						`learner_target_language_proficiency_CEFR_conversion`. </xs:documentation>
+					<xs:documentation>Learners' language proficiency (CEFR). An equivalent field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>GER-bezogene Sprachkompetenzmessung</displayname>
+						<displayname>GER-Bewertung</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2270,8 +2284,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_cTestCefr" type="PROFICIENCY_LEVEL" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Level of GeRS-related C-tests A related field in LC-meta is
-						`learner_target_language_proficiency_CEFR_conversion`. </xs:documentation>
+					<xs:documentation>Level of CEFR-related c-tests. An equivalent field in LC-meta is `learner_target_language_proficiency_CEFR_conversion`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>C-Test-GER-Niveau</displayname>
 					</xs:appinfo>
@@ -2283,8 +2296,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_cTestLevelDetail" type="xs:string" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Detailed C-test level. A related field in LC-meta is
-						`learner_target_language_proficiency`. </xs:documentation>
+					<xs:documentation>Detailed c-test level. An equivalent field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>C-Test-Stufe detailliert</displayname>
 					</xs:appinfo>
@@ -2296,7 +2308,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_cTestPercent" type="PERCENT_OR_NA" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>C-test result in per cent. A related field in LC-meta is
+					<xs:documentation>c-test result in per cent. A related field in LC-meta is
 						`learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>C-Test-Ergebnis in Prozent</displayname>
@@ -2307,8 +2319,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_cTestType" type="xs:string" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Type of C-test . A related field in LC-meta is
-						`corpus_learner_proficiency_assignment_instrument`. </xs:documentation>
+					<xs:documentation>Name of the c-test . An equivalent field in LC-meta is `corpus_learner_proficiency_assignment_instrument`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>C-Test-Typ</displayname>
 					</xs:appinfo>
@@ -2319,12 +2330,10 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				maxOccurs="1">
 
 				<xs:annotation>
-					<xs:documentation>Approximate indication of the speaker's minimal language competence;
-						based on GeR-related text assessment if possible. If not, based on C-test
-						result or duration of use (0-2 years = A, 2-5 years = B, >5 years = C) A
-						related field in LC-meta is XXX. </xs:documentation>
+					<xs:documentation>Approximate indication of the speaker's language competence; if possible, based on GeR-related text assessment; if not, based on C-test result or duration of use (0-2 years = A2, 2-5 years = B2, >5 years = C2. If the level cannot be specified precisely, the lower limit of the estimated competence is given here. .A
+						related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>geschätzte Kompetenz (Minimum)</displayname>
+						<displayname>geschätzte minimale Kompetenz</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2334,12 +2343,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				maxOccurs="1">
 				<!--Q: is there a related field in CMCSLC?-->
 				<xs:annotation>
-					<xs:documentation>Approximate indication of the speaker's maximal language competence;
-						based on GeR-related text assessment if possible. If not, based on C-test
-						result or duration of use (0-2 years = A, 2-5 years = B, >5 years = C) A
-						related field in LC-meta is XXX. </xs:documentation>
+					<xs:documentation>Approximate indication of the speaker's language competence; if possible, based on GeR-related text assessment; if not, based on C-test result or duration of use (0-2 years = A2, 2-5 years = B2, >5 years = C2. If the level cannot be specified precisely, the upper limit of the estimated competence is given here. A related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>geschätzte Kompetenz (Maximum)</displayname>
+						<displayname>geschätzte maximale Kompetenz</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2347,8 +2353,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_selfAssessment" type="xs:string" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Self-assessment of German language skills. There is no related
-						field in LC-meta . </xs:documentation>
+					<xs:documentation>Self-assessment of language skills. An equivalent field in LC-meta is `learner_L2_language_proficiency`.</xs:documentation>
 					<xs:appinfo>
 						<displayname>Selbsteinschätzung der Deutschkenntnisse</displayname>
 					</xs:appinfo>
@@ -2358,11 +2363,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_assignmentInstrument" type="xs:string"
 				minOccurs="1" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Name of instrument used to evaluate a speaker's
-						proficiency. A related field in LC-meta is
-						`corpus_learner_proficiency_assignment_instrument`. </xs:documentation>
+					<xs:documentation>Name of instrument used to evaluate learners’ proficiency. An equivalent field in LC-meta is `corpus_learner_proficiency_assignment_instrument`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Instrument der Sprachkompetenzbewertung</displayname>
+						<displayname>Instrument der Bewertung</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2370,11 +2373,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_assignmentMethod"
 				type="PROFICIENCY_ASSESSMENT_METHOD" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>How was the proficiency of the learner/L1 speakers
-						evaluated? How was the proficiency of the learner/L1 speakers evaluated?. A
-						related field in LC-meta is `corpus_learner_proficiency_assignment_method`. </xs:documentation>
+					<xs:documentation>How was the proficiency of the learner evaluated?  An equivalent field in LC-meta is `corpus_learner_proficiency_assignment_method`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Art der sprecherbezogenen Bewertung</displayname>
+						<displayname>Art der lernerbezogenen Bewertung</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2382,12 +2383,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="learner_language_proficiency_documentation" type="xs:anyURI" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Link to relevant documentation on how learner/L1 speakers were
-						evaluated A related field in LC-meta is
-						`corpus_learner_proficiency_documentation`. </xs:documentation>
+					<xs:documentation>Link to relevant documentation on how learners were evaluated. An equivalent field in LC-meta is `corpus_learner_proficiency_documentation`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Dokumentation zu sprecherbezogener
-							Sprachkompetenzangabe</displayname>
+						<displayname>Dokumentation zu Sprachkompetenzangabe</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2485,7 +2483,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>Was the annotation process fully automatic? An equivalent field in LC-meta is `annotation_automatic`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>YYY</displayname>
+						<displayname>Annotation automatisiert?</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2574,16 +2572,16 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<!-- TODO: type may need to change to an enum 
 				do we have a list?-->
 				<xs:annotation>
-					<xs:documentation>The ID of the task within the Dakoda corpus. An equivalent
-						field in LC-meta is `situation_id`. </xs:documentation>
+					<xs:documentation>Unique identifier for the language situation. An equivalent field in LC-meta is `situation_id`. </xs:documentation>
+					<xs:appinfo><displayname>Task-ID (DAKODA-Version)</displayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
 
 			<xs:element name="task_id_orig" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>The ID of the task within the source corpus. An equivalent
-						field in LC-meta is `situation_id`. </xs:documentation>
+					<xs:documentation>The ID of the task within the source corpus. An equivalent field in LC-meta is `situation_id`. </xs:documentation>
+					<xs:appinfo><displayname>Task-ID (Original-Version)</displayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
@@ -2592,7 +2590,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>The title of the task. There is no related field in LC-meta. </xs:documentation>
 					<xs:appinfo>
-						<displayname>YYY</displayname>
+						<displayname>Titel</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2600,8 +2598,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_comparison" type="POSSIBILITIES_FOR_COMPARISONS" minOccurs="1"
 				maxOccurs="1" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Possibility of comparing tasks and time points There is no
-						related field in LC-meta . </xs:documentation>
+					<xs:documentation>Possibility of comparing tasks and time points. There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Design</displayname>
 					</xs:appinfo>
@@ -2611,8 +2608,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_description" type="xs:string" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Short description of the task A related field in LC-meta is
-						`task_instructions`. </xs:documentation>
+					<xs:documentation>Short description of the task. A related field in LC-meta is  `task_instructions`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Beschreibung</displayname>
 					</xs:appinfo>
@@ -2622,32 +2618,27 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_descriptionDetailed" type="xs:string" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Further descriptions with source reference A related field in
-						LC-meta is `task_instructions`. </xs:documentation>
+					<xs:documentation>Further descriptions with source reference. A related field in LC-meta is `task_instructions`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Beschreibung detailliert</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
-
 			<xs:element name="task_durationMinutes" type="TASK_DURATION" minOccurs="1" maxOccurs="1"
 				default="notApplicable">
 				<xs:annotation>
-					<xs:documentation>Task duration in minutes A related field in LC-meta is
-						`task_duration_minutes`. </xs:documentation>
+					<xs:documentation>Task duration in minutes.  An equivalent field in LC-meta is `task_duration_minutes`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Zeitlimit</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
-
 			<xs:element name="task_instructions" type="xs:string" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Wording of the task A related field in LC-meta is
-						`task_instructions`. </xs:documentation>
+					<xs:documentation>Wording of the task. A related field in LC-meta is `task_instructions`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Aufgabenstellung</displayname>
 					</xs:appinfo>
@@ -2670,12 +2661,22 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 
-			<xs:element name="task_level" type="PROFICIENCY_LEVEL" minOccurs="1"
+			<xs:element name="task_levelMax" type="PROFICIENCY_LEVEL" minOccurs="1"
 				maxOccurs="unbounded" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>CEFR level of the task There is no related field in LC-meta . </xs:documentation>
+					<xs:documentation>CEFR level of the task;  if only approximately known, enter the maximum value here. There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
-						<displayname>Niveaustufe</displayname>
+						<displayname>Niveaustufe (Maximum)</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="task_levelMin" type="PROFICIENCY_LEVEL" minOccurs="1"
+				maxOccurs="unbounded" default="notAvailable">
+				<xs:annotation>
+					<xs:documentation>CEFR level of the task; if only approximately known, enter the minimum value here. There is no related field in LC-meta . </xs:documentation>
+					<xs:appinfo>
+						<displayname>Niveaustufe (Minimum)</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2683,11 +2684,10 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_officialLanguageTest" type="BOOL_OR_NA" minOccurs="1"
 				maxOccurs="1" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Is the task taken part of an official assignment? A related
+					<xs:documentation>Is the task taken as part of an official assignment? A related
 						field in LC-meta is `task_assessed`. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Ist die Aufgabe Teil eines offiziellen
-							Sprachtests?</displayname>
+						<displayname>Ist die Aufgabe Teil eines offiziellen	Sprachtests?</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2696,7 +2696,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_officialLanguageTestSpecific" type="xs:string" minOccurs="1"
 				maxOccurs="1" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Official language test from which the task originates There is
+					<xs:documentation>Official language test from which the task originates. There is
 						no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Sprachtest</displayname>
@@ -2707,8 +2707,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_options" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Were learners able to choose between different tasks? There is
-						norelated field in LC-meta . </xs:documentation>
+					<xs:documentation>Were learners able to choose between different tasks? There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Auswahlmöglichkeit</displayname>
 					</xs:appinfo>
@@ -2730,7 +2729,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_stimulusType" type="TASK_STIMULUS_TYPE" minOccurs="1"
 				maxOccurs="unbounded" default="notApplicable">
 				<xs:annotation>
-					<xs:documentation>Categorisation of the stimulus material There is no related
+					<xs:documentation>Categorisation of the stimulus material. There is no related
 						field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Stimulustyp</displayname>
@@ -2754,10 +2753,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_interaction_conceptualMode"
 				type="DATA_PRODUCTION_SETTING_CONCEPTUAL_MODE" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Conceptual mode in which data production took place:
-						spoken/oral or written. This reflects Koch und Österreichers model of
-						proximity (conceptual orality) and distance (conceptual literacy). A related
-						field in LC-meta is `situation_medium`. </xs:documentation>
+					<xs:documentation>Conceptual orality (immediacy) or conceptual literacy (distance) according to Koch and Oesterreicher's model of "Nähe und Distanz" . An equivalent field in LC-meta is `situation_medium`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Konzeptuelle Mündlichkeit oder Schriftlichkeit</displayname>
 					</xs:appinfo>
@@ -2769,9 +2765,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				type="RHETORICAL_FUNCTIONS" minOccurs="1" maxOccurs="unbounded"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>The communicative purpose of the task; the rhetorical
-						functions that need to be performed to complete the task. An equivalent
-						field in LC-meta is `situation_purpose`. </xs:documentation>
+					<xs:documentation>The communicative purpose. An equivalent field in LC-meta is  `XXX`.`situation_purpose`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>rhetorische Funktionen</displayname>
 					</xs:appinfo>
@@ -2782,15 +2776,19 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_interaction_formality" type="FORMALITY_TYPE" minOccurs="1"
 				maxOccurs="1" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Formality level of the task There is no related field in LC-meta
-						. </xs:documentation>
+					<xs:documentation>Formality level of the task. Related fields in LC-meta are  `situation_mode` and `corpus_mode`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Formalität</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_interaction_mode" type="Task_Interaction_Mode"/>
+			<xs:element name="task_interaction_mode" type="DATA_PRODUCTION_SETTING_MODE">
+				<xs:annotation>
+					<xs:documentation>Corpus modality. An equivalent field in LC-meta is  `situation_mode`.</xs:documentation>
+					<xs:appinfo><displayname>Modalität</displayname></xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 
 
 
@@ -2813,9 +2811,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task_interaction_participants" type="NUMBER_PARTICIPANTS"
 				minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Number of speakers/writers involved in the production of a
-						text. LC-meta has a related field
-						`corpus_single_or_multi_author`.</xs:documentation>
+					<xs:documentation>Number of speakers. An equivalent field in LC-meta is `corpus_single_or_multi_author`.</xs:documentation>
 					<xs:appinfo>
 						<displayname>Anzahl der Sprecher:innen</displayname>
 					</xs:appinfo>
@@ -2825,9 +2821,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="task_interaction_type" type="LEARNER_TASK_TYPE" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>The modality (e.g. spoken, written) in which the task was
-						performed . An equivalent field in LC-meta is `situation_register`.
-					</xs:documentation>
+					<xs:documentation>Register. An equivalent field in LC-meta is `situation_register`.	</xs:documentation>
+					<xs:appinfo><displayname>Aufgabenart</displayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -2835,15 +2830,15 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 
-
+<!--
 	<xs:complexType name="Task_Interaction_Mode">
 		<xs:sequence>
 
-			<!-- Q: was ist die Definition von corpus mode  
+			<!-\- Q: was ist die Definition von corpus mode  
 				AP: ich würde vorschlagen corpus_mode und situation mode aus den CMLC-Variablen beide mit dieser Variable zu matchen. siehe Schema-Exceltabelle. 
 				JR: dann ist die Mindmap irreführend bzw. graphisch ambig. Da sieht es so aus, als ob task_ineraction_mode eine Zwischenebene ist unter task/interaction
 				Vllt ist auf der mindmap aktuell nicht unterscheidbar, ob ein "leaf"-Knoten noch zum dakoda-schema gehört oder eine Entsprechung in LC-meta darstellt?
-			-->
+			-\->
 			<xs:element name="corpus_mode" type="DATA_PRODUCTION_SETTING_MODE" minOccurs="1"
 				maxOccurs="unbounded" default="notAvailable">
 				<xs:annotation>
@@ -2867,7 +2862,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 		</xs:sequence>
-	</xs:complexType>
+	</xs:complexType>-->
 
 
 
@@ -2878,9 +2873,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="text_file" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Shared ID for files related to learner production (copies of
-						handwritten texts in pdf, transcriptions, sound files, videos, etc.) A
-						related field in LC-meta is `text_file. </xs:documentation>
+					<xs:documentation>Shared ID for files related to the same learner production (copies of
+						handwritten texts in pdf, transcriptions, sound files, videos, etc.).  An equivalent field in LC-meta is `text_file. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Dokumenten-ID</displayname>
 					</xs:appinfo>
@@ -2891,8 +2885,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<!-- TODO: type may need to change to a pattern: 
 					maybe something to talk about with TZ? -->
 				<xs:annotation>
-					<xs:documentation>Unique identifier for the text within the Dakoda corpus. A
-						related field in LC-meta is `text_id`. </xs:documentation>
+					<xs:documentation>Unique identifier for the text. A related field in LC-meta is `text_id`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Text-ID</displayname>
 					</xs:appinfo>
@@ -2903,7 +2896,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<!-- type may need to change to a pattern -->
 
 				<xs:annotation>
-					<xs:documentation>Unique identifier(s) for the text within the source corpus. A
+					<xs:documentation>Unique identifier(s) for the text (original version). A
 						related field in LC-meta is `text_id`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Text-ID(s) (Original-Version)</displayname>
@@ -2915,8 +2908,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<!-- Q: check definition  AP: OK. Hier könnten auch die Definitionen aus "description" aus der Schema-Esceltabelle stehen 
 					JR: in  der excel Dakoda schema 25-06-03 steht aber kein Eintrag zu text_language-->
 				<xs:annotation>
-					<xs:documentation>The target language of the text. An eqivalent field in LC-meta
-						is `text_language`. </xs:documentation>
+					<xs:documentation>Language. An eqivalent field in LC-meta is `text_language`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Sprache des Textes</displayname>
 					</xs:appinfo>
@@ -2929,7 +2921,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="text_longitudinalOrder" type="xs:positiveInteger" minOccurs="0"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Number that reflects a particular iteration in cas the text
+					<xs:documentation>Number that reflects a particular iteration in case the text
 						was collected as part of a sequence of longitudinally collected data. There
 						is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
@@ -2941,8 +2933,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="text_timeOfCreation" type="YEAR_OR_YEAR_SPAN" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Time of creation A related field in LC-meta is
-						`text_time_of_creation`. </xs:documentation>
+					<xs:documentation>Time of creation. An equivalent field in LC-meta is `text_time_of_creation`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Produktionsdatum</displayname>
 					</xs:appinfo>
@@ -2952,8 +2943,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="text_tokenCount" type="xs:positiveInteger">
 				<xs:annotation>
-					<xs:documentation>The number of tokens in the text. An eqivalent field in LC-meta
-						is `text_token_count`. </xs:documentation>
+					<xs:documentation>Number of tokens in the text. An equivalent field in LC-meta is `text_token_count`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Textlänge in Token</displayname>
 					</xs:appinfo>
@@ -2963,7 +2953,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="text_clauseCount" type="xs:positiveInteger" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Number of sentences There is no related field in LC-meta . </xs:documentation>
+					<xs:documentation>Number of sentences. There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Textlänge in Sätzen</displayname>
 					</xs:appinfo>
@@ -2974,8 +2964,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="text_topicAutom" type="TOPIC_TYPE" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Automatically assigned topic of the text . A related field in
-						LC-meta is `situation_topic_domain`. </xs:documentation>
+					<xs:documentation>Automatically assigned topic of the text . An equivalent field in LC-meta is `situation_topic_domain`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Textthema (automatisch)</displayname>
 					</xs:appinfo>
@@ -2985,8 +2974,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 			<xs:element name="text_note" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Any comments on the text and its origins A related field in
-						LC-meta is `text_note`. </xs:documentation>
+					<xs:documentation>Any comments on the text and its origins. An equivalent field in LC-meta is `text_note`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Kommentar (Text)</displayname>
 					</xs:appinfo>
@@ -3009,23 +2997,21 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	<xs:element name="text_learner_ageProduction" type="POS_NUMBER_OR_NA">
 
 		<xs:annotation>
-			<xs:documentation>The age in years of the learner at the time of data
-				collection. An equivalent field in LC-meta is `learner_age`.
+			<xs:documentation>Age at time of text production. An equivalent field in LC-meta is `learner_age`.
 			</xs:documentation>
+			<xs:appinfo><displayname>Alter</displayname></xs:appinfo>
 		</xs:annotation>
 	</xs:element>
 	
 	<xs:element name="text_learner_ageProductionAggregated" type="LEARNER_AGE_RANGE"
 		default="notAvailable">
 		<xs:annotation>
-			<xs:documentation>The age range into which the speaker's age at the time of
-				data collection falls. An related field in LC-meta is `learner_age`.
-			</xs:documentation>
+			<xs:documentation>Rough age range at the time of the data collection . A related field in LC-meta is `learner_age`.</xs:documentation>
+			<xs:appinfo><displayname>Alter gruppiert</displayname></xs:appinfo>
 		</xs:annotation>
 	</xs:element>
 	
-	<xs:element name="text_learner_role" type="xs:string" minOccurs="1"
-		maxOccurs="unbounded">
+	<xs:element name="text_learner_role" type="xs:string" minOccurs="1" maxOccurs="unbounded">
 		<xs:annotation>
 			<xs:documentation>Role of the person in this event . There is no related field
 				in LC-meta . </xs:documentation>
@@ -3046,8 +3032,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		<xs:element name="text_proficiency_assignmentInstrument" type="xs:string" minOccurs="1"
 			maxOccurs="1" default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>Name of instrument used to evaluate a text's proficiency A
-					related field in LC-meta is `corpus_text_proficiency_assignment_instrument`. </xs:documentation>
+				<xs:documentation>Name of instrument used to evaluate a text's proficiency. An equivalent field in LC-meta is `corpus_text_proficiency_assignment_instrument`. </xs:documentation>
 				<xs:appinfo>
 					<displayname>Instrument zur Textbewertung</displayname>
 				</xs:appinfo>
@@ -3059,8 +3044,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			type="PROFICIENCY_ASSIGNMENT_METHOD_TYPE" minOccurs="1" maxOccurs="1"
 			default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>How were the texts evaluated? A related field in LC-meta is
-					`corpus_text_proficiency_assignment_method . </xs:documentation>
+				<xs:documentation>How were the texts evaluated? An equivalent field in LC-meta is `corpus_text_proficiency_assignment_method . </xs:documentation>
 				<xs:appinfo>
 					<displayname>Rahmen der textbezogen Bewertung</displayname>
 				</xs:appinfo>
@@ -3069,8 +3053,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		
 		<xs:element name="text_proficiency_cefr" type="COARSE_CEFR_LEVEL" default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>Conversion of text proficiency score to CEFR. A related field
-					in LC-meta is `text_proficiency_CEFR_conversion`. </xs:documentation>
+				<xs:documentation>Conversion of text proficiency score to CEFR. An equivalent field in LC-meta is `text_proficiency_CEFR_conversion`. </xs:documentation>
 				<xs:appinfo>
 					<displayname>GER-bezogene Textbewertung</displayname>
 				</xs:appinfo>
@@ -3078,16 +3061,30 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:element>
 		
 		
-		<xs:element name="text_proficiency_cefrAutom" type="COARSE_CEFR_LEVEL"
+		<xs:element name="text_proficiency_cefrAutomMax" type="COARSE_CEFR_LEVEL"
 			default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>Automatically generated coarse CEFR level. A related field in
+				<xs:documentation>Automatically generated rough level A, B or C based on CEFR; maximum value of the result. A related field in
 					LC-meta is `text_proficiency`. </xs:documentation>
 				<xs:appinfo>
-					<displayname>automatische Textbewertung</displayname>
+					<displayname>automatische Textbewertung (Maximum)</displayname>
 				</xs:appinfo>
 			</xs:annotation>
 		</xs:element>
+		
+		
+		
+		<xs:element name="text_proficiency_cefrAutomMin" type="COARSE_CEFR_LEVEL"
+			default="notAvailable">
+			<xs:annotation>
+				<xs:documentation>Automatically generated rough level A, B or C based on CEFR; minimum value of the result. A related field in
+					LC-meta is `text_proficiency`. </xs:documentation>
+				<xs:appinfo>
+					<displayname>automatische Textbewertung (Minimum)</displayname>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:element>
+		
 		
 		
 		
@@ -3095,8 +3092,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			default="www.example.com">
 			<xs:annotation>
 				<xs:documentation>Link to relevant documentation on how texts were evaluated
-					(descriptors, rubric, etc.). A related field in LC-meta is
-					`corpus_text_proficiency_documentation`. </xs:documentation>
+					(descriptors, rubric, etc.).An equivalent field in LC-meta is `corpus_text_proficiency_documentation`. </xs:documentation>
 				<xs:appinfo>
 					<displayname>Dokumentation zu textbezogener Kompetenzangabe</displayname>
 				</xs:appinfo>
@@ -3109,8 +3105,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				<xs:annotation>
 					<xs:documentation>Results of the official language test (score for the text; not
 						global score which should be recorded at the level of the learner/L1 speaker
-						metadata) A related field in LC-meta is
-						`text_official_language_testing_score`. </xs:documentation>
+						metadata). An equivalent field in LC-meta is  `text_official_language_testing_score`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Bewertung im Rahmen eines offiziellen Sprachtests</displayname>
 					</xs:appinfo>
@@ -3122,7 +3117,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Proficiency score or level for the text (not harmonised across
-						DAKODA corpora) A related field in LC-meta is `text_proficiency`. </xs:documentation>
+						DAKODA corpora). An equivalent field in LC-meta is `text_proficiency`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>Note, Punktanzahl oder schriftliches Urteil</displayname>
 					</xs:appinfo>
@@ -3145,11 +3140,10 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		<xs:sequence>
 			
 
-			<xs:element name="text_annotation_borrowed" type="BOOL_OR_NA" minOccurs="1"
+			<xs:element name="text_annotation_borrowed_orig" type="BOOL_OR_NA" minOccurs="1"
 				maxOccurs="1" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Does the text contain annotations for structures taken from
-						the task prompt? There is no related field in LC-meta . </xs:documentation>
+					<xs:documentation>Does the text contain annotations for structures taken from the task prompt? There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Enthält der Text Annotationen zu aus der Aufgabenstellung
 							übernommenen Strukturen?</displayname>
@@ -3157,13 +3151,12 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="text_annotation_hasErrorAnnotation" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1"
+			<xs:element name="text_annotation_hasErrorAnnotation_orig" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Is the text error-annotated? There is no related field in
-						LC-meta . </xs:documentation>
+					<xs:documentation>Is the text error-annotated? There is no related field in	LC-meta . </xs:documentation>
 					<xs:appinfo>
-						<displayname>Fehlerannotation </displayname>
+						<displayname>Fehlerannotation</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3171,10 +3164,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="text_annotation_hasTargetHypotheses" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1"
 				default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Is the text annotated with target hypotheses? There is no related field in
-						LC-meta . </xs:documentation>
+					<xs:documentation>Does the text have a target hypothesis or other type of normalisation? There is no related field in LC-meta. </xs:documentation>
 					<xs:appinfo>
-						<displayname>Zielhypothesenannotation </displayname>
+						<displayname>Zielhypothesenannotation</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
