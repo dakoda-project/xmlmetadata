@@ -157,6 +157,8 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 			<xs:enumeration value="SOV; SVO"/>
 			<xs:enumeration value="no dominant order"/>
 			<xs:enumeration value="unclear"/>
+			<!-- TODO:	temporary fix as long as we have lgs where we cant do a proper lookup -->
+			<xs:enumeration value="notAvailable"/>
 			<!-- Q: do we need a value "notAvailable" ? - AP: Nein. Ich habe die Werte aktualisiert: kein "notAvaible"; außerdem: "SVO or VSO" wird zu zwei Werten: "SVO"; "VSO"; 
 			JR: Ich kann dann aber keine Reihenfolge SOV VSO oder VSO SVO garantieren ! -->
 		</xs:restriction>
@@ -692,6 +694,23 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 	</xs:simpleType>
 
 
+	<xs:simpleType name="NON_NEG_NUMBER_OR_NA">
+		<xs:annotation>
+			<xs:documentation>A non-negative integer or float or a string indicating that no value is avaiablle
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xs:nonNegativeInteger LimitedDouble NA_STRING"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="LimitedDouble">
+		<xs:restriction base="xs:double">
+			<xs:minExclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+
+
+
 	<xs:simpleType name="POS_NUMBER_OR_NA">
 		<xs:annotation>
 			<xs:documentation>A positive integer or float or a string indicating that no value is avaiablle
@@ -699,9 +718,7 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 		</xs:annotation>
 		<xs:union memberTypes="xs:positiveInteger POS_FLOAT NA_STRING"/>
 	</xs:simpleType>
-
-
-
+	
 
 
 	<xs:simpleType name="YEAR_SPAN">
@@ -902,7 +919,6 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 	<xs:simpleType name="DKD_TRG_LANG">
-	<!--	it's strange that eng would be  among the dkd target languages?!	-->
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="arc"/>
 			<xs:enumeration value="kur"/>
@@ -1690,11 +1706,6 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 			<xs:element name="corpus_project_URL_dkd" type="xs:anyURI" minOccurs="0" maxOccurs="1">
-				<!-- Q : wouldn't it make more sense to link to the original project? 
-				the  dkd repo has pages about the corpora but we don't have pages about the projects that created the corpora  
-				AP: prinzipiell hast du recht. Wir haben jedoch andere Links und Projektlinks vor der Entscheidung zusammengefasst in corpus_admin_referencesOther, 
-				Die Arbeit das aufzudröseln sparen wir uns  
-				JR: was kommt hier mal rein? -->
 				<xs:annotation>
 					<xs:documentation>Link to related research project. A related variable in LC-meta
 						is `corpus_related_research_project_URL`</xs:documentation>
@@ -1703,6 +1714,19 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			
+			<xs:element name="corpus_project_URL_orig" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Link to related research project. A related variable in LC-meta
+						is `corpus_related_research_project_URL`</xs:documentation>
+					<xs:appinfo>
+						<displayname>Projektwebsite (Original-Version)</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			
+			
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1924,7 +1948,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="learner_note" type="xs:string">
+			<xs:element name="learner_note" type="xs:string" default="notAvailable">
 
 				<xs:annotation>
 					<xs:documentation>Any comments regarding this learner/L1 speaker. An equivalent field in LC-meta is `learner_note`. </xs:documentation>
@@ -1945,7 +1969,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	<xs:complexType name="Sociodemographics">
 		<xs:sequence>
 
-			<xs:element name="learner_socio_birthplace" type="COUNTRY_TYPE">
+			<xs:element name="learner_socio_birthplace" type="COUNTRY_TYPE" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Place of birth of the speaker. This is coded as country or territory.
 						There is no related field in CMSCL. </xs:documentation>
@@ -1955,7 +1979,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_socio_country" type="COUNTRY_TYPE">
+			<xs:element name="learner_socio_country" type="COUNTRY_TYPE" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Country in which the learner spent most of his/her childhood.
 						There is a related field in CMSCL, `learner_country`. </xs:documentation>
@@ -1965,8 +1989,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_socio_educationalBackground" type="EDUCATIONAL_STAGE"
-				minOccurs="0" maxOccurs="1">
+			<xs:element name="learner_socio_educationalBackground" type="EDUCATIONAL_STAGE" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Highest level of education attained by the learner. There is a
 						related field in LC-meta called `learner_educational_background`. </xs:documentation>
@@ -1976,7 +1999,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_socio_gender" maxOccurs="1" minOccurs="1" type="GENDER">
+			<xs:element name="learner_socio_gender" maxOccurs="1" minOccurs="1" type="GENDER" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Learner/L1 speaker gender. An equivalent field in LC-meta is `learner_gender`. </xs:documentation>
 					<xs:appinfo>
@@ -1996,8 +2019,10 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_socio_profession" type="xs:string" minOccurs="1"
-				maxOccurs="unbounded">
+
+			<!-- notAvailable; 
+			if productionSetting_educationalStage=[early childhood, primary, lower secondary, upper secondary, post-secondary non-tertiary, short-cycle tertiary] -> notApplicable -->
+			<xs:element name="learner_socio_profession" type="xs:string" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Occupation. An equivalent field in LC-meta is `learner_socioeconomic_status`. </xs:documentation>
 					<xs:appinfo>
@@ -2036,8 +2061,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="learner_language_status" type="LANG_STATUS" minOccurs="1"
-				maxOccurs="unbounded">
+			<xs:element name="learner_language_status" type="LANG_STATUS" minOccurs="1" maxOccurs="unbounded" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>What status does the language have for the learner? There is no single equivalent field in LC-meta. </xs:documentation>
 					<xs:appinfo>
@@ -2075,7 +2099,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="learner_language_isSpokenHome" type="BOOL_OR_NA">
+			<xs:element name="learner_language_isSpokenHome" type="BOOL_OR_NA" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Is the language(s) spoken at home </xs:documentation>
 					<xs:appinfo>
@@ -2085,8 +2109,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_language_isSpokenSchool" maxOccurs="unbounded" minOccurs="0"
-				type="BOOL_OR_NA">
+			<xs:element name="learner_language_isSpokenSchool" maxOccurs="unbounded" minOccurs="0" type="BOOL_OR_NA" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Is the language(s) spoken in school</xs:documentation>
 					<xs:appinfo>
@@ -2097,8 +2120,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="learner_language_parentL1" maxOccurs="1" minOccurs="0"
-				type="Language">
+			<xs:element name="learner_language_parentL1" maxOccurs="1" minOccurs="0" type="Language">
 
 				<xs:annotation>
 					<xs:documentation>Parent L1(s) </xs:documentation>
@@ -2127,7 +2149,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		<xs:sequence>
 
 
-			<xs:element name="learner_language_exposure_onset" type="POS_NUMBER_OR_NA">
+			<xs:element name="learner_language_exposure_onset" type="NON_NEG_NUMBER_OR_NA">
 				<xs:annotation>
 					<xs:documentation>Age of Onset. Related field in CMSCL are
 						`learner_target_language_onset` and `learner_L"_language_onset`. </xs:documentation>
@@ -2426,7 +2448,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="annotator_note" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="annotator_note" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Any comments regarding the annotator. An equivalent field in LC-meta is `annotator_note`. </xs:documentation>
 					<xs:appinfo>
@@ -2498,8 +2520,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="annotation_documentation" type="xs:anySimpleType" minOccurs="1"
-				maxOccurs="1">
+			<xs:element name="annotation_documentation" type="xs:anySimpleType" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Plain text description of annotation or link to documentation
 						An equivalent field in LC-meta is `annotation_documentation`. </xs:documentation>
@@ -2681,6 +2702,17 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
+			<xs:element name="task_assessed" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1" default="notAvailable">
+				<xs:annotation>
+					<xs:documentation>Was the task part of an exam or any other type of language assessment settings (informal or for obtaining a certificate)? A related field in LC-meta is `task_assessed`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>Ist die Aufgabe Teil eines Sprachtests?</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+
+
 			<xs:element name="task_officialLanguageTest" type="BOOL_OR_NA" minOccurs="1"
 				maxOccurs="1" default="notAvailable">
 				<xs:annotation>
@@ -2783,13 +2815,12 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_interaction_mode" type="DATA_PRODUCTION_SETTING_MODE">
+						<xs:element name="task_interaction_mode" type="DATA_PRODUCTION_SETTING_MODE">
 				<xs:annotation>
-					<xs:documentation>Corpus modality. An equivalent field in LC-meta is  `situation_mode`.</xs:documentation>
+					<xs:documentation>Corpus modality. Related fields in LC-meta are `corpus_mode` and `situation_mode`.</xs:documentation>
 					<xs:appinfo><displayname>Modalität</displayname></xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-
 
 
 			<xs:element name="task_interaction_participantsL1L2-interaction"
@@ -2930,8 +2961,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="text_timeOfCreation" type="YEAR_OR_YEAR_SPAN" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="text_timeOfCreation" type="YEAR_OR_YEAR_SPAN" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Time of creation. An equivalent field in LC-meta is `text_time_of_creation`. </xs:documentation>
 					<xs:appinfo>
@@ -2972,7 +3002,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 			
 
-			<xs:element name="text_note" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="text_note" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Any comments on the text and its origins. An equivalent field in LC-meta is `text_note`. </xs:documentation>
 					<xs:appinfo>
@@ -2994,7 +3024,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	<xs:complexType name="Text_Learner">
 		<xs:sequence>
 
-	<xs:element name="text_learner_ageProduction" type="POS_NUMBER_OR_NA">
+	<xs:element name="text_learner_ageProduction" type="POS_NUMBER_OR_NA" default="notAvailable">
 
 		<xs:annotation>
 			<xs:documentation>Age at time of text production. An equivalent field in LC-meta is `learner_age`.
@@ -3002,9 +3032,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:appinfo><displayname>Alter</displayname></xs:appinfo>
 		</xs:annotation>
 	</xs:element>
-	
-	<xs:element name="text_learner_ageProductionAggregated" type="LEARNER_AGE_RANGE"
-		default="notAvailable">
+ 
+	<xs:element name="text_learner_ageProductionAggregated" type="LEARNER_AGE_RANGE" default="notAvailable">
 		<xs:annotation>
 			<xs:documentation>Rough age range at the time of the data collection . A related field in LC-meta is `learner_age`.</xs:documentation>
 			<xs:appinfo><displayname>Alter gruppiert</displayname></xs:appinfo>
@@ -3029,8 +3058,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	<xs:sequence>
 
 
-		<xs:element name="text_proficiency_assignmentInstrument" type="xs:string" minOccurs="1"
-			maxOccurs="1" default="notAvailable">
+		<xs:element name="text_proficiency_assignmentInstrument" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 			<xs:annotation>
 				<xs:documentation>Name of instrument used to evaluate a text's proficiency. An equivalent field in LC-meta is `corpus_text_proficiency_assignment_instrument`. </xs:documentation>
 				<xs:appinfo>
@@ -3040,9 +3068,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:element>
 		
 		
-		<xs:element name="text_proficiency_assignmentMethod"
-			type="PROFICIENCY_ASSIGNMENT_METHOD_TYPE" minOccurs="1" maxOccurs="1"
-			default="notAvailable">
+		<xs:element name="text_proficiency_assignmentMethod" type="PROFICIENCY_ASSIGNMENT_METHOD_TYPE" minOccurs="1" maxOccurs="1" default="notAvailable">
 			<xs:annotation>
 				<xs:documentation>How were the texts evaluated? An equivalent field in LC-meta is `corpus_text_proficiency_assignment_method . </xs:documentation>
 				<xs:appinfo>
@@ -3061,8 +3087,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:element>
 		
 		
-		<xs:element name="text_proficiency_cefrAutomMax" type="COARSE_CEFR_LEVEL"
-			default="notAvailable">
+		<xs:element name="text_proficiency_cefrAutomMax" type="COARSE_CEFR_LEVEL" default="notAvailable">
 			<xs:annotation>
 				<xs:documentation>Automatically generated rough level A, B or C based on CEFR; maximum value of the result. A related field in
 					LC-meta is `text_proficiency`. </xs:documentation>
@@ -3088,8 +3113,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		
 		
 		
-		<xs:element name="text_proficiency_documentation" type="xs:anyURI"
-			default="www.example.com">
+		<xs:element name="text_proficiency_documentation" type="xs:anyURI" default="notAvailable">
+			<!-- Q: does notAvailable work a URI? -->
 			<xs:annotation>
 				<xs:documentation>Link to relevant documentation on how texts were evaluated
 					(descriptors, rubric, etc.).An equivalent field in LC-meta is `corpus_text_proficiency_documentation`. </xs:documentation>
@@ -3100,8 +3125,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:element>
 		
 		
-			<xs:element name="text_proficiency_official_languageTestingScore" type="xs:string" minOccurs="1"
-				maxOccurs="1" default="notAvailable">
+			<xs:element name="text_proficiency_official_languageTestingScore" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Results of the official language test (score for the text; not
 						global score which should be recorded at the level of the learner/L1 speaker
@@ -3113,8 +3137,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="text_proficiency_score" type="xs:string" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="text_proficiency_score" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Proficiency score or level for the text (not harmonised across
 						DAKODA corpora). An equivalent field in LC-meta is `text_proficiency`. </xs:documentation>
@@ -3140,29 +3163,25 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		<xs:sequence>
 			
 
-			<xs:element name="text_annotation_borrowed_orig" type="BOOL_OR_NA" minOccurs="1"
-				maxOccurs="1" default="notAvailable">
+			<xs:element name="text_annotation_borrowed_orig" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Does the text contain annotations for structures taken from the task prompt? There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
-						<displayname>Enthält der Text Annotationen zu aus der Aufgabenstellung
-							übernommenen Strukturen?</displayname>
+						<displayname>Enthält der Text Annotationen zu aus der Aufgabenstellung übernommenen Strukturen?</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="text_annotation_hasErrorAnnotation_orig" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="text_annotation_hasErrorAnnotation_orig" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
-					<xs:documentation>Is the text error-annotated? There is no related field in	LC-meta . </xs:documentation>
+					<xs:documentation>Is the text error-annotated? There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
 						<displayname>Fehlerannotation</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="text_annotation_hasTargetHypotheses" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="text_annotation_hasTargetHypotheses" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Does the text have a target hypothesis or other type of normalisation? There is no related field in LC-meta. </xs:documentation>
 					<xs:appinfo>
