@@ -259,6 +259,8 @@
             <xs:enumeration value="YEM"/>
             <xs:enumeration value="ZMB"/>
             <xs:enumeration value="ZWE"/>
+            <!-- hack -->
+            <xs:enumeration value="notAvailable"/>
         </xs:restriction>
 
     </xs:simpleType>

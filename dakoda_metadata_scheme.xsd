@@ -709,7 +709,15 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 	</xs:simpleType>
 	
 
-
+	<xs:simpleType name="POS_INT_OR_NA">
+		<xs:annotation>
+			<xs:documentation>A positive integer or a string indicating that no value is available
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xs:positiveInteger NA_STRING"/>
+	</xs:simpleType>
+	
+	
 
 	<xs:simpleType name="POS_NUMBER_OR_NA">
 		<xs:annotation>
@@ -772,7 +780,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	</xs:simpleType>
 
 	<xs:simpleType name="NUMBER_PARTICIPANTS">
-		<xs:union memberTypes="xs:integer INT_SPAN"/>
+		<xs:union memberTypes="xs:integer INT_SPAN NA_STRING"/>
 	</xs:simpleType>
 
 
@@ -860,8 +868,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 	<xs:simpleType name="PROFICIENCY_ASSIGNMENT_METHOD">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="learner-centered"/>
-			<xs:enumeration value="text-centered"/>
+			<xs:enumeration value="learner-centred"/>
+			<xs:enumeration value="text-centred"/>
 			<xs:enumeration value="automatic"/>
 			<xs:enumeration value="none"/>
 			<xs:enumeration value="notAvailable"/>
@@ -1805,7 +1813,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 
-			<xs:element name="production_setting_schoolGrade" type="xs:integer" minOccurs="0"
+			<xs:element name="production_setting_schoolGrade" type="POS_INT_OR_NA" minOccurs="0"
 				maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>School year in which the productions were collected. There is no related field in LC-meta. </xs:documentation>
@@ -2032,7 +2040,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="learner_socio_schoolGrade" type="xs:positiveInteger" minOccurs="1"
+			<xs:element name="learner_socio_schoolGrade" type="POS_INT_OR_NA" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>School year in which the text was collected. There is no
@@ -2206,8 +2214,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="learner_language_exposure_institution" type="xs:string" minOccurs="0"
-				maxOccurs="unbounded">
+			<xs:element name="learner_language_exposure_institution" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Type of institution in which the learner learnt the language
 						. There is a related field `months_spent_target_language_environment` in
@@ -2606,8 +2613,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_title" type="xs:string" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="task_title" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>The title of the task. There is no related field in LC-meta. </xs:documentation>
 					<xs:appinfo>
@@ -2616,8 +2622,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_comparison" type="POSSIBILITIES_FOR_COMPARISONS" minOccurs="1"
-				maxOccurs="1" default="notAvailable">
+			<xs:element name="task_comparison" type="POSSIBILITIES_FOR_COMPARISONS" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Possibility of comparing tasks and time points. There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
@@ -2626,8 +2631,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_description" type="xs:string" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="task_description" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Short description of the task. A related field in LC-meta is  `task_instructions`. </xs:documentation>
 					<xs:appinfo>
@@ -2636,8 +2640,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_descriptionDetailed" type="xs:string" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="task_descriptionDetailed" type="xs:string" minOccurs="1" maxOccurs="1" 	default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Further descriptions with source reference. A related field in LC-meta is `task_instructions`. </xs:documentation>
 					<xs:appinfo>
@@ -2646,8 +2649,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_durationMinutes" type="TASK_DURATION" minOccurs="1" maxOccurs="1"
-				default="notApplicable">
+			<xs:element name="task_durationMinutes" type="TASK_DURATION" minOccurs="1" maxOccurs="1" default="notApplicable">
 				<xs:annotation>
 					<xs:documentation>Task duration in minutes.  An equivalent field in LC-meta is `task_duration_minutes`. </xs:documentation>
 					<xs:appinfo>
@@ -2656,8 +2658,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_instructions" type="xs:string" minOccurs="1" maxOccurs="1"
-				default="notAvailable">
+			<xs:element name="task_instructions" type="xs:string" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Wording of the task. A related field in LC-meta is `task_instructions`. </xs:documentation>
 					<xs:appinfo>
@@ -2805,8 +2806,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="task_interaction_formality" type="FORMALITY_TYPE" minOccurs="1"
-				maxOccurs="1" default="notAvailable">
+			<xs:element name="task_interaction_formality" type="FORMALITY_TYPE" minOccurs="1"	maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Formality level of the task. Related fields in LC-meta are  `situation_mode` and `corpus_mode`. </xs:documentation>
 					<xs:appinfo>
@@ -2949,7 +2949,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 
-			<xs:element name="text_longitudinalOrder" type="xs:positiveInteger" minOccurs="0"
+			<xs:element name="text_longitudinalOrder" type="POS_INT_OR_NA" minOccurs="0"
 				maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Number that reflects a particular iteration in case the text

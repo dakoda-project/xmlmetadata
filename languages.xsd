@@ -24,6 +24,7 @@
             <xs:enumeration value="Tajik"/>
             <xs:enumeration value="Turkish"/>
             <xs:enumeration value="Urdu"/>
+        	<xs:enumeration value="Igbo"/>
             <xs:enumeration value="Uzbek"/>
             <xs:enumeration value="Panjabi; Punjabi"/>
             <xs:enumeration value="Persian"/>
@@ -170,6 +171,7 @@
             <xs:enumeration value="Finnisch"/>
             <xs:enumeration value="Französisch"/>
             <xs:enumeration value="Ga"/>
+        	<xs:enumeration value="Igbo"/>
             <xs:enumeration value="Indonesisch"/>
             <xs:enumeration value="Isländisch"/>
             <xs:enumeration value="Italienisch"/>
@@ -185,8 +187,10 @@
             <xs:enumeration value="Slowenisch"/>
             <xs:enumeration value="Nordsamisch"/>
             <xs:enumeration value="Shona"/>
-            <xs:enumeration value="Spanisch, Kastilisch"/>
-            <xs:enumeration value="Albanisch"/>
+            <xs:enumeration value="Kastilisch"/>
+        	<xs:enumeration value="Spanisch"/>
+        	
+        	<xs:enumeration value="Albanisch"/>
             <xs:enumeration value="Swahili"/>
             <xs:enumeration value="Schwedisch"/>
             <xs:enumeration value="Thailändisch, Thai"/>
@@ -300,6 +304,8 @@
     		<xs:enumeration value="Turkic"/>
     		<xs:enumeration value="Ugric"/>
     		<xs:enumeration value="unclear"/>
+            <!-- temporary hack -->
+            <xs:enumeration value="notAvailable"/>
    		<xs:enumeration value="Vietic"/>
   		
     	    		
@@ -330,6 +336,8 @@
 			<xs:enumeration value="aar"/>
 			<xs:enumeration value="aas"/>
 			<xs:enumeration value="alb"/>
+			<!--hack-->
+			<xs:enumeration value="sqi"/>
 			<xs:enumeration value="aat"/>
 			<xs:enumeration value="aau"/>
 			<xs:enumeration value="aaw"/>
@@ -1533,6 +1541,8 @@
 			<xs:enumeration value="chf"/>
 			<xs:enumeration value="chg"/>
 			<xs:enumeration value="chh"/>
+            <!-- hack -->
+            <xs:enumeration value="chi"/>
 			<xs:enumeration value="chj"/>
 			<xs:enumeration value="chk"/>
 			<xs:enumeration value="chl"/>
@@ -7936,7 +7946,7 @@
 			<xs:enumeration value="pat"/>
 			<xs:enumeration value="rou"/>
 			<xs:enumeration value="ewa"/>
-			
+			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
 
