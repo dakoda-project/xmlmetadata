@@ -651,8 +651,8 @@ class ProficiencyAssessmentMethod(Enum):
 
 
 class ProficiencyAssignmentMethod(Enum):
-    LEARNER_CENTERED = "learner-centered"
-    TEXT_CENTERED = "text-centered"
+    LEARNER_CENTRED = "learner-centred"
+    TEXT_CENTRED = "text-centred"
     AUTOMATIC = "automatic"
     NONE = "none"
     NOT_AVAILABLE = "notAvailable"
@@ -1478,7 +1478,7 @@ class InteractionBlock:
             "type": "Element",
         }
     )
-    task_interaction_participants: List[Union[int, str]] = field(
+    task_interaction_participants: List[Union[int, str, NaString]] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -1838,7 +1838,7 @@ class ProductionSetting:
     class Meta:
         name = "Production_Setting"
 
-    production_setting_school_grade: Optional[int] = field(
+    production_setting_school_grade: Optional[Union[int, NaString]] = field(
         default=None,
         metadata={
             "name": "production_setting_schoolGrade",
@@ -1959,7 +1959,7 @@ class Sociodemographics:
             "min_occurs": 1,
         }
     )
-    learner_socio_school_grade: Optional[int] = field(
+    learner_socio_school_grade: Optional[Union[int, NaString]] = field(
         default=None,
         metadata={
             "name": "learner_socio_schoolGrade",
@@ -2686,7 +2686,7 @@ class TextProperties:
             "required": True,
         }
     )
-    text_longitudinal_order: Optional[int] = field(
+    text_longitudinal_order: Optional[Union[int, NaString]] = field(
         default=None,
         metadata={
             "name": "text_longitudinalOrder",
