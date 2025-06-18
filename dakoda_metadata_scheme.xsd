@@ -448,11 +448,11 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 			<xs:enumeration value="B2"/>
 			<xs:enumeration value="C1"/>
 			<xs:enumeration value="C2"/>
-			<xs:enumeration value="A1-A2"/>
-			<xs:enumeration value="A2-B1"/>
-			<xs:enumeration value="B1-B2"/>
-			<xs:enumeration value="B2-C1"/>
-			<xs:enumeration value="C1-C2"/>
+			<!--<xs:enumeration value="A1-A2"/>-->
+			<!--<xs:enumeration value="A2-B1"/>-->
+			<!--<xs:enumeration value="B1-B2"/>-->
+			<!--<xs:enumeration value="B2-C1"/>-->
+			<!--<xs:enumeration value="C1-C2"/>-->
 			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -1060,18 +1060,6 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	</xs:simpleType>
 
 
-	<xs:complexType name="Language">
-		<xs:simpleContent>
-			<xs:extension base="LANGUAGE_NAME_DE">
-				<xs:attribute name="name_en" type="LANGUAGE_NAME_EN"/>
-				<xs:attribute name="iso_code_639_3" type="LANGUAGE_CODE"/>
-				<xs:attribute name="group" type="LANGUAGE_GROUP"/>
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
-
-
 
 	<xs:simpleType name="DATA_PRODUCTION_SETTING">
 		<xs:restriction base="xs:string">
@@ -1097,6 +1085,19 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		<xs:documentation>			<sectionHeader> ********* complexTypes *************** </sectionHeader>
 		</xs:documentation>
 	</xs:annotation>
+
+
+	<xs:complexType name="Lingua">
+		<xs:sequence>
+			<xs:element name="name_de" type="LANGUAGE_NAME_DE"/>
+				<xs:element name="name_en" type="LANGUAGE_NAME_EN"/>
+				<xs:element name="iso_code_639_3" type="LANGUAGE_CODE"/>
+				<xs:element name="group" type="LANGUAGE_GROUP"/>
+
+		</xs:sequence>
+	</xs:complexType>
+	
+
 
 	<!--CORPUS_ADMINISTRATIVE-->
 	<xs:complexType name="Corpus_Administrative">
@@ -1423,8 +1424,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 
 
-			<xs:element name="corpus_design_l1Language" type="Language" minOccurs="1"
-				maxOccurs="unbounded">
+			<xs:element name="corpus_design_l1Language" type="LANGUAGE_NAME_DE" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>L1 language(s). An equivalent field in LC-meta is `corpus_L1_language`. </xs:documentation>
 					<xs:appinfo>
@@ -1434,8 +1434,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="corpus_design_l1Type" type="L1_CONSTELLATION" minOccurs="1"
-				maxOccurs="unbounded">
+			<xs:element name="corpus_design_l1Type" type="L1_CONSTELLATION" minOccurs="1" maxOccurs="unbounded">
 
 				<xs:annotation>
 					<xs:documentation>L1 constellation. If all participants
@@ -1473,7 +1472,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="corpus_design_targetLanguageType" type="L1_CONSTELLATION">
+			<!--	TODO check this against schema		-->
+			<xs:element name="corpus_design_targetLanguageType" type="L1_CONSTELLATION" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Target languages of the complete corpus. If only German is
 						the target language, this is coded as mono. When there are other target
@@ -2059,7 +2059,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	<xs:complexType name="Language_Of_Speaker">
 		<xs:sequence>
 
-			<xs:element name="learner_language_iso639_3" type="Language">
+			<xs:element name="learner_language_iso639_3" type="Lingua">
 				<xs:annotation>
 					<xs:documentation>Depending on the context, this represents information about
 						the Learner's L1, their L2 and/or the target language. </xs:documentation>
@@ -2128,7 +2128,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="learner_language_parentL1" maxOccurs="1" minOccurs="0" type="Language">
+			<xs:element name="learner_language_parentL1" maxOccurs="1" minOccurs="0" type="LANGUAGE_CODE">
 
 				<xs:annotation>
 					<xs:documentation>Parent L1(s) </xs:documentation>
@@ -2436,7 +2436,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="annotator_L1" type="Language" minOccurs="1" maxOccurs="1">
+			<xs:element name="annotator_L1" type="Lingua" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Annotator L1.  An equivalent field in LC-meta is `annotator_L1`. </xs:documentation>
 					<xs:appinfo>
@@ -2445,7 +2445,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="annotator_L2" type="Language" minOccurs="1" maxOccurs="1">
+			<xs:element name="annotator_L2" type="Lingua" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Annotator L2.  An equivalent field in LC-meta is `annotator_L2`. </xs:documentation>
 					<xs:appinfo>
@@ -2504,6 +2504,105 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 		</xs:sequence>
 	</xs:complexType>
+
+
+
+	<xs:complexType name="Target_Hypothesis">
+		<xs:sequence>
+			
+			<xs:element name="targetHypotheses_automatic" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Was the th generation done fully automatically? A related field in LC-meta is `annotation_automatic`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>TH-Generierung automatisiert?</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<xs:element name="targetHypotheses_corrected" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Were the automatically generated ths subject to further correction?  A related field in LC-meta is `annotation_corrected`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>Automatische THs korrigiert/post-editiert?</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			
+			<xs:element name="targetHypotheses_documentation" type="xs:anySimpleType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Plain text description of TH generation process or link to documentation
+						A related field in LC-meta is `annotation_documentation`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>Dokumentation der TH-Generierung</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			
+			<xs:element name="targetHypotheses_evaluation" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Were the automatically generated THs evaluated? A related field in LC-meta is
+						`annotation_evaluation`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>TH-Generierung evaluiert?</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<xs:element name="targetHypotheses_tool" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Name of tool used for generation of THs. A related field in LC-meta is
+						`annotation_tool`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>TH-Generierungstool</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			
+			<xs:element name="targetHypotheses_toolVersion" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Version of tool used for generating THs. A related field in LC-meta
+						is `annotation_tool_version`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>Version TH-Generierungstool</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!--should we keep track of wehther we used ollama vs hugging face to acess llms?
+			i don't think it's a useful info
+			-->
+			
+<!--			<xs:element name="targetHypotheses_modelVersion" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Version of a trained statistical model or parameter set for use with the annotation tool. LC-meta
+						has no related field. </xs:documentation>
+					<xs:appinfo>
+						<displayname>Version Modell/Parameter</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+-->			
+			
+			<!-- DO we need  separate name var?
+				
+			<!-\-	LC-meta lists as values : Lemma, POS, UPOS, Parsing, Error, TH, other-\->
+			<xs:element name="targetHypotheses_name" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Name of the tool .
+						There is no related field in LC-meta . </xs:documentation>
+					<xs:appinfo>
+						<displayname>???</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>-->
+		</xs:sequence>
+	</xs:complexType>
+	
+<!--	-->
+
 
 	<xs:complexType name="Annotation">
 		<xs:sequence>
@@ -2935,7 +3034,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="text_language" type="Language">
+			<xs:element name="text_language" type="Lingua">
 				<!-- Q: check definition  AP: OK. Hier könnten auch die Definitionen aus "description" aus der Schema-Esceltabelle stehen 
 					JR: in  der excel Dakoda schema 25-06-03 steht aber kein Eintrag zu text_language-->
 				<xs:annotation>
@@ -3246,6 +3345,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<xs:element name="task" type="Task_Block"/>
 			<xs:element name="learner" type="Learner"/>
 			<xs:element name="text" type="Text_Properties"/>
+			<xs:element name="target_hypothesis" type="Target_Hypothesis" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="annotator" type="Annotator" minOccurs="0" maxOccurs="unbounded"/>
 

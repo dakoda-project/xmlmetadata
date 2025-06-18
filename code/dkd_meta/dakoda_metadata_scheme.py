@@ -681,11 +681,6 @@ class ProficiencyLevel(Enum):
     B2 = "B2"
     C1 = "C1"
     C2 = "C2"
-    A1_A2 = "A1-A2"
-    A2_B1 = "A2-B1"
-    B1_B2 = "B1-B2"
-    B2_C1 = "B2-C1"
-    C1_C2 = "C1-C2"
     NOT_AVAILABLE = "notAvailable"
 
 
@@ -1137,6 +1132,135 @@ class CorpusAdministrative:
 
 
 @dataclass
+class CorpusDesign:
+    """
+    :ivar corpus_design_description: A short description of the corpus.
+        An equivalent field in LC-meta is `corpus_description` in LC-
+        meta.
+    :ivar corpus_design_design_type: Design of data collection/study
+        design. An equivalent field in LC-meta `corpus_longitudinal`.
+    :ivar corpus_design_group: Affiliation of the corpus to a corpus
+        group. An equivalent field in LC-meta is `corpus_related`.
+    :ivar corpus_design_is_comparable_data_included: Does the corpus
+        include comparison data? An equivalent field in LC-meta is
+        `corpus_comparable_data_included`.
+    :ivar corpus_design_l1_language: L1 language(s). An equivalent field
+        in LC-meta is `corpus_L1_language`.
+    :ivar corpus_design_l1_type: L1 constellation. If all participants
+        share one L1: mono; if there are multiple L1s: multi . There is
+        no eqivalent field in LC-meta.
+    :ivar corpus_design_size: Storage requirement in KB, MB, GB, TB or
+        PB. An equivalent field in LC-meta is  `corpus_size`.
+    :ivar corpus_design_target_language: Target languages of the
+        complete corpus. An equivalent field in LC-meta is
+        `corpus_target_language`.
+    :ivar corpus_design_target_language_type: Target languages of the
+        complete corpus. If only German is the target language, this is
+        coded as mono. When there are other target languages in addition
+        to German , this is coded as multi.
+    :ivar corpus_design_time_of_data_collection: The year or span of
+        years during which the corpus was created. An equivalent field
+        in LC-meta is `corpus_time_of_data_collection`.
+    """
+    class Meta:
+        name = "Corpus_Design"
+
+    corpus_design_description: Optional[str] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+            "min_length": 1,
+        }
+    )
+    corpus_design_design_type: Optional[StudyDesign] = field(
+        default=None,
+        metadata={
+            "name": "corpus_design_designType",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    corpus_design_group: Optional[CorpusGroup] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+        }
+    )
+    corpus_design_is_comparable_data_included: Optional[Union[bool, NaString]] = field(
+        default=None,
+        metadata={
+            "name": "corpus_design_isComparableDataIncluded",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    corpus_design_l1_language: List[LanguageNameDe] = field(
+        default_factory=list,
+        metadata={
+            "name": "corpus_design_l1Language",
+            "type": "Element",
+            "min_occurs": 1,
+        }
+    )
+    corpus_design_l1_type: List[L1Constellation] = field(
+        default_factory=list,
+        metadata={
+            "name": "corpus_design_l1Type",
+            "type": "Element",
+            "min_occurs": 1,
+        }
+    )
+    corpus_design_size: Optional["CorpusDesign.CorpusDesignSize"] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
+    corpus_design_target_language: List[DkdTrgLang] = field(
+        default_factory=list,
+        metadata={
+            "name": "corpus_design_targetLanguage",
+            "type": "Element",
+            "min_occurs": 1,
+        }
+    )
+    corpus_design_target_language_type: List[L1Constellation] = field(
+        default_factory=list,
+        metadata={
+            "name": "corpus_design_targetLanguageType",
+            "type": "Element",
+            "min_occurs": 1,
+        }
+    )
+    corpus_design_time_of_data_collection: Optional[Union[XmlPeriod, str, NaString]] = field(
+        default=None,
+        metadata={
+            "name": "corpus_design_timeOfDataCollection",
+            "type": "Element",
+            "required": True,
+            "pattern": r"\d{4}-\d{4}",
+        }
+    )
+
+    @dataclass
+    class CorpusDesignSize:
+        value: Optional[Decimal] = field(
+            default=None,
+            metadata={
+                "required": True,
+            }
+        )
+        unit: Optional[StorageUnit] = field(
+            default=None,
+            metadata={
+                "type": "Attribute",
+            }
+        )
+
+
+@dataclass
 class CorpusProficiency:
     """
     :ivar corpus_proficiency_assignment_method: The method of
@@ -1496,34 +1620,6 @@ class InteractionBlock:
 
 
 @dataclass
-class Language:
-    value: Optional[LanguageNameDe] = field(
-        default=None,
-        metadata={
-            "required": True,
-        }
-    )
-    name_en: Optional[LanguageNameEn] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        }
-    )
-    iso_code_639_3: Optional[LanguageCode] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        }
-    )
-    group: Optional[LanguageGroup] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        }
-    )
-
-
-@dataclass
 class LanguageExposure:
     """
     :ivar learner_language_exposure_onset: Age of Onset. Related field
@@ -1811,6 +1907,38 @@ class LearnerLanguageProficiency:
 
 
 @dataclass
+class Lingua:
+    name_de: Optional[LanguageNameDe] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
+    name_en: Optional[LanguageNameEn] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
+    iso_code_639_3: Optional[LanguageCode] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
+    group: Optional[LanguageGroup] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
+
+
+@dataclass
 class ProductionSetting:
     """
     :ivar production_setting_school_grade: School year in which the
@@ -1963,6 +2091,79 @@ class Sociodemographics:
         default=None,
         metadata={
             "name": "learner_socio_schoolGrade",
+            "type": "Element",
+            "required": True,
+        }
+    )
+
+
+@dataclass
+class TargetHypothesis:
+    """
+    :ivar target_hypotheses_automatic: Was the th generation done fully
+        automatically? A related field in LC-meta is
+        `annotation_automatic`.
+    :ivar target_hypotheses_corrected: Were the automatically generated
+        ths subject to further correction?  A related field in LC-meta
+        is `annotation_corrected`.
+    :ivar target_hypotheses_documentation: Plain text description of TH
+        generation process or link to documentation A related field in
+        LC-meta is `annotation_documentation`.
+    :ivar target_hypotheses_evaluation: Were the automatically generated
+        THs evaluated? A related field in LC-meta is
+        `annotation_evaluation`.
+    :ivar target_hypotheses_tool: Name of tool used for generation of
+        THs. A related field in LC-meta is `annotation_tool`.
+    :ivar target_hypotheses_tool_version: Version of tool used for
+        generating THs. A related field in LC-meta is
+        `annotation_tool_version`.
+    """
+    class Meta:
+        name = "Target_Hypothesis"
+
+    target_hypotheses_automatic: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "targetHypotheses_automatic",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    target_hypotheses_corrected: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "targetHypotheses_corrected",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    target_hypotheses_documentation: Optional[object] = field(
+        default=None,
+        metadata={
+            "name": "targetHypotheses_documentation",
+            "type": "Element",
+        }
+    )
+    target_hypotheses_evaluation: Optional[Union[bool, NaString]] = field(
+        default=None,
+        metadata={
+            "name": "targetHypotheses_evaluation",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    target_hypotheses_tool: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "targetHypotheses_tool",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    target_hypotheses_tool_version: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "targetHypotheses_toolVersion",
             "type": "Element",
             "required": True,
         }
@@ -2170,7 +2371,7 @@ class Annotator:
             "required": True,
         }
     )
-    annotator_l1: Optional[Language] = field(
+    annotator_l1: Optional[Lingua] = field(
         default=None,
         metadata={
             "name": "annotator_L1",
@@ -2178,7 +2379,7 @@ class Annotator:
             "required": True,
         }
     )
-    annotator_l2: Optional[Language] = field(
+    annotator_l2: Optional[Lingua] = field(
         default=None,
         metadata={
             "name": "annotator_L2",
@@ -2211,132 +2412,50 @@ class Annotator:
 
 
 @dataclass
-class CorpusDesign:
+class Corpus:
     """
-    :ivar corpus_design_description: A short description of the corpus.
-        An equivalent field in LC-meta is `corpus_description` in LC-
-        meta.
-    :ivar corpus_design_design_type: Design of data collection/study
-        design. An equivalent field in LC-meta `corpus_longitudinal`.
-    :ivar corpus_design_group: Affiliation of the corpus to a corpus
-        group. An equivalent field in LC-meta is `corpus_related`.
-    :ivar corpus_design_is_comparable_data_included: Does the corpus
-        include comparison data? An equivalent field in LC-meta is
-        `corpus_comparable_data_included`.
-    :ivar corpus_design_l1_language: L1 language(s). An equivalent field
-        in LC-meta is `corpus_L1_language`.
-    :ivar corpus_design_l1_type: L1 constellation. If all participants
-        share one L1: mono; if there are multiple L1s: multi . There is
-        no eqivalent field in LC-meta.
-    :ivar corpus_design_size: Storage requirement in KB, MB, GB, TB or
-        PB. An equivalent field in LC-meta is  `corpus_size`.
-    :ivar corpus_design_target_language: Target languages of the
-        complete corpus. An equivalent field in LC-meta is
-        `corpus_target_language`.
-    :ivar corpus_design_target_language_type: Target languages of the
-        complete corpus. If only German is the target language, this is
-        coded as mono. When there are other target languages in addition
-        to German , this is coded as multi.
-    :ivar corpus_design_time_of_data_collection: The year or span of
-        years during which the corpus was created. An equivalent field
-        in LC-meta is `corpus_time_of_data_collection`.
+    :ivar administrative: Administrative information about the corpus.
+    :ivar design: Information about the corpus design.
+    :ivar proficiency: Information about the corpus proficiency.
+    :ivar project: Information about the project from which the corpus
+        originated.
+    :ivar subcorpus: Information about a subcorpus of the corpus.
     """
-    class Meta:
-        name = "Corpus_Design"
-
-    corpus_design_description: Optional[str] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-            "min_length": 1,
-        }
-    )
-    corpus_design_design_type: Optional[StudyDesign] = field(
-        default=None,
-        metadata={
-            "name": "corpus_design_designType",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    corpus_design_group: Optional[CorpusGroup] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-        }
-    )
-    corpus_design_is_comparable_data_included: Optional[Union[bool, NaString]] = field(
-        default=None,
-        metadata={
-            "name": "corpus_design_isComparableDataIncluded",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    corpus_design_l1_language: List[Language] = field(
-        default_factory=list,
-        metadata={
-            "name": "corpus_design_l1Language",
-            "type": "Element",
-            "min_occurs": 1,
-        }
-    )
-    corpus_design_l1_type: List[L1Constellation] = field(
-        default_factory=list,
-        metadata={
-            "name": "corpus_design_l1Type",
-            "type": "Element",
-            "min_occurs": 1,
-        }
-    )
-    corpus_design_size: Optional["CorpusDesign.CorpusDesignSize"] = field(
+    administrative: Optional[CorpusAdministrative] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
         }
     )
-    corpus_design_target_language: List[DkdTrgLang] = field(
-        default_factory=list,
-        metadata={
-            "name": "corpus_design_targetLanguage",
-            "type": "Element",
-            "min_occurs": 1,
-        }
-    )
-    corpus_design_target_language_type: Optional[L1Constellation] = field(
+    design: Optional[CorpusDesign] = field(
         default=None,
         metadata={
-            "name": "corpus_design_targetLanguageType",
             "type": "Element",
             "required": True,
         }
     )
-    corpus_design_time_of_data_collection: Optional[Union[XmlPeriod, str, NaString]] = field(
+    proficiency: Optional[CorpusProficiency] = field(
         default=None,
         metadata={
-            "name": "corpus_design_timeOfDataCollection",
             "type": "Element",
             "required": True,
-            "pattern": r"\d{4}-\d{4}",
         }
     )
-
-    @dataclass
-    class CorpusDesignSize:
-        value: Optional[Decimal] = field(
-            default=None,
-            metadata={
-                "required": True,
-            }
-        )
-        unit: Optional[StorageUnit] = field(
-            default=None,
-            metadata={
-                "type": "Attribute",
-            }
-        )
+    project: Optional[CorpusProject] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
+    subcorpus: Optional[CorpusSubcorpus] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        }
+    )
 
 
 @dataclass
@@ -2363,7 +2482,7 @@ class LanguageOfSpeaker:
     class Meta:
         name = "Language_Of_Speaker"
 
-    learner_language_iso639_3: Optional[Language] = field(
+    learner_language_iso639_3: Optional[Lingua] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -2416,7 +2535,7 @@ class LanguageOfSpeaker:
             "type": "Element",
         }
     )
-    learner_language_parent_l1: Optional[Language] = field(
+    learner_language_parent_l1: Optional[LanguageCode] = field(
         default=None,
         metadata={
             "name": "learner_language_parentL1",
@@ -2679,7 +2798,7 @@ class TextProperties:
             "required": True,
         }
     )
-    text_language: Optional[Language] = field(
+    text_language: Optional[Lingua] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -2748,53 +2867,6 @@ class TextProperties:
         }
     )
     annotation: Optional[TextAnnotation] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-@dataclass
-class Corpus:
-    """
-    :ivar administrative: Administrative information about the corpus.
-    :ivar design: Information about the corpus design.
-    :ivar proficiency: Information about the corpus proficiency.
-    :ivar project: Information about the project from which the corpus
-        originated.
-    :ivar subcorpus: Information about a subcorpus of the corpus.
-    """
-    administrative: Optional[CorpusAdministrative] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-    design: Optional[CorpusDesign] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-    proficiency: Optional[CorpusProficiency] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-    project: Optional[CorpusProject] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-    subcorpus: Optional[CorpusSubcorpus] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -2921,6 +2993,12 @@ class Document1:
         metadata={
             "type": "Element",
             "required": True,
+        }
+    )
+    target_hypothesis: List[TargetHypothesis] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
         }
     )
     annotation: List[Annotation] = field(

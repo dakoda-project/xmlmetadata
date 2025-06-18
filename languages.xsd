@@ -3,7 +3,8 @@
     xmlns:xsi="http://xml.org"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.1">
     
-    
+	
+	
     
     <xs:simpleType name="LANGUAGE_NAME_EN">
         <xs:restriction base="xs:string">
@@ -189,7 +190,6 @@
             <xs:enumeration value="Shona"/>
             <xs:enumeration value="Kastilisch"/>
         	<xs:enumeration value="Spanisch"/>
-        	
         	<xs:enumeration value="Albanisch"/>
             <xs:enumeration value="Swahili"/>
             <xs:enumeration value="Schwedisch"/>
