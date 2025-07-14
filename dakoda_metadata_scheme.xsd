@@ -233,21 +233,34 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 			<xs:enumeration value="mainly in controlled teaching contexts"/>
 			<xs:enumeration value="hybrid"/>
 			<xs:enumeration value="notAvailable"/>
-			<!--xs:enumeration value="unclear/other contexts"/-->
-			<!-- Q: do we need a value "notAvailable "? AP: Ich habe "unclear/other contexts" rausgenommen, "notAvailable" würde ich drin lassen-->
 		</xs:restriction>
 	</xs:simpleType>
 
+
+
+<!--Lernerin schreibt 1 Aufgabe einmal:  A-1, 
+		Lernerin schreibt dieselbe Aufgabe mehrmals: A-n, 
+		Lernerin schreibt mehrere Aufgaben jeweils einmal: mA-1, 
+		Lernerin schreibt mehrere Aufgaben mehrmals: mA-n)-->
 
 	<xs:simpleType name="POSSIBILITIES_FOR_COMPARISONS">
 		<xs:annotation>
 			<xs:documentation>Possibilities for comparing tasks and time points</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="one task one-time"/>
-			<xs:enumeration value="one task repeated"/>
-			<xs:enumeration value="several tasks repeated"/>
-			<xs:enumeration value="several tasks each one-time"/>
+			
+			<xs:enumeration value="A-1">
+				<xs:annotation><xs:documentation>one task, done once</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="A-n">
+				<xs:annotation><xs:documentation>one task, done repeatedly</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="mA-n">
+				<xs:annotation><xs:documentation>several tasks, each done repeatedly</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="mA-1">
+				<xs:annotation><xs:documentation>several tasks , each done once</xs:documentation></xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -377,21 +390,21 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 			<xs:documentation>A specification of the language combinations used .</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="German-L1">
+			<xs:enumeration value="only L1-speakers">
 				<xs:annotation>
-					<xs:documentation>Only L1-German speakers are part in the interaction.
+					<xs:documentation>Only L1 speakers take part in the interaction.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-			<xs:enumeration value="German-L2">
+			<xs:enumeration value="only L2 speakers">
 				<xs:annotation>
-					<xs:documentation>Only L2-German speakers part of the interaction.
+					<xs:documentation>Only L2 speakers are part of the interaction.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-			<xs:enumeration value="German-L1_L2">
+			<xs:enumeration value="L1 and L2 speakers mixed">
 				<xs:annotation>
-					<xs:documentation>A mix of L1- and L2-German speakers is part of the
+					<xs:documentation>A mix of L1- and L2-speakers is part of the
 						interaction. </xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -490,23 +503,23 @@ JR: dann gibt es keine Felder ehr mit Typ COARSE_CEFR_LEVEL?-->
 				all</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="01">
+			<xs:enumeration value="closed">
 				<xs:annotation>
-					<xs:documentation>closed</xs:documentation>
+					<xs:documentation>access only for members of the DAKODA Project</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-			<xs:enumeration value="02">
+			<xs:enumeration value="restricted">
 				<xs:annotation>
-					<xs:documentation>restricted</xs:documentation>
+					<xs:documentation>access restricted to members of German academic institutions</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 
-			<xs:enumeration value="02!">
+			<xs:enumeration value="special restrictions">
 				<xs:annotation>
-					<xs:documentation>special case</xs:documentation>
+					<xs:documentation>special restrictions</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-			<xs:enumeration value="03!">
+			<xs:enumeration value="open">
 				<xs:annotation>
 					<xs:documentation>open; all CC-licenses</xs:documentation>
 				</xs:annotation>
@@ -1099,8 +1112,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	
 
 
-	<!--CORPUS_ADMINISTRATIVE-->
-	<xs:complexType name="Corpus_Administrative">
+	<!--CorpusAdministrative-->
+	<xs:complexType name="CorpusAdministrative">
 		<xs:sequence>
 
 			
@@ -1211,9 +1224,8 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="corpus_admin_documentation" type="xs:anyURI" minOccurs="1"
-				maxOccurs="unbounded" default="notAvailable">
-
+			<xs:element name="corpus_admin_documentation" type="xs:string" minOccurs="1" maxOccurs="unbounded" default="notAvailable">
+<!--
 				<xs:annotation>
 					<xs:documentation>Link to more extensive corpus documentation. Usually a corpus
 						manual covering , for instance, the trancription and/or annotation
@@ -1221,7 +1233,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					<xs:appinfo>
 						<displayname>Korpushandbuch</displayname>
 					</xs:appinfo>
-				</xs:annotation>
+				</xs:annotation>-->
 			</xs:element>
 
 
@@ -1508,7 +1520,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		<xs:sequence>
 
 			<xs:element name="corpus_proficiency_assignmentMethod"
-				type="PROFICIENCY_ASSIGNMENT_METHOD" default="none">
+				type="PROFICIENCY_ASSIGNMENT_METHOD" default="none" minOccurs="1">
 				<xs:annotation>
 					<xs:documentation>The method of proficiency level assignment used for the
 						corpus . An equivalent field in LC-meta is
@@ -2299,27 +2311,50 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			
-			<xs:element name="learner_language_proficiency_cefr" type="PROFICIENCY_LEVEL" minOccurs="1"
+
+			<xs:element name="learner_language_proficiency_cefrMax" type="PROFICIENCY_LEVEL" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Learners' language proficiency (CEFR). An equivalent field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
+					<xs:documentation>Learners'  maximal level of language proficiency (CEFR). A related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>GER-Bewertung</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="learner_language_proficiency_cTestCefr" type="PROFICIENCY_LEVEL" minOccurs="1"
+
+			<xs:element name="learner_language_proficiency_cefrMin" type="PROFICIENCY_LEVEL" minOccurs="1"
 				maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Level of CEFR-related c-tests. An equivalent field in LC-meta is `learner_target_language_proficiency_CEFR_conversion`. </xs:documentation>
+					<xs:documentation>Learners' minimal level of language proficiency (CEFR). A related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>GER-Bewertung</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<xs:element name="learner_language_proficiency_cTestCefrMax" type="PROFICIENCY_LEVEL" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Maximum level of CEFR-related c-tests. A related field in LC-meta is `learner_target_language_proficiency_CEFR_conversion`. </xs:documentation>
 					<xs:appinfo>
 						<displayname>C-Test-GER-Niveau</displayname>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 
+
+
+			<xs:element name="learner_language_proficiency_cTestCefrMin" type="PROFICIENCY_LEVEL" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Minimum level of CEFR-related c-tests. A related field in LC-meta is `learner_target_language_proficiency_CEFR_conversion`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>C-Test-GER-Niveau</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
 
 
 			<xs:element name="learner_language_proficiency_cTestLevelDetail" type="xs:string" minOccurs="1"
@@ -2354,7 +2389,18 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			
+
+			<xs:element name="learner_language_proficiency_estimateMax" type="PROFICIENCY_LEVEL" minOccurs="1"
+				maxOccurs="1">
+				<!--Q: is there a related field in CMCSLC?-->
+				<xs:annotation>
+					<xs:documentation>Approximate indication of the speaker's language competence; if possible, based on GeR-related text assessment; if not, based on C-test result or duration of use (0-2 years = A2, 2-5 years = B2, >5 years = C2. If the level cannot be specified precisely, the upper limit of the estimated competence is given here. A related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
+					<xs:appinfo>
+						<displayname>geschätzte maximale Kompetenz</displayname>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 			<xs:element name="learner_language_proficiency_estimateMin" type="PROFICIENCY_LEVEL" minOccurs="1"
 				maxOccurs="1">
 
@@ -2368,16 +2414,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 			
 
-			<xs:element name="learner_language_proficiency_estimateMax" type="PROFICIENCY_LEVEL" minOccurs="1"
-				maxOccurs="1">
-				<!--Q: is there a related field in CMCSLC?-->
-				<xs:annotation>
-					<xs:documentation>Approximate indication of the speaker's language competence; if possible, based on GeR-related text assessment; if not, based on C-test result or duration of use (0-2 years = A2, 2-5 years = B2, >5 years = C2. If the level cannot be specified precisely, the upper limit of the estimated competence is given here. A related field in LC-meta is `learner_target_language_proficiency`. </xs:documentation>
-					<xs:appinfo>
-						<displayname>geschätzte maximale Kompetenz</displayname>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+
 			
 			<xs:element name="learner_language_proficiency_selfAssessment" type="xs:string" minOccurs="1"
 				maxOccurs="1">
@@ -2400,7 +2437,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 			<xs:element name="learner_language_proficiency_assignmentMethod"
-				type="PROFICIENCY_ASSESSMENT_METHOD" minOccurs="1" maxOccurs="1">
+				type="PROFICIENCY_ASSESSMENT_METHOD" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>How was the proficiency of the learner evaluated?  An equivalent field in LC-meta is `corpus_learner_proficiency_assignment_method`. </xs:documentation>
 					<xs:appinfo>
@@ -2510,7 +2547,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	<xs:complexType name="Target_Hypothesis">
 		<xs:sequence>
 			
-			<xs:element name="targetHypotheses_automatic" type="xs:boolean" minOccurs="1" maxOccurs="1">
+			<xs:element name="targetHypothesis_automatic" type="xs:boolean" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Was the th generation done fully automatically? A related field in LC-meta is `annotation_automatic`. </xs:documentation>
 					<xs:appinfo>
@@ -2519,7 +2556,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="targetHypotheses_corrected" type="xs:boolean" minOccurs="1" maxOccurs="1">
+			<xs:element name="targetHypothesis_corrected" type="xs:boolean" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Were the automatically generated ths subject to further correction?  A related field in LC-meta is `annotation_corrected`. </xs:documentation>
 					<xs:appinfo>
@@ -2529,7 +2566,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 			
 			
-			<xs:element name="targetHypotheses_documentation" type="xs:anySimpleType" minOccurs="1" maxOccurs="1">
+			<xs:element name="targetHypothesis_documentation" type="xs:anySimpleType" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Plain text description of TH generation process or link to documentation
 						A related field in LC-meta is `annotation_documentation`. </xs:documentation>
@@ -2540,7 +2577,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 			
 			
-			<xs:element name="targetHypotheses_evaluation" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1">
+			<xs:element name="targetHypothesis_evaluation" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Were the automatically generated THs evaluated? A related field in LC-meta is
 						`annotation_evaluation`. </xs:documentation>
@@ -2550,7 +2587,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="targetHypotheses_tool" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="targetHypothesis_tool" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Name of tool used for generation of THs. A related field in LC-meta is
 						`annotation_tool`. </xs:documentation>
@@ -2561,7 +2598,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 			
 			
-			<xs:element name="targetHypotheses_toolVersion" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="targetHypothesis_toolVersion" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Version of tool used for generating THs. A related field in LC-meta
 						is `annotation_tool_version`. </xs:documentation>
@@ -2575,7 +2612,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			i don't think it's a useful info
 			-->
 			
-<!--			<xs:element name="targetHypotheses_modelVersion" type="xs:string" minOccurs="1" maxOccurs="1">
+<!--			<xs:element name="targetHypothesis_modelVersion" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Version of a trained statistical model or parameter set for use with the annotation tool. LC-meta
 						has no related field. </xs:documentation>
@@ -2589,7 +2626,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			<!-- DO we need  separate name var?
 				
 			<!-\-	LC-meta lists as values : Lemma, POS, UPOS, Parsing, Error, TH, other-\->
-			<xs:element name="targetHypotheses_name" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="targetHypothesis_name" type="xs:string" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Name of the tool .
 						There is no related field in LC-meta . </xs:documentation>
@@ -2721,7 +2758,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="task_comparison" type="POSSIBILITIES_FOR_COMPARISONS" minOccurs="1" maxOccurs="1" default="notAvailable">
+			<xs:element name="task_comparison" type="POSSIBILITIES_FOR_COMPARISONS" minOccurs="1" maxOccurs="unbounded" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Possibility of comparing tasks and time points. There is no related field in LC-meta . </xs:documentation>
 					<xs:appinfo>
@@ -2914,7 +2951,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 
-						<xs:element name="task_interaction_mode" type="DATA_PRODUCTION_SETTING_MODE">
+						<xs:element name="task_interaction_mode" type="DATA_PRODUCTION_SETTING_MODE" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Corpus modality. Related fields in LC-meta are `corpus_mode` and `situation_mode`.</xs:documentation>
 					<xs:appinfo><displayname>Modalität</displayname></xs:appinfo>
@@ -2922,7 +2959,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:element>
 
 
-			<xs:element name="task_interaction_participantsL1L2-interaction"
+			<xs:element name="task_interaction_participantsL1L2Interaction"
 				type="INTERACTION_TYPES" minOccurs="0" maxOccurs="1">
 				<!--Q: on the mindmap it says "L2L2" interaction.    
 					AP: eigentlich nicht :) die Werte sind: only L1 speakers; only L2 speakers; L1 and L2 speakers mixed; notApplicable 
@@ -3176,9 +3213,18 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 			</xs:annotation>
 		</xs:element>
 		
-		<xs:element name="text_proficiency_cefr" type="COARSE_CEFR_LEVEL" default="notAvailable">
+		<xs:element name="text_proficiency_cefrMax" type="COARSE_CEFR_LEVEL" default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>Conversion of text proficiency score to CEFR. An equivalent field in LC-meta is `text_proficiency_CEFR_conversion`. </xs:documentation>
+				<xs:documentation>Conversion of maximum text proficiency score to CEFR. An equivalent field in LC-meta is `text_proficiency_CEFR_conversion`. </xs:documentation>
+				<xs:appinfo>
+					<displayname>GER-bezogene Textbewertung</displayname>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:element>
+		
+		<xs:element name="text_proficiency_cefrMin" type="COARSE_CEFR_LEVEL" default="notAvailable">
+			<xs:annotation>
+				<xs:documentation>Conversion of minimum text proficiency score to CEFR. An equivalent field in LC-meta is `text_proficiency_CEFR_conversion`. </xs:documentation>
 				<xs:appinfo>
 					<displayname>GER-bezogene Textbewertung</displayname>
 				</xs:appinfo>
@@ -3186,9 +3232,9 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:element>
 		
 		
-		<xs:element name="text_proficiency_cefrAutomMax" type="COARSE_CEFR_LEVEL" default="notAvailable">
+		<xs:element name="text_proficiency_cefrAutomMax" type="PROFICIENCY_LEVEL" default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>Automatically generated rough level A, B or C based on CEFR; maximum value of the result. A related field in
+				<xs:documentation>Automatically generated level based on CEFR; maximum value of the result. A related field in
 					LC-meta is `text_proficiency`. </xs:documentation>
 				<xs:appinfo>
 					<displayname>automatische Textbewertung (Maximum)</displayname>
@@ -3197,11 +3243,11 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 		</xs:element>
 		
 		
-		
-		<xs:element name="text_proficiency_cefrAutomMin" type="COARSE_CEFR_LEVEL"
+		<!--CURSOR-->
+		<xs:element name="text_proficiency_cefrAutomMin" type="PROFICIENCY_LEVEL"
 			default="notAvailable">
 			<xs:annotation>
-				<xs:documentation>Automatically generated rough level A, B or C based on CEFR; minimum value of the result. A related field in
+				<xs:documentation>Automatically generated level based on CEFR; minimum value of the result. A related field in
 					LC-meta is `text_proficiency`. </xs:documentation>
 				<xs:appinfo>
 					<displayname>automatische Textbewertung (Minimum)</displayname>
@@ -3280,7 +3326,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 				</xs:annotation>
 			</xs:element>
 			
-			<xs:element name="text_annotation_hasTargetHypotheses" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1" default="notAvailable">
+			<xs:element name="text_annotation_hasTargetHypotheses_orig" type="BOOL_OR_NA" minOccurs="1" maxOccurs="1" default="notAvailable">
 				<xs:annotation>
 					<xs:documentation>Does the text have a target hypothesis or other type of normalisation? There is no related field in LC-meta. </xs:documentation>
 					<xs:appinfo>
@@ -3297,7 +3343,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 
 	<xs:complexType name="Corpus">
 		<xs:sequence>
-			<xs:element name="administrative" type="Corpus_Administrative">
+			<xs:element name="administrative" type="CorpusAdministrative">
 				<xs:annotation>
 					<xs:documentation>Administrative information about the corpus.
 					</xs:documentation>
@@ -3338,7 +3384,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	</xs:complexType>
 
 
-	<xs:complexType name="Document">
+	<xs:complexType name="Document_Type">
 		<xs:sequence>
 			<xs:element name="corpus" type="Corpus"/>
 			<xs:element name="production_setting" type="Production_Setting"/>
@@ -3359,7 +3405,7 @@ JR: okay, dann muss der Typ NUMBER_PARTICIPANTS um n erweitert werden -->
 	</xs:annotation>
 
 
-	<xs:element name="document" type="Document"/>
+	<xs:element name="document" type="Document_Type"/>
 
 
 

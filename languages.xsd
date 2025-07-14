@@ -190,6 +190,7 @@
             <xs:enumeration value="Shona"/>
             <xs:enumeration value="Kastilisch"/>
         	<xs:enumeration value="Spanisch"/>
+        	<xs:enumeration value="Spanisch, Kastilisch"/>
         	<xs:enumeration value="Albanisch"/>
             <xs:enumeration value="Swahili"/>
             <xs:enumeration value="Schwedisch"/>
@@ -201,7 +202,7 @@
             <xs:enumeration value="Kantonesisch"/>
             <xs:enumeration value="Mazedonisch"/>
             <xs:enumeration value="Serbokroatisch"/>
-            <xs:enumeration value="Mandarin,  Hochchinesisch"/>
+            <xs:enumeration value="Mandarin, Hochchinesisch"/>
             <xs:enumeration value="Griechisch"/>
             <xs:enumeration value="Griechisch"/>
             <xs:enumeration value="Afrikaans, Kapholländisch, Kolonial-Niederländisch"/>
