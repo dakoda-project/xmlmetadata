@@ -17,10 +17,13 @@ class LanguageCode(Enum):
     :cvar AAN:
     :cvar AAO:
     :cvar AAP:
+    :cvar ZHO:
     :cvar AAQ:
     :cvar AAR:
     :cvar AAS:
+    :cvar ARC:
     :cvar ALB:
+    :cvar BER:
     :cvar SQI:
     :cvar AAT:
     :cvar AAU:
@@ -347,6 +350,7 @@ class LanguageCode(Enum):
     :cvar AQR:
     :cvar AQT:
     :cvar AQZ:
+    :cvar ARA:
     :cvar ARB:
     :cvar ARD:
     :cvar ARE:
@@ -1841,6 +1845,7 @@ class LanguageCode(Enum):
     :cvar ESO:
     :cvar ESQ:
     :cvar ESS:
+    :cvar EST:
     :cvar ESU:
     :cvar ESY:
     :cvar ETB:
@@ -7639,10 +7644,13 @@ class LanguageCode(Enum):
     AAN = "aan"
     AAO = "aao"
     AAP = "aap"
+    ZHO = "zho"
     AAQ = "aaq"
     AAR = "aar"
     AAS = "aas"
+    ARC = "arc"
     ALB = "alb"
+    BER = "ber"
     SQI = "sqi"
     AAT = "aat"
     AAU = "aau"
@@ -7969,6 +7977,7 @@ class LanguageCode(Enum):
     AQR = "aqr"
     AQT = "aqt"
     AQZ = "aqz"
+    ARA = "ara"
     ARB = "arb"
     ARD = "ard"
     ARE = "are"
@@ -9463,6 +9472,7 @@ class LanguageCode(Enum):
     ESO = "eso"
     ESQ = "esq"
     ESS = "ess"
+    EST = "est"
     ESU = "esu"
     ESY = "esy"
     ETB = "etb"
@@ -15262,6 +15272,7 @@ class LanguageGroup(Enum):
     CREOLES_AND_PIDGIN = "Creoles and Pidgin"
     DEFOID = "Defoid"
     DRAVIDIAN = "Dravidian"
+    LOWLAND_EAST_CUSHITIC = "Lowland East Cushitic"
     ESKIMO = "Eskimo"
     FINNIC = "Finnic"
     GA_DENGME = "Ga-Dengme"
@@ -15296,6 +15307,9 @@ class LanguageNameDe(Enum):
     BENGALISCH = "Bengalisch"
     BASKISCH = "Baskisch"
     HINDI = "Hindi"
+    SOMALISCH = "Somalisch"
+    SOMALI = "Somali"
+    BERBISCH = "Berbisch"
     JAPANISCH = "Japanisch"
     GEORGISCH = "Georgisch"
     KOREANISCH = "Koreanisch"
@@ -15307,14 +15321,18 @@ class LanguageNameDe(Enum):
     URDU = "Urdu"
     USBEKISCH = "Usbekisch"
     PANJABI_PANDSCHABISCH = "Panjabi, Pandschabisch"
+    PUNJABI = "Punjabi"
     PERSISCH = "Persisch"
+    WESTPERSISCH_IRANISCHES_PERSISCH_FARSI_1 = "Westpersisch, Iranisches Persisch, Farsi"
+    FARSI = "Farsi"
     DEUTSCH = "Deutsch"
     UNGARISCH = "Ungarisch"
-    NIEDERL_NDISCH_BELGISCHES_NIEDERL_NDISCH = "Niederländisch,  Belgisches Niederländisch"
+    NIEDERL_NDISCH_BELGISCHES_NIEDERL_NDISCH = "Niederländisch, Belgisches Niederländisch"
     BOSNISCH = "Bosnisch"
     SERBISCH = "Serbisch"
     KROATISCH = "Kroatisch"
     HEBR_ISCH = "Hebräisch"
+    ESTNISCH = "Estnisch"
     CHINESISCH = "Chinesisch"
     BULGARISCH = "Bulgarisch"
     KATALANISCH_VALENCIANISCH = "Katalanisch, Valencianisch"
@@ -15347,6 +15365,7 @@ class LanguageNameDe(Enum):
     SWAHILI = "Swahili"
     SCHWEDISCH = "Schwedisch"
     THAIL_NDISCH_THAI = "Thailändisch, Thai"
+    THAIL_NDISCH = "Thailändisch"
     UKRAINISCH = "Ukrainisch"
     VIETNAMESISCH = "Vietnamesisch"
     ISI_XHOSA = "isiXhosa"
@@ -15383,6 +15402,7 @@ class LanguageNameDe(Enum):
     GIRYAMA = "Giryama"
     B_NDNERROMANISCH_R_TOROMANISCH = "Bündnerromanisch, Rätoromanisch"
     SLOWAKISCH = "Slowakisch"
+    TAMILISCH = "Tamilisch"
     SERILI = "Serili"
     TWI = "Twi"
     ZENTRALATLAS_TAMAZIGHT = "Zentralatlas-Tamazight"
@@ -15418,6 +15438,8 @@ class LanguageNameEn(Enum):
     BENGALI = "Bengali"
     BASQUE = "Basque"
     HINDI = "Hindi"
+    BERBER = "Berber"
+    SOMALI = "Somali"
     JAPANESE = "Japanese"
     GEORGIAN = "Georgian"
     KOREAN = "Korean"
@@ -15429,11 +15451,13 @@ class LanguageNameEn(Enum):
     URDU = "Urdu"
     IGBO = "Igbo"
     UZBEK = "Uzbek"
-    PANJABI_PUNJABI = "Panjabi; Punjabi"
+    PANJABI = "Panjabi"
+    PUNJABI = "Punjabi"
     PERSIAN = "Persian"
     GERMAN = "German"
     HUNGARIAN = "Hungarian"
     DUTCH = "Dutch"
+    ESTONIAN = "Estonian"
     BOSNIAN = "Bosnian"
     SERBIAN = "Serbian"
     CROATIAN = "Croatian"

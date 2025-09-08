@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from enum import Enum
 from typing import List, Optional, Union
-from xsdata.models.datatype import XmlDate, XmlPeriod
+from xsdata.models.datatype import XmlPeriod
 from dkd_meta.countries import CountryType
 from dkd_meta.languages import (
     LanguageCode,
@@ -10,17 +10,6 @@ from dkd_meta.languages import (
     LanguageNameDe,
     LanguageNameEn,
 )
-
-
-class CoarseCefrLevel(Enum):
-    """A list of coarse CEFR LEVELS .
-
-    The A1 and A2 are merged. The same goes for the B and C levels.
-    """
-    A = "A"
-    B = "B"
-    C = "C"
-    NOT_AVAILABLE = "notAvailable"
 
 
 class CorpusAvailabilityType(Enum):
@@ -34,6 +23,7 @@ class CorpusAvailabilityType(Enum):
     :cvar OPEN: open; all CC-licenses
     :cvar NOT_AVAILABLE: information is not available
     """
+
     CLOSED = "closed"
     RESTRICTED = "restricted"
     SPECIAL_RESTRICTIONS = "special restrictions"
@@ -58,6 +48,7 @@ class CountryTypeOrNa(Enum):
     A country specified as COUNTRY_TYPE or a string indicating that no value is
     available.
     """
+
     NOT_AVAILABLE = "notAvailable"
     AFG = "AFG"
     ALA = "ALA"
@@ -308,6 +299,9 @@ class CountryTypeOrNa(Enum):
     YEM = "YEM"
     ZMB = "ZMB"
     ZWE = "ZWE"
+    WITHIN_GERMAN_SPEAKING_COUNTRIES = "within German-speaking countries"
+    OUTSIDE_GERMAN_SPEAKING_COUNTRIES = "outside German-speaking countries"
+    HYBRID = "hybrid"
     NOT_APPLICABLE = "notApplicable"
 
 
@@ -318,19 +312,18 @@ class DakodaProjectDuration(Enum):
 class DataProductionSetting(Enum):
     """
     :cvar EDUCATIONAL_SETTING:
-    :cvar NATURALISTIC:
-    :cvar OFFICIAL_LANGUAGE_TEST: Official language testing refers to a
-        situation where language testing is performed by an approved
+    :cvar NATURALISTIC_SETTING:
+    :cvar OFFICIAL_LANGUAGE_TESTING: Official language testing refers to
+        a situation where language testing is performed by an approved
         language assessment body.
-    :cvar RESEARCH_PROJECT:
-    :cvar LANGUAGE_COURSE:
+    :cvar LANGUAGE_INSTRUCTION:
     :cvar NOT_AVAILABLE:
     """
+
     EDUCATIONAL_SETTING = "educational setting"
-    NATURALISTIC = "naturalistic"
-    OFFICIAL_LANGUAGE_TEST = "officialLanguageTest"
-    RESEARCH_PROJECT = "research project"
-    LANGUAGE_COURSE = "language course"
+    NATURALISTIC_SETTING = "naturalistic setting"
+    OFFICIAL_LANGUAGE_TESTING = "official language testing"
+    LANGUAGE_INSTRUCTION = "language instruction"
     NOT_AVAILABLE = "notAvailable"
 
 
@@ -338,6 +331,7 @@ class DataProductionSettingConceptualMode(Enum):
     """
     A list of possible ceonceptual modes in which the corpus data was produced.
     """
+
     SPOKEN = "spoken"
     WRITTEN = "written"
     NOT_AVAILABLE = "notAvailable"
@@ -347,6 +341,7 @@ class DataProductionSettingMode(Enum):
     """
     A list of possible modes in which the corpus data was produced.
     """
+
     SPOKEN = "spoken"
     WRITTEN = "written"
     NOT_AVAILABLE = "notAvailable"
@@ -356,6 +351,7 @@ class DkdContributor(Enum):
     """
     A person working for the Dakoda project.
     """
+
     JAMILA_BL_SING = "Jamila Bläsing"
     LUISE_B_TTCHER = "Luise Böttcher"
     SHANNY_DRUKER = "Shanny Druker"
@@ -378,6 +374,7 @@ class DkdProjectHead(Enum):
     """
     A principal investigator of the Dakoda project.
     """
+
     KATRIN_WISNIEWSKI = "Katrin Wisniewski"
     TORSTEN_ZESCH = "Torsten Zesch"
 
@@ -386,6 +383,7 @@ class DkdProjectName(Enum):
     """
     Vollständiger Name des DAKODA-Projekts.
     """
+
     DATENKOMPETENZEN_IN_DA_F_DA_Z_EXPLORATION_SPRACHTECHNOLOGISCHER_ANS_TZE_ZUR_ANALYSE_VON_L2_ERWERBSSTUFEN_IN_LERNERKORPORA_DES_DEUTSCHEN = "Datenkompetenzen in DaF/DaZ: Exploration sprachtechnologischer Ansätze zur Analyse von L2-Erwerbsstufen in Lernerkorpora des Deutschen"
 
 
@@ -393,7 +391,10 @@ class DkdProjectType(Enum):
     """
     The type of funding that supported the DADKOA project.
     """
-    BUNDESMINISTERIUM_F_R_BILDUNG_UND_FORSCHUNG_BMBF = "Bundesministerium für Bildung und Forschung (BMBF)"
+
+    BUNDESMINISTERIUM_F_R_BILDUNG_UND_FORSCHUNG_BMBF = (
+        "Bundesministerium für Bildung und Forschung (BMBF)"
+    )
 
 
 class DkdTrgLang(Enum):
@@ -520,6 +521,7 @@ class EducationalStage(Enum):
     """
     The education stage the learner is in at the time of data collection.
     """
+
     EARLY_CHILDHOOD = "early childhood"
     PRIMARY = "primary"
     LOWER_SECONDARY = "lower secondary"
@@ -536,6 +538,7 @@ class FormalityType(Enum):
     """
     Formality level of the task.
     """
+
     INFORMAL = "informal"
     UNMARKED_TO_INFORMAL = "unmarked to informal"
     UNMARKED = "unmarked"
@@ -564,7 +567,8 @@ class InteractionTypes(Enum):
     :cvar NOT_AVAILABLE:
     :cvar NOT_APPLICABLE:
     """
-    ONLY_L1_SPEAKERS = "only L1-speakers"
+
+    ONLY_L1_SPEAKERS = "only L1 speakers"
     ONLY_L2_SPEAKERS = "only L2 speakers"
     L1_AND_L2_SPEAKERS_MIXED = "L1 and L2 speakers mixed"
     NOT_AVAILABLE = "notAvailable"
@@ -583,26 +587,11 @@ class LangStatus(Enum):
     NOT_AVAILABLE = "notAvailable"
 
 
-class LearnerAgeRange(Enum):
-    """
-    A predefined set of age ranges that are associated with different types of
-    language acquisition processes.
-    """
-    VALUE_0_BIS_3_ERSTSPRACHERWERB = "0 bis 3, Erstspracherwerb"
-    VALUE_4_BIS_6_FR_HER_KINDLICHER_ZWEITSPRACHERWERB = "4 bis 6, Früher (kindlicher) Zweitspracherwerb"
-    VALUE_7_BIS_8_SP_TER_KINDLICHER_ZWEITSPRACHERWERB_FREMDSPRACHERWERB = "7 bis 8,(Später kindlicher) Zweitspracherwerb / Fremdspracherwerb"
-    VALUE_9_BIS_12_SP_TER_KINDLICHER_ZWEITSPRACHERWERB_FREMDSPRACHERWERB = "9 bis 12, (später kindlicher) Zweitspracherwerb / Fremdspracherwerb"
-    VALUE_12_BIS_18_ZWEITSPRACHERWERB_FREMDSPRACHERWERB_VON_JUGENDLICHEN_UND_ERWACHSENEN = "12 bis 18, Zweitspracherwerb / Fremdspracherwerb (von Jugendlichen und Erwachsenen)"
-    VALUE_19_BIS_35_ZWEITSPRACHERWERB_FREMDSPRACHERWERB_VON_JUGENDLICHEN_UND_ERWACHSENEN = "19 bis 35, Zweitspracherwerb / Fremdspracherwerb (von Jugendlichen und Erwachsenen)"
-    LTER_ALS_35_ZWEITSPRACHERWERB_FREMDSPRACHERWERB_VON_JUGENDLICHEN_UND_ERWACHSENEN = "älter als 35, Zweitspracherwerb / Fremdspracherwerb (von Jugendlichen und Erwachsenen)"
-    UNKLAR_BZW_SONSTIGE = "unklar bzw. sonstige"
-    NOT_AVAILABLE = "notAvailable"
-
-
 class LearnerTaskType(Enum):
     """
     Type of task used in collecting the data.
     """
+
     BOOK_REVIEW = "book review"
     CONSULTATION = "consultation"
     CONVERSATION = "conversation"
@@ -627,24 +616,24 @@ class NaString(Enum):
     A string indicating that no value is available for a metadatum or that the
     metadatum is not applicable.
     """
+
     NOT_AVAILABLE = "notAvailable"
     NOT_APPLICABLE = "notApplicable"
+
+
+class NumberNType(Enum):
+    N = "n"
 
 
 class PossibilitiesForComparisons(Enum):
     """
     Possibilities for comparing tasks and time points.
-
-    :cvar A_1: one task, done once
-    :cvar A_N: one task, done repeatedly
-    :cvar M_A_N: several tasks, each done repeatedly
-    :cvar M_A_1: several tasks , each done once
-    :cvar NOT_AVAILABLE:
     """
-    A_1 = "A-1"
-    A_N = "A-n"
-    M_A_N = "mA-n"
-    M_A_1 = "mA-1"
+
+    ONE_TASK_DONE_ONCE = "one task, done once"
+    ONE_TASK_DONE_REPEATEDLY = "one task, done repeatedly"
+    SEVERAL_TASKS_EACH_DONE_REPEATEDLY = "several tasks, each done repeatedly"
+    SEVERAL_TASKS_EACH_DONE_ONCE = "several tasks, each done once"
     NOT_AVAILABLE = "notAvailable"
 
 
@@ -652,6 +641,7 @@ class ProficiencyAssessmentMethod(Enum):
     """
     A type of proficiency assessment.
     """
+
     INDEPENDENT_INSTRUMENT = "independent instrument"
     TOTAL_TEST_SCORE = "total test score"
     OTHER = "other"
@@ -671,6 +661,7 @@ class ProficiencyAssignmentMethodType(Enum):
     """
     Method used for proficiency assessment.
     """
+
     SCORE_ON_TEXT = "score on text"
     TEACHER_S_EVALUATION = "teacher's evaluation"
     POST_HOC_ASSIGNMENT = "post-hoc assignment"
@@ -683,6 +674,7 @@ class ProficiencyLevel(Enum):
 
     Including value "notAvailable"
     """
+
     A1 = "A1"
     A2 = "A2"
     B1 = "B1"
@@ -728,6 +720,7 @@ class StudyDesign(Enum):
     """
     The study design under which the corpus data was produced.
     """
+
     LONGITUDINAL = "longitudinal"
     PSEUDO_LONGITUDINAL = "pseudo-longitudinal"
     CROSS_SECTIONAL = "cross-sectional"
@@ -737,6 +730,7 @@ class TaskStimulusType(Enum):
     """
     Type of stimulus for the task.
     """
+
     ADVERTISEMENT = "advertisement"
     ARTICLE = "article"
     ARTICLES = "articles"
@@ -746,7 +740,7 @@ class TaskStimulusType(Enum):
     DIAGRAM = "diagram"
     ESSAY = "essay"
     EXTRACT_FROM_A_DOCTORAL_DISSERTATION = "extract from a doctoral dissertation"
-    EXTRACT_FROM_A_DOCTORAL_ARTICLES = "extract from a doctoral articles"
+    EXTRACTS_FROM_ARTICLES = "extracts from articles"
     FIGURE = "figure"
     TEXT_EDITED_FOR_TEACHING = "text edited for teaching"
     FORM = "form"
@@ -771,9 +765,10 @@ class TopicType(Enum):
     """
     A list of topic types that may be assigned to texts.
     """
+
     DOMESTIC = "domestic"
     DAILY_ACTIVITIES = "daily activities"
-    BUSINESS_WORK_PLACE = "business/work place"
+    BUSINESS_WORK_PLACE = "business / work place"
     SCIENCE = "science"
     EDUCATION_ACADEMIC = "education / academic"
     GOVERNMENT_LEGAL_POLITICS = "government / legal / politics"
@@ -788,16 +783,39 @@ class TrgLangInputType(Enum):
     """
     Dominant word order type according to WALS.
     """
-    MAINLY_WITHOUT_CONTROLLED_TEACHING_PROCESSES = "mainly without controlled teaching processes"
+
+    MAINLY_WITHOUT_CONTROLLED_TEACHING_PROCESSES = (
+        "mainly without controlled teaching processes"
+    )
     MAINLY_IN_CONTROLLED_TEACHING_CONTEXTS = "mainly in controlled teaching contexts"
     HYBRID = "hybrid"
     NOT_AVAILABLE = "notAvailable"
+
+
+@dataclass
+class TextLearner:
+    """
+    :ivar text_learner_role: Role of the person in this event . There is
+        no related field in LC-meta .
+    """
+
+    class Meta:
+        name = "Text_Learner"
+
+    text_learner_role: List[str] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
+            "min_occurs": 1,
+        },
+    )
 
 
 class WordOrderType(Enum):
     """
     Dominant word order type according to WALS.
     """
+
     SOV = "SOV"
     SVO = "SVO"
     VSO = "VSO"
@@ -832,61 +850,71 @@ class Annotation:
     :ivar annotation_type: Specification of an annotation type(s) such
         as lemma , POS, etc. that are provided by the tool in question.
         An equivalent field in LC-meta is `annotation_type`.
+    :ivar annotation_note: Additional comments related to the
+        annotation. There is no equivalent field in LC-meta.
     """
+
     annotation_automatic: Optional[bool] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation_corrected: Optional[bool] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation_documentation: Optional[object] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     annotation_evaluation: Optional[Union[bool, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation_tool: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation_toolVersion: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation_modelVersion: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation_type: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
+    )
+    annotation_note: List[str] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
+            "min_occurs": 1,
+        },
     )
 
 
@@ -917,7 +945,9 @@ class CorpusAdministrative:
     :ivar corpus_admin_dateOfPublication: Publication year of the source
         version of the corpus. An comparable field name in LC-meta is
         `corpus_date_of_publication`.
-    :ivar corpus_admin_documentation:
+    :ivar corpus_admin_documentation: Link to more extensive corpus
+        documentation. An equivalent field in LC-meta is
+        `corpus_documentation`.
     :ivar corpus_admin_fileFormat: File format (DAKODA-Version). An
         equivalent field in LC-meta is `corpus_file_format`.
     :ivar corpus_admin_licence: Licence name (DAKODA version).  An
@@ -930,7 +960,7 @@ class CorpusAdministrative:
         This will often be an earlier release of the corpus. An
         equivalent field in LC-meta is `corpus_other_versions`.
     :ivar corpus_admin_pid_dkd: Persistent identifier (DAKODA version).
-        An equivalent field in LC-meta is `corpus_pid`. <xs:appinfo
+        A similar field in LC-meta is `corpus_pid`. <xs:appinfo
         xmlns:xs="http://www.w3.org/2001/XMLSchema"><displayname
         xmlns="">PID (DAKODA-Version)</displayname></xs:appinfo>
     :ivar corpus_admin_pid_orig: Persistent Identifier (original
@@ -953,39 +983,40 @@ class CorpusAdministrative:
         version is based: Version number, PID or download link with
         date. An equivalent field in LC-meta is `corpus_version`.
     """
+
     corpus_admin_acronym: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_name: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_admin_author: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_admin_availability: Optional[CorpusAvailabilityType] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_admin_citationDocument: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_admin_citeAs: Optional[str] = field(
         default=None,
@@ -993,7 +1024,7 @@ class CorpusAdministrative:
             "type": "Element",
             "required": True,
             "min_length": 1,
-        }
+        },
     )
     corpus_admin_contactMail: List[str] = field(
         default_factory=list,
@@ -1001,7 +1032,7 @@ class CorpusAdministrative:
             "type": "Element",
             "min_occurs": 1,
             "pattern": r"([^@]+@[^\.]+\..+)|(notAvailable)",
-        }
+        },
     )
     corpus_admin_contributor_dkd: List[DkdContributor] = field(
         default_factory=list,
@@ -1009,112 +1040,151 @@ class CorpusAdministrative:
             "type": "Element",
             "min_occurs": 11,
             "max_occurs": 11,
-        }
+        },
     )
     corpus_admin_contributor_orig: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
-    corpus_admin_dateOfPublication: Optional[Union[XmlPeriod, XmlDate, str, NaString]] = field(
+    corpus_admin_dateOfPublication: Optional[Union[XmlPeriod, str, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-            "pattern": r"\d{4}-\d{2}",
-        }
+            "pattern": r"\d{4}-\d{2}-\d{2}",
+        },
     )
     corpus_admin_documentation: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_admin_fileFormat: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_admin_licence: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_admin_licenceFulltext: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_licenceUrl: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_admin_otherVersions: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_pid_dkd: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_admin_pid_orig: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_admin_refArticle: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_referencesOther: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_researchPaper: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_URL_download: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_URLquery: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_admin_version_orig: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
+    )
+
+
+@dataclass
+class CorpusAnnotation:
+    """
+    :ivar corpus_annotation_hasBorrowedAnnotation_orig: Does any text in
+        the corpus contain annotations for structures taken from the
+        task prompt? There is no related field in LC-meta .
+    :ivar corpus_annotation_hasErrorAnnotation_orig: Is any text in the
+        corpus error-annotated? There is no related field in LC-meta .
+    :ivar corpus_annotation_hasTargetHypotheses_orig: Does any text in
+        the corpus have a target hypothesis or other type of
+        normalisation? There is no related field in LC-meta.
+    """
+
+    class Meta:
+        name = "Corpus_Annotation"
+
+    corpus_annotation_hasBorrowedAnnotation_orig: Union[bool, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
+        metadata={
+            "type": "Element",
+            "required": True,
+        },
+    )
+    corpus_annotation_hasErrorAnnotation_orig: Union[bool, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
+        metadata={
+            "type": "Element",
+            "required": True,
+        },
+    )
+    corpus_annotation_hasTargetHypotheses_orig: Union[bool, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
+        metadata={
+            "type": "Element",
+            "required": True,
+        },
     )
 
 
@@ -1131,13 +1201,11 @@ class CorpusDesign:
     :ivar corpus_design_isComparableDataIncluded: Does the corpus
         include comparison data? An equivalent field in LC-meta is
         `corpus_comparable_data_included`.
-    :ivar corpus_design_l1Language: L1 language(s). An equivalent field
+    :ivar corpus_design_l1Languages: L1 language(s). An equivalent field
         in LC-meta is `corpus_L1_language`.
     :ivar corpus_design_l1Type: L1 constellation. If all participants
-        share one L1: mono; if there are multiple L1s: multi . There is
+        share one L1: mono; if there are multiple L1s: multi. There is
         no eqivalent field in LC-meta.
-    :ivar corpus_design_size: Storage requirement in KB, MB, GB, TB or
-        PB. An equivalent field in LC-meta is  `corpus_size`.
     :ivar corpus_design_targetLanguage: Target languages of the complete
         corpus. An equivalent field in LC-meta is
         `corpus_target_language`.
@@ -1149,6 +1217,7 @@ class CorpusDesign:
         during which the corpus was created. An equivalent field in LC-
         meta is `corpus_time_of_data_collection`.
     """
+
     class Meta:
         name = "Corpus_Design"
 
@@ -1158,86 +1227,66 @@ class CorpusDesign:
             "type": "Element",
             "required": True,
             "min_length": 1,
-        }
+        },
     )
     corpus_design_designType: Optional[StudyDesign] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_design_group: Optional[CorpusGroup] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_design_isComparableDataIncluded: Optional[Union[bool, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    corpus_design_l1Language: List[LanguageNameDe] = field(
+    corpus_design_l1Languages: List[LanguageNameDe] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_design_l1Type: List[L1Constellation] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
-    )
-    corpus_design_size: Optional["CorpusDesign.CorpusDesignSize"] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
+        },
     )
     corpus_design_targetLanguage: List[DkdTrgLang] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_design_targetLanguageType: List[L1Constellation] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
-    corpus_design_timeOfDataCollection: Optional[Union[XmlPeriod, str, NaString]] = field(
+    corpus_design_timeOfDataCollection: Optional[
+        Union[XmlPeriod, str, NaString]
+    ] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
             "pattern": r"\d{4}-\d{4}",
-        }
+        },
     )
-
-    @dataclass
-    class CorpusDesignSize:
-        value: Optional[Decimal] = field(
-            default=None,
-            metadata={
-                "required": True,
-            }
-        )
-        unit: Optional[StorageUnit] = field(
-            default=None,
-            metadata={
-                "type": "Attribute",
-            }
-        )
 
 
 @dataclass
@@ -1251,7 +1300,7 @@ class CorpusProficiency:
         learner/L1 speakers or texts. A related field in LC-meta is
         `corpus_proficiency_assignment_available`.
     :ivar corpus_proficiency_learner_AssignmentInstrument: Name of test
-        instrument used to evaluate learners’ proficiency. CMSCL has
+        instrument used to evaluate learners’ proficiency. LC-meta has
         matching field
         `corpus_learner_proficiency_assignment_instrument`.
     :ivar corpus_proficiency_levelMax: proficiency levels; if only
@@ -1268,6 +1317,7 @@ class CorpusProficiency:
         profiency of a text. A related field in LC-meta is
         `corpus_text_proficiency_assignment_instrument`.
     """
+
     class Meta:
         name = "Corpus_Proficiency"
 
@@ -1276,49 +1326,49 @@ class CorpusProficiency:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_proficiency_isAssignmentAvailable: Optional[bool] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_proficiency_learner_AssignmentInstrument: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_proficiency_levelMax: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_proficiency_levelMin: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_proficiency_textAssignmentInstrument: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_proficiency_textAutomaticAssignmentInstrument: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1356,6 +1406,7 @@ class CorpusProject:
         related variable in LC-meta is
         `corpus_related_research_project_URL`
     """
+
     class Meta:
         name = "Corpus_Project"
 
@@ -1364,14 +1415,14 @@ class CorpusProject:
         metadata={
             "type": "Element",
             "pattern": r"([^@]+@[^\.]+\..+)|(notAvailable)",
-        }
+        },
     )
     corpus_project_duration_dkd: Optional[DakodaProjectDuration] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_project_duration_orig: Optional[Union[XmlPeriod, str, NaString]] = field(
         default=None,
@@ -1379,7 +1430,7 @@ class CorpusProject:
             "type": "Element",
             "required": True,
             "pattern": r"\d{4}-\d{4}",
-        }
+        },
     )
     corpus_project_head_dkd: List[DkdProjectHead] = field(
         default_factory=list,
@@ -1387,40 +1438,40 @@ class CorpusProject:
             "type": "Element",
             "min_occurs": 2,
             "max_occurs": 2,
-        }
+        },
     )
     corpus_project_head_orig: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_project_institution_dkd: List[DkdInstitution] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_project_institution_orig: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     corpus_project_name_dkd: Optional[DkdProjectName] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_project_name_orig: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_project_type_dkd: DkdProjectType = field(
         init=False,
@@ -1428,26 +1479,26 @@ class CorpusProject:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_project_type_orig: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_project_URL_dkd: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     corpus_project_URL_orig: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
 
 
@@ -1456,6 +1507,8 @@ class CorpusSubcorpus:
     """
     :ivar corpus_subcorpus_signet: Identifier of the (sub)corpus in the
         DAKODA repository.
+    :ivar corpus_subcorpus_size: Storage requirement in KB, MB, GB, TB
+        or PB. An equivalent field in LC-meta is  `corpus_size`.
     :ivar corpus_subcorpus_sizeLearners: The number of learners
         represented in the subcorpus. An equivalent field in LC-meta is
         `corpus_size_learners`.
@@ -1467,6 +1520,7 @@ class CorpusSubcorpus:
         language in a subcorpus as a value followig ISO 639-3. A related
         field in LC-meta is `corpus_target_language`.
     """
+
     class Meta:
         name = "Corpus_Subcorpus"
 
@@ -1475,36 +1529,58 @@ class CorpusSubcorpus:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
+    )
+    corpus_subcorpus_size: Optional["CorpusSubcorpus.CorpusSubcorpusSize"] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        },
     )
     corpus_subcorpus_sizeLearners: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_subcorpus_sizeTexts: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_subcorpus_sizeTokens: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     corpus_subcorpus_targetLanguage: List[DkdTrgLang] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
+
+    @dataclass
+    class CorpusSubcorpusSize:
+        value: Optional[Decimal] = field(
+            default=None,
+            metadata={
+                "required": True,
+            },
+        )
+        unit: Optional[StorageUnit] = field(
+            default=None,
+            metadata={
+                "type": "Attribute",
+            },
+        )
 
 
 @dataclass
@@ -1529,6 +1605,7 @@ class InteractionBlock:
     :ivar task_interaction_type: Register. An equivalent field in LC-
         meta is `situation_register`.
     """
+
     class Meta:
         name = "Interaction_Block"
 
@@ -1537,49 +1614,49 @@ class InteractionBlock:
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     task_interaction_ExpectedRhetoricalFunctions: List[RhetoricalFunctions] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     task_interaction_formality: FormalityType = field(
         default=FormalityType.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_interaction_mode: List[DataProductionSettingMode] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     task_interaction_participantsL1L2Interaction: Optional[InteractionTypes] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
-    task_interaction_participants: List[Union[int, str, NaString]] = field(
+    task_interaction_participants: List[Union[int, str, NumberNType, NaString]] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
             "pattern": r"\d{1,2}-\d{1,2}",
-        }
+        },
     )
-    task_interaction_type: LearnerTaskType = field(
-        default=LearnerTaskType.NOT_AVAILABLE,
+    task_interaction_type: List[LearnerTaskType] = field(
+        default_factory=list,
         metadata={
             "type": "Element",
-            "required": True,
-        }
+            "min_occurs": 1,
+        },
     )
 
 
@@ -1587,129 +1664,125 @@ class InteractionBlock:
 class LanguageExposure:
     """
     :ivar learner_language_exposure_onset: Age of Onset. Related field
-        in CMSCL are `learner_target_language_onset` and
+        in LC-meta are `learner_target_language_onset` and
         `learner_L"_language_onset`.
-    :ivar learner_language_exposure_onset_group: Age bracket within
-        which the start of acquisition for the language in question
-        falls. There is no related field in CMSCL.
     :ivar learner_language_exposure_durationOfInstruction: Number of
-        years of instruction of a foreign or second language. Not
-        applicable to L1-instruction. A related field in CMSCL is
+        months of instruction of a foreign or second language. Not
+        applicable to L1-instruction. A related field in LC-meta is
         `learner_target_language_learning_context` .
-    :ivar learner_language_exposure_durationOfUse: Number of years in
+    :ivar learner_language_exposure_durationOfUse: Number of months in
         which learner used German (any form of learning or contact
         time). In cases, where the language in question is an L1, this
         value can be equated to the person's age at the time of text
-        producton. A related field in CMSCL is
+        producton. A related field in LC-meta is
         `learner_target_language_learning_context` .
     :ivar learner_language_exposure_input: Type of input through which
         the learner came into contact with the language. A related field
-        in CMSCL is `learner_target_language_learning_context`.
+        in LC-meta is `learner_target_language_learning_context`.
     :ivar learner_language_exposure_institution: Type of institution in
         which the learner learnt the language . There is a related field
-        `months_spent_target_language_environment` in CMSCL.
+        `months_spent_target_language_environment` in LC-meta.
     :ivar learner_language_exposure_monthsSpentEnvironment: Cumulative
         time (in months) spent in an environment where the L2 is spoken.
-        A related field in CMSCL are
+        A related field in LC-meta are
         `learner_L2_months_spent_L2_environment` and
         `months_spent_target_language_environment` .
     :ivar learner_language_exposure_learningContext: Learning context of
-        target language from onset to current age. There is no related
-        field in LC-meta.
+        target language from onset to current age. A related field in
+        LC-meta is `learner_target_language_learning_context`.
     :ivar learner_language_exposure_placeAcquisition: Place where
         learner mainly has learnt German (specified as a country or
-        territory according to ISO 3166-ALPHA-3). A related field in
-        CMSCL is `learner_target_language_learning_context`.
-    :ivar learner_language_exposure_WasInEnvironment: Was the learner/L1
+        territory according to ISO 3166-ALPHA-3). A related field in LC-
+        meta is `learner_target_language_learning_context`.
+    :ivar learner_language_exposure_wasInEnvironment: Was the learner/L1
         speaker in a country/region where the target language is spoken
-        at the time of data collection? A related field in CMSCL is
+        at the time of data collection? A related field in LC-meta is
         `learner_target_language_environment`.
-    :ivar learner_language_WasInstructed: Was the learner/L1 speaker in
-        an instructed learning context at the time of data collection? A
-        related field in CMSCL is `learner_target_language_instructed`.
+    :ivar learner_language_exposure_wasInstructed: Was the learner/L1
+        speaker in an instructed learning context at the time of data
+        collection? A related field in LC-meta is
+        `learner_target_language_instructed`.
     """
+
     class Meta:
         name = "Language_Exposure"
 
-    learner_language_exposure_onset: Optional[Union[int, float, NaString]] = field(
+    learner_language_exposure_onset: Union[int, float, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
+        metadata={
+            "type": "Element",
+            "required": True,
+            "min_exclusive": 0,
+        },
+    )
+    learner_language_exposure_durationOfInstruction: Optional[
+        Union[int, float, NaString]
+    ] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
             "min_exclusive": 0,
-        }
+        },
     )
-    learner_language_exposure_onset_group: str = field(
-        default="notAvailable",
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-    learner_language_exposure_durationOfInstruction: Optional[Union[int, float, NaString]] = field(
-        default=None,
+    learner_language_exposure_durationOfUse: Union[int, float, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
             "min_exclusive": 0,
-        }
-    )
-    learner_language_exposure_durationOfUse: Optional[Union[int, float, NaString]] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "required": True,
-            "min_exclusive": 0,
-        }
+        },
     )
     learner_language_exposure_input: Optional[TrgLangInputType] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_exposure_institution: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
-    learner_language_exposure_monthsSpentEnvironment: Optional[Union[int, float, NaString]] = field(
+    learner_language_exposure_monthsSpentEnvironment: Optional[
+        Union[int, float, NaString]
+    ] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
             "min_exclusive": 0,
-        }
+        },
     )
     learner_language_exposure_learningContext: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_exposure_placeAcquisition: Optional[CountryTypeOrNa] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    learner_language_exposure_WasInEnvironment: Optional[Union[bool, NaString]] = field(
+    learner_language_exposure_wasInEnvironment: Optional[Union[bool, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    learner_language_WasInstructed: Optional[Union[bool, NaString]] = field(
-        default=None,
+    learner_language_exposure_wasInstructed: Union[bool, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1741,20 +1814,21 @@ class LearnerLanguageProficiency:
         An equivalent field in LC-meta is
         `corpus_learner_proficiency_assignment_instrument`.
     :ivar learner_language_proficiency_estimateMax: Approximate
-        indication of the speaker's language competence; if possible,
-        based on GeR-related text assessment; if not, based on C-test
-        result or duration of use (0-2 years = A2, 2-5 years = B2, &gt;5
-        years = C2. If the level cannot be specified precisely, the
-        upper limit of the estimated competence is given here. A related
-        field in LC-meta is `learner_target_language_proficiency`.
+        indication of the speaker's language proficiency; based, if
+        possible, on CEFR-related text assessment; otherwise, learner-
+        related assessment, school, university, or language school
+        curriculum, or assessment by the corpus compilers. If the level
+        cannot be specified precisely, the lower or upper limit of the
+        estimated proficiency is indicated here. There is no related
+        field in LC-meta.
     :ivar learner_language_proficiency_estimateMin: Approximate
-        indication of the speaker's language competence; if possible,
-        based on GeR-related text assessment; if not, based on C-test
-        result or duration of use (0-2 years = A2, 2-5 years = B2, &gt;5
-        years = C2. If the level cannot be specified precisely, the
-        lower limit of the estimated competence is given here. .A
-        related field in LC-meta is
-        `learner_target_language_proficiency`.
+        indication of the speaker's language proficiency; based, if
+        possible, on CEFR-related text assessment; otherwise, learner-
+        related assessment, school, university, or language school
+        curriculum, or assessment by the corpus compilers. If the level
+        cannot be specified precisely, the lower or upper limit of the
+        estimated proficiency is indicated here. There is no related
+        field in LC-meta.
     :ivar learner_language_proficiency_selfAssessment: Self-assessment
         of language skills. An equivalent field in LC-meta is
         `learner_L2_language_proficiency`.
@@ -1769,6 +1843,7 @@ class LearnerLanguageProficiency:
         documentation on how learners were evaluated. An equivalent
         field in LC-meta is `corpus_learner_proficiency_documentation`.
     """
+
     class Meta:
         name = "Learner_Language_Proficiency"
 
@@ -1777,100 +1852,104 @@ class LearnerLanguageProficiency:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_cefrMax: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_cefrMin: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_cTestCefrMax: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_cTestCefrMin: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_cTestLevelDetail: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    learner_language_proficiency_cTestPercent: Optional[Union[Decimal, NaString]] = field(
+    learner_language_proficiency_cTestPercent: Optional[
+        Union[Decimal, NaString]
+    ] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
             "min_inclusive": Decimal("0"),
             "max_inclusive": Decimal("100"),
-        }
+        },
     )
     learner_language_proficiency_cTestType: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_estimateMax: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_estimateMin: Optional[ProficiencyLevel] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_selfAssessment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_proficiency_assignmentInstrument: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    learner_language_proficiency_assignmentMethod: List[ProficiencyAssessmentMethod] = field(
+    learner_language_proficiency_assignmentMethod: List[
+        ProficiencyAssessmentMethod
+    ] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     learner_language_proficiency_documentation: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1881,35 +1960,35 @@ class Lingua:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     name_en: Optional[LanguageNameEn] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     iso_code_639_3: Optional[LanguageCode] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     group: Optional[LanguageGroup] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
 @dataclass
 class ProductionSetting:
     """
-    :ivar production_setting_schoolGrade: School year in which the
+    :ivar productionSetting_schoolGrade: School year in which the
         productions were collected. There is no related field in LC-
         meta.
     :ivar productionSetting_educationalStage: Level of education the
@@ -1930,66 +2009,70 @@ class ProductionSetting:
     :ivar productionSetting_setting: Language production setting. An
         equivalent field in LC-meta is `corpus_production_setting`.
     """
+
     class Meta:
         name = "Production_Setting"
 
-    production_setting_schoolGrade: Optional[Union[int, NaString]] = field(
+    productionSetting_schoolGrade: Optional[Union[int, str, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+            "pattern": r"\d{1,2}-\d{1,2}",
+        },
     )
     productionSetting_educationalStage: List[EducationalStage] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     productionSetting_languageTest: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     productionSetting_languageCourseLevel: str = field(
         default="notApplicable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     productionSetting_naturalistic: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     productionSetting_collectedInResearchProject: Optional[bool] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     productionSetting_setting: List[DataProductionSetting] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
 
 
 @dataclass
 class Sociodemographics:
     """
+    :ivar learner_socio_ageProduction: Age at time of text production.
+        An equivalent field in LC-meta is `learner_age`.
     :ivar learner_socio_birthplace: Place of birth of the speaker. This
         is coded as country or territory. There is no related field in
-        CMSCL.
+        LC-meta.
     :ivar learner_socio_country: Country in which the learner spent most
-        of his/her childhood. There is a related field in CMSCL,
+        of his/her childhood. There is a related field in LC-meta,
         `learner_country`.
     :ivar learner_socio_educationalBackground: Highest level of
         education attained by the learner. There is a related field in
@@ -2003,54 +2086,63 @@ class Sociodemographics:
     :ivar learner_socio_schoolGrade: School year in which the text was
         collected. There is no related field in LC-meta .
     """
+
+    learner_socio_ageProduction: Union[int, float, NaString] = field(
+        default=NaString.NOT_AVAILABLE,
+        metadata={
+            "type": "Element",
+            "required": True,
+            "min_exclusive": 0,
+        },
+    )
     learner_socio_birthplace: CountryType = field(
         default=CountryType.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_socio_country: CountryType = field(
         default=CountryType.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_socio_educationalBackground: EducationalStage = field(
         default=EducationalStage.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_socio_gender: Gender = field(
         default=Gender.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_socio_majorSubject: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     learner_socio_profession: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     learner_socio_schoolGrade: Optional[Union[int, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -2075,6 +2167,7 @@ class TargetHypothesis:
         generating THs. A related field in LC-meta is
         `annotation_tool_version`.
     """
+
     class Meta:
         name = "Target_Hypothesis"
 
@@ -2083,117 +2176,80 @@ class TargetHypothesis:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     targetHypothesis_corrected: Optional[bool] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     targetHypothesis_documentation: Optional[object] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     targetHypothesis_evaluation: Optional[Union[bool, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     targetHypothesis_tool: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     targetHypothesis_toolVersion: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
 @dataclass
 class TextAnnotation:
     """
-    :ivar text_annotation_borrowed_orig: Does the text contain
-        annotations for structures taken from the task prompt? There is
-        no related field in LC-meta .
+    :ivar text_annotation_hasBorrowedAnnotation_orig: Does the text
+        contain annotations for structures taken from the task prompt?
+        There is no related field in LC-meta .
     :ivar text_annotation_hasErrorAnnotation_orig: Is the text error-
         annotated? There is no related field in LC-meta .
     :ivar text_annotation_hasTargetHypotheses_orig: Does the text have a
         target hypothesis or other type of normalisation? There is no
         related field in LC-meta.
     """
+
     class Meta:
         name = "Text_Annotation"
 
-    text_annotation_borrowed_orig: Union[bool, NaString] = field(
+    text_annotation_hasBorrowedAnnotation_orig: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_annotation_hasErrorAnnotation_orig: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_annotation_hasTargetHypotheses_orig: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
-    )
-
-
-@dataclass
-class TextLearner:
-    """
-    :ivar text_learner_ageProduction: Age at time of text production. An
-        equivalent field in LC-meta is `learner_age`.
-    :ivar text_learner_ageProductionAggregated: Rough age range at the
-        time of the data collection . A related field in LC-meta is
-        `learner_age`.
-    :ivar text_learner_role: Role of the person in this event . There is
-        no related field in LC-meta .
-    """
-    class Meta:
-        name = "Text_Learner"
-
-    text_learner_ageProduction: Union[int, float, NaString] = field(
-        default=NaString.NOT_AVAILABLE,
-        metadata={
-            "type": "Element",
-            "required": True,
-            "min_exclusive": 0,
-        }
-    )
-    text_learner_ageProductionAggregated: LearnerAgeRange = field(
-        default=LearnerAgeRange.NOT_AVAILABLE,
-        metadata={
-            "type": "Element",
-            "required": True,
-        }
-    )
-    text_learner_role: List[str] = field(
-        default_factory=list,
-        metadata={
-            "type": "Element",
-            "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -2222,7 +2278,7 @@ class TextProficiency:
         on how texts were evaluated (descriptors, rubric, etc.).An
         equivalent field in LC-meta is
         `corpus_text_proficiency_documentation`.
-    :ivar text_proficiency_official_languageTestingScore: Results of the
+    :ivar text_proficiency_officialLanguageTestingScore: Results of the
         official language test (score for the text; not global score
         which should be recorded at the level of the learner/L1 speaker
         metadata). An equivalent field in LC-meta is
@@ -2231,6 +2287,7 @@ class TextProficiency:
         text (not harmonised across DAKODA corpora). An equivalent field
         in LC-meta is `text_proficiency`.
     """
+
     class Meta:
         name = "Text_Proficiency"
 
@@ -2239,63 +2296,63 @@ class TextProficiency:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_proficiency_assignmentMethod: ProficiencyAssignmentMethodType = field(
         default=ProficiencyAssignmentMethodType.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    text_proficiency_cefrMax: CoarseCefrLevel = field(
-        default=CoarseCefrLevel.NOT_AVAILABLE,
+    text_proficiency_cefrMax: ProficiencyLevel = field(
+        default=ProficiencyLevel.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    text_proficiency_cefrMin: CoarseCefrLevel = field(
-        default=CoarseCefrLevel.NOT_AVAILABLE,
+    text_proficiency_cefrMin: ProficiencyLevel = field(
+        default=ProficiencyLevel.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_proficiency_cefrAutomMax: ProficiencyLevel = field(
         default=ProficiencyLevel.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_proficiency_cefrAutomMin: ProficiencyLevel = field(
         default=ProficiencyLevel.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_proficiency_documentation: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    text_proficiency_official_languageTestingScore: str = field(
+    text_proficiency_officialLanguageTestingScore: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_proficiency_score: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -2316,47 +2373,48 @@ class Annotator:
     :ivar annotator_type: Annotator experience. An equivalent field in
         LC-meta is `annotator_type`.
     """
+
     annotator_id: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotator_L1: Optional[Lingua] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotator_L2: Optional[Lingua] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotator_note: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotator_targetLanguageCompetence: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotator_type: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -2369,41 +2427,50 @@ class Corpus:
     :ivar project: Information about the project from which the corpus
         originated.
     :ivar subcorpus: Information about a subcorpus of the corpus.
+    :ivar annotation: Information about annotations of the corpus.
     """
+
     administrative: Optional[CorpusAdministrative] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     design: Optional[CorpusDesign] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     proficiency: Optional[CorpusProficiency] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     project: Optional[CorpusProject] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     subcorpus: Optional[CorpusSubcorpus] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
+    )
+    annotation: Optional[CorpusAnnotation] = field(
+        default=None,
+        metadata={
+            "type": "Element",
+            "required": True,
+        },
     )
 
 
@@ -2428,6 +2495,7 @@ class LanguageOfSpeaker:
     :ivar exposure:
     :ivar proficiency:
     """
+
     class Meta:
         name = "Language_Of_Speaker"
 
@@ -2436,21 +2504,21 @@ class LanguageOfSpeaker:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_status: List[LangStatus] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     learner_language_IsTarget: Optional[Union[bool, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_dominantWordOrder: List[WordOrderType] = field(
         default_factory=list,
@@ -2458,45 +2526,45 @@ class LanguageOfSpeaker:
             "type": "Element",
             "min_occurs": 1,
             "max_occurs": 2,
-        }
+        },
     )
     learner_language_group: Optional[LanguageGroup] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_isSpokenHome: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_language_isSpokenSchool: List[Union[bool, NaString]] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     learner_language_parentL1: Optional[LanguageCode] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     exposure: Optional[LanguageExposure] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     proficiency: Optional[LearnerLanguageProficiency] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
 
 
@@ -2511,6 +2579,9 @@ class TaskBlock:
         in LC-meta.
     :ivar task_comparison: Possibility of comparing tasks and time
         points. There is no related field in LC-meta .
+    :ivar task_comparison_otherCorpora: DAKODA task ID of the task that
+        was used as a template for this task. There is no related field
+        in LC-meta .
     :ivar task_description: Short description of the task. A related
         field in LC-meta is  `task_instructions`.
     :ivar task_descriptionDetailed: Further descriptions with source
@@ -2545,6 +2616,7 @@ class TaskBlock:
         There is no related field in LC-meta .
     :ivar interaction:
     """
+
     class Meta:
         name = "Task_Block"
 
@@ -2553,42 +2625,49 @@ class TaskBlock:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_id_orig: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_title: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_comparison: List[PossibilitiesForComparisons] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
+    )
+    task_comparison_otherCorpora: List[str] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
+            "min_occurs": 1,
+        },
     )
     task_description: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_descriptionDetailed: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_durationMinutes: Union[int, str, NaString] = field(
         default=NaString.NOT_APPLICABLE,
@@ -2596,84 +2675,84 @@ class TaskBlock:
             "type": "Element",
             "required": True,
             "pattern": r"\d{1,3}-\d{1,3}",
-        }
+        },
     )
     task_instructions: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_isDurationLimited: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_levelMax: List[ProficiencyLevel] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     task_levelMin: List[ProficiencyLevel] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     task_assessed: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_officialLanguageTest: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_officialLanguageTestSpecific: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_options: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_stimulusOffered: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task_stimulusType: List[TaskStimulusType] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     interaction: Optional[InteractionBlock] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -2708,6 +2787,7 @@ class TextProperties:
     :ivar proficiency:
     :ivar annotation:
     """
+
     class Meta:
         name = "Text_Properties"
 
@@ -2716,91 +2796,91 @@ class TextProperties:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_id: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_ID_orig: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_language: Optional[Lingua] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_longitudinalOrder: Optional[Union[int, NaString]] = field(
         default=None,
         metadata={
             "type": "Element",
-        }
+        },
     )
     text_timeOfCreation: Union[XmlPeriod, str, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-            "pattern": r"\d{4}-\d{4}",
-        }
+            "pattern": r"\d{4}-\d{2}-\d{2}",
+        },
     )
     text_tokenCount: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_clauseCount: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text_topicAutom: List[TopicType] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     text_note: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner: Optional[TextLearner] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     proficiency: Optional[TextProficiency] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     annotation: Optional[TextAnnotation] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -2808,33 +2888,34 @@ class TextProperties:
 class Learner:
     """
     :ivar learner_id: Participant ID assigned by the DAKODA project. A
-        related field in CMSCL is `learner_id`.
+        related field in LC-meta is `learner_id`.
     :ivar learner_id_orig: Participant ID assigned by the source
-        project. A related field in CMSCL is `learner_id`.
+        project. A related field in LC-meta is `learner_id`.
     :ivar learner_lCount: Number of languages spoken including L1. There
-        is no related field in CMSCL .
+        is no related field in LC-meta .
     :ivar learner_multipleL1: Does the learner have more than one L1? A
-        related field in CMSCL is `learner_L1`.
+        related field in LC-meta is `learner_L1`.
     :ivar learner_textCount: Number of existing texts from this person.
-        There is no related field in CMSCL .
+        There is no related field in LC-meta .
     :ivar learner_note: Any comments regarding this learner/L1 speaker.
         An equivalent field in LC-meta is `learner_note`.
     :ivar sociodemographic:
     :ivar language:
     """
+
     learner_id: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_id_orig: List[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     learner_lCount: Union[int, float, NaString] = field(
         default=NaString.NOT_AVAILABLE,
@@ -2842,42 +2923,42 @@ class Learner:
             "type": "Element",
             "required": True,
             "min_exclusive": 0,
-        }
+        },
     )
     learner_multipleL1: Union[bool, NaString] = field(
         default=NaString.NOT_AVAILABLE,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_textCount: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner_note: str = field(
         default="notAvailable",
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     sociodemographic: Optional[Sociodemographics] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     language: List[LanguageOfSpeaker] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -2891,53 +2972,53 @@ class DocumentType:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     production_setting: Optional[ProductionSetting] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     task: Optional[TaskBlock] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     learner: Optional[Learner] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     text: Optional[TextProperties] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     target_hypothesis: List[TargetHypothesis] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     annotation: List[Annotation] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
     annotator: List[Annotator] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
 
 

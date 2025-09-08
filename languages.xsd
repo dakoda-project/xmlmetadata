@@ -16,6 +16,8 @@
             <xs:enumeration value="Bengali"/>
             <xs:enumeration value="Basque"/>
             <xs:enumeration value="Hindi"/>
+        	<xs:enumeration value="Berber"/><!--added-->
+        	<xs:enumeration value="Somali"/><!--added-->
             <xs:enumeration value="Japanese"/>
             <xs:enumeration value="Georgian"/>
             <xs:enumeration value="Korean"/>
@@ -27,11 +29,13 @@
             <xs:enumeration value="Urdu"/>
         	<xs:enumeration value="Igbo"/>
             <xs:enumeration value="Uzbek"/>
-            <xs:enumeration value="Panjabi; Punjabi"/>
+            <xs:enumeration value="Panjabi"/>
+        	<xs:enumeration value="Punjabi"/>
             <xs:enumeration value="Persian"/>
             <xs:enumeration value="German"/>
             <xs:enumeration value="Hungarian"/>
             <xs:enumeration value="Dutch"/>
+        	<xs:enumeration value="Estonian"/>
             <xs:enumeration value="Bosnian"/>
             <xs:enumeration value="Serbian"/>
             <xs:enumeration value="Croatian"/>
@@ -143,6 +147,9 @@
             <xs:enumeration value="Bengalisch"/>
             <xs:enumeration value="Baskisch"/>
             <xs:enumeration value="Hindi"/>
+        	<xs:enumeration value="Somalisch"/><!--added -->
+        	<xs:enumeration value="Somali"/><!--added -->
+        	<xs:enumeration value="Berbisch"/><!--added -->
             <xs:enumeration value="Japanisch"/>
             <xs:enumeration value="Georgisch"/>
             <xs:enumeration value="Koreanisch"/>
@@ -154,14 +161,18 @@
             <xs:enumeration value="Urdu"/>
             <xs:enumeration value="Usbekisch"/>
             <xs:enumeration value="Panjabi, Pandschabisch"/>
+        	<xs:enumeration value="Punjabi"/>
             <xs:enumeration value="Persisch"/>
+        	<xs:enumeration value="Westpersisch, Iranisches Persisch, Farsi"/>
+        	<xs:enumeration value="Farsi"/>
             <xs:enumeration value="Deutsch"/>
             <xs:enumeration value="Ungarisch"/>
-            <xs:enumeration value="Niederländisch,  Belgisches Niederländisch"/>
+            <xs:enumeration value="Niederländisch, Belgisches Niederländisch"/>
             <xs:enumeration value="Bosnisch"/>
             <xs:enumeration value="Serbisch"/>
             <xs:enumeration value="Kroatisch"/>
             <xs:enumeration value="Hebräisch"/>
+        	<xs:enumeration value="Estnisch"/>
             <xs:enumeration value="Chinesisch"/>
             <xs:enumeration value="Bulgarisch"/>
             <xs:enumeration value="Katalanisch, Valencianisch"/>
@@ -195,6 +206,7 @@
             <xs:enumeration value="Swahili"/>
             <xs:enumeration value="Schwedisch"/>
             <xs:enumeration value="Thailändisch, Thai"/>
+        	<xs:enumeration value="Thailändisch"/>
             <xs:enumeration value="Ukrainisch"/>
             <xs:enumeration value="Vietnamesisch"/>
             <xs:enumeration value="isiXhosa"/>
@@ -232,6 +244,7 @@
             <xs:enumeration value="Giryama"/>
             <xs:enumeration value="Bündnerromanisch, Rätoromanisch"/>
             <xs:enumeration value="Slowakisch"/>
+        	<xs:enumeration value="Tamilisch"/>
             <xs:enumeration value="Serili"/>
             <xs:enumeration value="Twi"/>
             <xs:enumeration value="Zentralatlas-Tamazight"/>
@@ -284,6 +297,7 @@
     		<xs:enumeration value="Creoles and Pidgin"/>
     		<xs:enumeration value="Defoid"/>
     		<xs:enumeration value="Dravidian"/>
+    		<xs:enumeration value="Lowland East Cushitic"/>
     		<xs:enumeration value="Eskimo"/>
     		<xs:enumeration value="Finnic"/>
     		<xs:enumeration value="Ga-Dengme"/>
@@ -333,10 +347,14 @@
 			<xs:enumeration value="aan"/>
 			<xs:enumeration value="aao"/>
 			<xs:enumeration value="aap"/>
+			<xs:enumeration value="zho"/><!--added -->
 			<xs:enumeration value="aaq"/>
 			<xs:enumeration value="aar"/>
 			<xs:enumeration value="aas"/>
+			<xs:enumeration value="arc"/><!-- added -->
 			<xs:enumeration value="alb"/>
+			<!--hack-->
+			<xs:enumeration value="ber"/>
 			<!--hack-->
 			<xs:enumeration value="sqi"/>
 			<xs:enumeration value="aat"/>
@@ -664,7 +682,8 @@
 			<xs:enumeration value="aqr"/>
 			<xs:enumeration value="aqt"/>
 			<xs:enumeration value="aqz"/>
-			<xs:enumeration value="arb"/>
+			<xs:enumeration value="ara"/>
+            <xs:enumeration value="arb"/>
 			<xs:enumeration value="ard"/>
 			<xs:enumeration value="are"/>
 			<xs:enumeration value="arg"/>
@@ -2163,6 +2182,7 @@
 			<xs:enumeration value="eso"/>
 			<xs:enumeration value="esq"/>
 			<xs:enumeration value="ess"/>
+			<xs:enumeration value="est"/>
 			<xs:enumeration value="esu"/>
 			<xs:enumeration value="esy"/>
 			<xs:enumeration value="etb"/>
