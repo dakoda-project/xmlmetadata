@@ -18,6 +18,22 @@
 
 
 
+<!--mother; father; not specified attachment figure; none-->
+
+	<xs:simpleType name="PARENTAL_RELATIVE">
+		<xs:annotation>
+			<xs:documentation>Relative who has a language of the learner as their L1.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="father"/>
+			<xs:enumeration value="mother"/>
+			<xs:enumeration value="not specified attachment figure"/>
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="notAvailable"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
 
 	<xs:simpleType name="WORD_ORDER_TYPE">
 		<xs:annotation>
@@ -374,6 +390,7 @@
 			<xs:enumeration value="longitudinal"/>
 			<xs:enumeration value="pseudo-longitudinal"/>
 			<xs:enumeration value="cross-sectional"/>
+			<!--xs:enumeration value="longitudinal; cross-sectional"/--><!-- Di 07 Okt 2025 ( KW40 ) -->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -472,7 +489,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="Bundesministerium für Bildung und Forschung (BMBF)"/>
+			<xs:enumeration value="Bundesministerium für Forschung, Technologie und Raumfahrt (BMFTR)"/>
 
 		</xs:restriction>
 	</xs:simpleType>
@@ -589,9 +606,17 @@
 			<xs:documentation>A positive integer or float or a string indicating that no value is avaiablle
 			</xs:documentation>
 		</xs:annotation>
-		<xs:union memberTypes="xs:positiveInteger POS_FLOAT NA_STRING"/>
+		<!--xs:union memberTypes="xs:positiveInteger POS_FLOAT NA_STRING"/-->
+		<!--Di 07 Okt 2025 ( KW40 ) -->
+		<xs:union memberTypes="xs:nonNegativeInteger POS_FLOAT NA_STRING"/>
 	</xs:simpleType>
 	
+
+	<xs:simpleType name="nonNegativeInteger" id="nonNegativeInteger">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 
 	<xs:simpleType name="YEAR_SPAN">
@@ -782,6 +807,7 @@
 			<xs:enumeration value="L1"/>
 			<xs:enumeration value="L2"/>
 			<xs:enumeration value="Target language"/>
+			<xs:enumeration value="Heritage language"/>
 			<xs:enumeration value="notAvailable"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -1253,7 +1279,7 @@
 			</xs:element>
 
 
-			<xs:element name="corpus_design_designType" type="STUDY_DESIGN">
+			<xs:element name="corpus_design_designType" type="STUDY_DESIGN" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Design of data collection/study design. An equivalent field in LC-meta `corpus_longitudinal`. </xs:documentation>
 					<xs:appinfo>
@@ -1356,7 +1382,7 @@
 		<xs:sequence>
 
 			<xs:element name="corpus_proficiency_assignmentMethod"
-				type="PROFICIENCY_ASSIGNMENT_METHOD" default="none" minOccurs="1">
+				type="PROFICIENCY_ASSIGNMENT_METHOD" default="none" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The method of proficiency level assignment used for the
 						corpus . An equivalent field in LC-meta is
@@ -1540,7 +1566,7 @@
 			</xs:element>
 
 			<xs:element name="corpus_project_type_dkd" type="DKD_PROJECT_TYPE" minOccurs="1"
-				maxOccurs="1" fixed="Bundesministerium für Bildung und Forschung (BMBF)">
+				maxOccurs="1" fixed="Bundesministerium für Forschung, Technologie und Raumfahrt (BMFTR)">
 				<xs:annotation>
 					<xs:documentation>Type of project (DAKODA)</xs:documentation>
 					<xs:appinfo>
@@ -2036,7 +2062,7 @@
 			</xs:element>
 
 
-			<xs:element name="learner_language_parentL1" maxOccurs="1" minOccurs="0" type="LANGUAGE_CODE">
+			<xs:element name="learner_language_parentL1" maxOccurs="unbounded" minOccurs="1" type="PARENTAL_RELATIVE" default="notAvailable">
 
 				<xs:annotation>
 					<xs:documentation>Parent L1(s) </xs:documentation>
