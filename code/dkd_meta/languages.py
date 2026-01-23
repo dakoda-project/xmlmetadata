@@ -503,6 +503,7 @@ class LanguageCode(Enum):
     :cvar AZA:
     :cvar AZB:
     :cvar AZD:
+    :cvar AZE:
     :cvar AZG:
     :cvar AZJ:
     :cvar AZM:
@@ -1885,6 +1886,7 @@ class LanguageCode(Enum):
     :cvar FAO:
     :cvar FAP:
     :cvar FAR:
+    :cvar FAS:
     :cvar FAU:
     :cvar FAX:
     :cvar FAY:
@@ -2315,6 +2317,7 @@ class LanguageCode(Enum):
     :cvar HBB:
     :cvar HBN:
     :cvar HBO:
+    :cvar HBS:
     :cvar HBU:
     :cvar HCA:
     :cvar HCH:
@@ -3423,6 +3426,7 @@ class LanguageCode(Enum):
     :cvar LAS:
     :cvar LAT:
     :cvar LAU:
+    :cvar LAV:
     :cvar LAW:
     :cvar LAX:
     :cvar LAY:
@@ -4097,6 +4101,7 @@ class LanguageCode(Enum):
     :cvar MOJ:
     :cvar MOK:
     :cvar MOM:
+    :cvar MON:
     :cvar MOO:
     :cvar MOP:
     :cvar MOQ:
@@ -4184,6 +4189,7 @@ class LanguageCode(Enum):
     :cvar MRX:
     :cvar MRY:
     :cvar MRZ:
+    :cvar MSA:
     :cvar MSB:
     :cvar MSC:
     :cvar MSD:
@@ -6488,6 +6494,7 @@ class LanguageCode(Enum):
     :cvar TWF:
     :cvar TWG:
     :cvar TWH:
+    :cvar TWI:
     :cvar TWL:
     :cvar TWM:
     :cvar TWN:
@@ -6665,6 +6672,7 @@ class LanguageCode(Enum):
     :cvar UVL:
     :cvar UWA:
     :cvar UYA:
+    :cvar UZB:
     :cvar UZN:
     :cvar UZS:
     :cvar VAA:
@@ -7625,6 +7633,7 @@ class LanguageCode(Enum):
     :cvar ZYN:
     :cvar ZYP:
     :cvar ZZJ:
+    :cvar ZZA:
     :cvar KUR:
     :cvar PAT:
     :cvar EWA:
@@ -8130,6 +8139,7 @@ class LanguageCode(Enum):
     AZA = "aza"
     AZB = "azb"
     AZD = "azd"
+    AZE = "aze"
     AZG = "azg"
     AZJ = "azj"
     AZM = "azm"
@@ -9512,6 +9522,7 @@ class LanguageCode(Enum):
     FAO = "fao"
     FAP = "fap"
     FAR = "far"
+    FAS = "fas"
     FAU = "fau"
     FAX = "fax"
     FAY = "fay"
@@ -9942,6 +9953,7 @@ class LanguageCode(Enum):
     HBB = "hbb"
     HBN = "hbn"
     HBO = "hbo"
+    HBS = "hbs"
     HBU = "hbu"
     HCA = "hca"
     HCH = "hch"
@@ -11050,6 +11062,7 @@ class LanguageCode(Enum):
     LAS = "las"
     LAT = "lat"
     LAU = "lau"
+    LAV = "lav"
     LAW = "law"
     LAX = "lax"
     LAY = "lay"
@@ -11724,6 +11737,7 @@ class LanguageCode(Enum):
     MOJ = "moj"
     MOK = "mok"
     MOM = "mom"
+    MON = "mon"
     MOO = "moo"
     MOP = "mop"
     MOQ = "moq"
@@ -11811,6 +11825,7 @@ class LanguageCode(Enum):
     MRX = "mrx"
     MRY = "mry"
     MRZ = "mrz"
+    MSA = "msa"
     MSB = "msb"
     MSC = "msc"
     MSD = "msd"
@@ -14115,6 +14130,7 @@ class LanguageCode(Enum):
     TWF = "twf"
     TWG = "twg"
     TWH = "twh"
+    TWI = "twi"
     TWL = "twl"
     TWM = "twm"
     TWN = "twn"
@@ -14292,6 +14308,7 @@ class LanguageCode(Enum):
     UVL = "uvl"
     UWA = "uwa"
     UYA = "uya"
+    UZB = "uzb"
     UZN = "uzn"
     UZS = "uzs"
     VAA = "vaa"
@@ -15252,6 +15269,7 @@ class LanguageCode(Enum):
     ZYN = "zyn"
     ZYP = "zyp"
     ZZJ = "zzj"
+    ZZA = "zza"
     KUR = "kur"
     PAT = "pat"
     EWA = "ewa"
@@ -15350,8 +15368,9 @@ class LanguageNameDe(Enum):
     KIKUYU = "Kikuyu"
     LETTISCH = "Lettisch"
     LITAUISCH = "Litauisch"
+    LADINISCH = "Ladinisch"
     KILUBA = "Kiluba"
-    NORWEGISCH_RIKSM_L = "Norwegisch,  Riksmål"
+    NORWEGISCH_RIKSM_L = "Norwegisch, Riksmål"
     POLNISCH = "Polnisch"
     RUM_NISCH = "Rumänisch"
     RUSSISCH = "Russisch"
@@ -15477,6 +15496,7 @@ class LanguageNameEn(Enum):
     ITALIAN = "Italian"
     KIKUYU = "Kikuyu"
     LATVIAN = "Latvian"
+    LADIN = "Ladin"
     LITHUANIAN = "Lithuanian"
     LUBA_KATANGA = "Luba-Katanga"
     NORWEGIAN = "Norwegian"
