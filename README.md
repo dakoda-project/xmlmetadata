@@ -13,10 +13,10 @@
 * Repository for the DAKODA metadata scheme.
 * This repository provides a public dataset as a CSV file. This file can be downloaded and used locally. 
 * Excel template with formatting, table layout, and filters. This file can be used to display the CSV in Excel. 
-## 
-Content of the tables: 
+
+**Content of the tables**: 
 * In addition to variable names, definitions, and value ranges in German and English, there is a comment field for further details, the definition of a default value (if information is missing), and an indication of whether multiple values are permitted. 
-* In the table "DAKODA vs. LC-meta", behind the columns that refer to the DAKODA scheme, the corresponding information for variables from the LC-meta scheme (Granger & Paquot, 2017; Paquot et al., 2023;  Paquot et al., 2024) is stored with a comment if the variables from the DAKODA scheme and LC-meta differ conceptually.
+* In the table "DAKODA vs. LC-meta", after the columns that refer to the DAKODA scheme, the corresponding information for variables from the LC-meta scheme (Granger & Paquot, 2017; Paquot et al., 2023;  Paquot et al., 2024) is stored with a comment if the variables from the DAKODA scheme and LC-meta differ conceptually.
 
 ## DAKODA Metadata Scheme as HTML mind maps
 The mind maps group the variables into thematic and hierarchical levels. 
