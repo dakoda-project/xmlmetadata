@@ -207,3 +207,4 @@ text_proficiency_score;Proficiency score or level for the text (not harmonised a
 text_timeOfCreation;Time of creation;date;;notAvailable;no;text_time_of_creation;Time of creation;;;;optional;no;2, 2024-05-31;same;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 text_tokenCount;Number of tokens in the text;number;;notAvailable;yes;text_token_count;Number of tokens in the text;;;;obligatory;no;2, 2024-05-31;same;;relates to DAKODA version (not explicit);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 text_topicAutom;Automatically generated topic of the text ;string;;notAvailable;yes;;;;;;;;;added;DAKODA research;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
